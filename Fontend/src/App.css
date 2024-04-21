@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@100;300;400;500;700&display=swap');
+
+header{
+    font-family: 'Sarabun', sans-serif;
+    
+}
+
+*{
+    margin: 0px;
+    font-family: 'Sarabun', sans-serif;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.85em; /* หรือค่าที่ต้องการ */
+    }
+    h2 {
+        font-size: 1.35em; /* หรือค่าที่ต้องการ */
+    }
+    h3 {
+        font-size: 1.10em; /* หรือค่าที่ต้องการ */
+    }
+    h4, p, span {
+        font-size: 0.85em; /* หรือค่าที่ต้องการ */
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.6em; /* หรือค่าที่ต้องการ */
+    }
+    h2 {
+        font-size: 1.2em; /* หรือค่าที่ต้องการ */
+    }
+    h3 {
+        font-size: 0.95em; /* หรือค่าที่ต้องการ */
+    }
+    h4, p, span {
+        font-size: 0.75em; /* หรือค่าที่ต้องการ */
+    }
+}
+
+.swal2-container {
+    z-index: 10000; /* ค่าความสูงของ z-index ที่สูงกว่า alert อื่น ๆ */
+}
