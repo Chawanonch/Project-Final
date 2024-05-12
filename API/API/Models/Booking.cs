@@ -17,12 +17,6 @@ namespace API.Models
         [JsonIgnore]
         public User User { get; set; }
         public List<ListRoom> ListRooms { get; set; }
-
-        //public int QuantityRoom { get; set; }
-        //public int QuantityRoomExcess { get; set; }
-        //public int RoomId { get; set; }
-        //[JsonIgnore]
-        //public Room Room { get; set; }
         public DateTime DateCreated { get; set; }
         public StatusCheckIn StatusCheckIn { get; set; }
         public DateTime CheckInTime { get; set; }

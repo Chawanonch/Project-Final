@@ -2,7 +2,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { clearRoomInBasket, createRoomInBasket, getBuildingAndRoom, removeRoomFromBasket } from '../store/features/room&BuildingSlice';
 import { useEffect, useRef, useState } from 'react';
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, Pagination } from '@mui/material';
 import { AspectRatio, Breadcrumbs, Button, Card, CardContent, CardOverflow, IconButton, Input, Link, Modal, ModalClose, Sheet, Stack, Typography } from '@mui/joy';
 import { folderImage } from '../components/api/agent';
 import BoyIcon from '@mui/icons-material/Boy';
@@ -14,6 +14,7 @@ import { formatNumberWithCommas } from '../components/Reuse';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import Close from "@mui/icons-material/Close";
 import NavigationIcon from '@mui/icons-material/Navigation';
+import { windowSizes } from '../components/Reuse';
 
 const RoomPage = () => {
   const { id } = useParams();
@@ -22,6 +23,7 @@ const RoomPage = () => {
   const { token } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const [showAll, setShowAll] = useState(false);
+  const windowSize = windowSizes();
 
   const [expandedRooms, setExpandedRooms] = useState(new Array(room.length).fill(false));
   const [countRoom, setCountRoom] = useState<number>(1);
@@ -43,20 +45,16 @@ const RoomPage = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [detailRoom, setDetailRoom] = useState<Room | null>(null);
   const [totalQuantity, setTotalQuantity] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
 
   const openModel = (item: Room, totalQuantity: number) => {
-
-    if (token !== "") {
-      if (start && end) {
-        setDetailRoom(item)
-        setOpen(true)
-        setCountRoom(1)
-        setTotalQuantity(totalQuantity)
-      } else alert("กรุณาป้อนวันที่จอง")
-    }
-    else {
-      navigate("/login")
-    }
+    if (start && end) {
+      setDetailRoom(item)
+      setOpen(true)
+      setCountRoom(1)
+      setTotalQuantity(totalQuantity)
+    } else alert("กรุณาป้อนวันที่จอง")
   };
 
   const closeModel = () => {
@@ -178,18 +176,30 @@ const RoomPage = () => {
       bookedRoomCountForRoom: bookedRoomCountForRoom, // เพิ่ม property ใหม่
     };
   });
+  const itemsPerPage = 3;
 
+  const paginatedRoom = updatedRooms && updatedRooms.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setCurrentPage(value);
+  };
+  
   const allSelectRoom = () => {
     let totalQuantityExcess = 0;
-
-    if (detailRoom) {
-      const item1 = room.find((x) => x.id === detailRoom.id)
-      if (item1 !== undefined) {
-        if (countRoom > item1.quantityRoom)
-          totalQuantityExcess = countRoom - item1.quantityRoom;
+    if (token !== "") {
+      if (detailRoom) {
+        const item1 = room.find((x) => x.id === detailRoom.id)
+        if (item1 !== undefined) {
+          if (countRoom > item1.quantityRoom)
+            totalQuantityExcess = countRoom - item1.quantityRoom;
+        }
+        dispatch(createRoomInBasket({ ...detailRoom, quantityRoomBuy:countRoom,  quantityRoomExcessBuy:totalQuantityExcess}));
+        closeModel()
       }
-      dispatch(createRoomInBasket({ ...detailRoom, quantityRoomBuy:countRoom,  quantityRoomExcessBuy:totalQuantityExcess}));
-      closeModel()
+    }
+    else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      navigate("/login")
     }
   };
 
@@ -283,9 +293,9 @@ const RoomPage = () => {
             </div>
           </div>
 
-          <Grid container spacing={2} sx={{ marginTop: 0 }}>
+          <Grid container spacing={2} justifyContent="center" sx={{ marginTop: 0 }}>
             <Grid item xs={8}>
-              {updatedRooms.map((item, index) => {
+              {paginatedRoom.map((item, index) => {
                 return (
                   <Card sx={{ marginBottom: 3, minWidth:100 }} orientation="horizontal" size="lg" variant="outlined" key={index} >
                     <CardOverflow>
@@ -340,7 +350,6 @@ const RoomPage = () => {
                         </div>
                         <div style={{ marginTop: 10, display: 'flex', flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
                           <div>
-
                           </div>
                           <div style={{ display: 'flex', alignItems: "center" }}>
                             <div style={{ textAlign: 'right' }}>
@@ -354,7 +363,7 @@ const RoomPage = () => {
                             <div style={{ marginLeft: 10 }}>
                               <Button
                                 variant="soft"
-                                color="neutral"
+                                color="primary"
                                 endDecorator={<KeyboardArrowRight />}
                                 sx={{ fontWeight: 600, height: 50, width: 150, fontFamily: 'Sarabun' }}
                                 onClick={() => openModel(item, item.totalQuantity)}
@@ -370,6 +379,16 @@ const RoomPage = () => {
                   </Card>
                 )
               })}
+             <Grid container justifyContent="center">
+                {updatedRooms && updatedRooms.length > 0 &&
+                  <Pagination
+                    count={Math.ceil(updatedRooms.length / itemsPerPage)}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    sx={{marginTop:2}}
+                  />
+                }
+              </Grid>
             </Grid>
             <Grid item xs={4}>
               <Card size="lg" variant="outlined">
@@ -419,7 +438,7 @@ const RoomPage = () => {
 
                 <Button
                   variant="soft"
-                  color="neutral"
+                  color="primary"
                   endDecorator={<KeyboardArrowRight />}
                   sx={{ fontFamily: 'Sarabun' }}
                   disabled={basketRoom.length > 0 ? false : true}
@@ -512,7 +531,7 @@ const RoomPage = () => {
           <div>
             <Button
               variant="soft"
-              color="neutral"
+              color="primary"
               endDecorator={<KeyboardArrowRight />}
               sx={{
                 fontWeight: 600,

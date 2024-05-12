@@ -121,6 +121,7 @@ const Comment = {
 
 const User = {
   loginUser: (values: object) => requests.post("api/Authen/Login", values),
+  forgotPassword: (values: object) => requests.post("api/Authen/ForgotPassword", values),
   getByUser: () => requests.get("api/Authen/GetUserDetail"),
   getUserAdmin: () => requests.get("api/Authen/GetUsers"),
   getRoles: () => requests.get("api/Authen/GetRoles"),

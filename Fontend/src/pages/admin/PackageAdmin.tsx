@@ -1,5 +1,5 @@
 import { Button, Chip, DialogTitle, FormControl, FormLabel, IconButton, Input, Modal, ModalDialog, Stack, Select, Option, Textarea } from '@mui/joy'
-import { Box } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -14,6 +14,7 @@ import { formatNumberWithCommas } from '../../components/Reuse';
 import { Room, RoomType } from '../../components/models/room';
 import { Softpower, SoftpowerType } from '../../components/models/softpower';
 import { Building } from '../../components/models/building';
+import { windowSizes } from '../../components/Reuse';
 
 export default function PackageAdmin() {
   const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ export default function PackageAdmin() {
   const [filteredPackage, setFilteredPackage] = useState<Package[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
+  const windowSize = windowSizes();
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'รหัส', width: 80 },
@@ -134,44 +136,48 @@ export default function PackageAdmin() {
   }, [searchQuery, packageAll]);
 
   return (
-    <Box sx={{ marginTop: 9.5, marginLeft: 30 }}>
+    <Box sx={{ marginTop: 9.5, marginLeft: windowSize < 768 ? 5 : 30, marginRight: windowSize < 768 ? 5 : 0 }}>
 
       <h2 style={{ marginTop: 100, marginBottom: -30 }}>แพ็กเกจ</h2>
       <div style={{ marginTop: 50 }} />
 
       <Box sx={{ marginTop: 3 }}>
-        <Box sx={{ display: "flex" }}>
-          <FormControl sx={{ width: "auto" }}>
-            <h4>
-              ค้นหาชื่อแพ็กเกจ
-            </h4>
-            <Input
-              placeholder="ค้นหา..."
-              startDecorator={
-                <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
-                </Button>
-              }
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              sx={{ borderRadius: 8, width: 600 }}
-            />
-          </FormControl>
-          <FormControl sx={{ width: 180, marginLeft: 3 }}>
-            <h4>
-              สร้างแพ็กเกจ
-            </h4>
-            <IconButton
-              color="success"
-              onClick={() => {
-                setId(0)
-                setOpen(true)
-              }}
-            >
-              <AddCircleOutlineIcon />
-            </IconButton>
-          </FormControl>
-        </Box>
-        <div style={{ height: 400, width: 1220, marginTop: 20 }}>
+        <Grid container spacing={1}>
+          <Grid item xs={windowSize < 768 ? 12 : 6}>
+            <FormControl>
+              <h4>
+                ค้นหาชื่อแพ็กเกจ
+              </h4>
+              <Input
+                placeholder="ค้นหา..."
+                startDecorator={
+                  <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
+                  </Button>
+                }
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                sx={{ borderRadius: 8 }}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl sx={{ width: 180 }}>
+              <h4>
+                สร้างแพ็กเกจ
+              </h4>
+              <IconButton
+                color="success"
+                onClick={() => {
+                  setId(0)
+                  setOpen(true)
+                }}
+              >
+                <AddCircleOutlineIcon />
+              </IconButton>
+            </FormControl>
+          </Grid>
+        </Grid>
+        <div style={{ height: 400, maxWidth: 1220, marginTop: 20 }}>
           <DataGrid
             rows={filteredPackage}
             columns={columns}
@@ -288,7 +294,8 @@ const ModelPackage: React.FC<ModelPackageProps> = ({ open, setOpen, id = 0, pack
   ) => {
     setSoftpowerPackages(newValue as number[]);
   };
-
+  const windowSize = windowSizes();
+  const size0 = windowSize < 768 ? 12 : 6;
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
       <ModalDialog>
@@ -301,32 +308,28 @@ const ModelPackage: React.FC<ModelPackageProps> = ({ open, setOpen, id = 0, pack
           }}
           style={{ display: 'flex', flexDirection: 'row' }}
         >
-          <Stack spacing={2}>
-            <FormControl>
+          <Grid container spacing={1} style={{ overflow: 'auto', maxHeight: 400 }}>
+            <Grid item xs={size0}><FormControl>
               <FormLabel>ชื่อแพ็กเกจ</FormLabel>
               <Textarea name="name" required value={name} onChange={(e) => setName(e.target.value)} placeholder="ชื่อแพ็กเกจ..." minRows={2} maxRows={3} />
-            </FormControl>
-
-            <FormControl>
+            </FormControl></Grid>
+            <Grid item xs={size0}><FormControl>
               <FormLabel>แพ็กเกจสำหรับกี่คน</FormLabel>
               <Textarea name="qP" required value={quantityPeople} onChange={(e) => setQuantityPeople(e.target.value)} placeholder="สำหรับกี่คน..." minRows={2} maxRows={3} />
-            </FormControl>
-            <FormControl>
+            </FormControl></Grid>
+            <Grid item xs={size0}><FormControl>
               <FormLabel>ข้อควรระวัง</FormLabel>
               <Textarea name="precautions" required value={precautions} onChange={(e) => setPrecautions(e.target.value)} placeholder="ข้อควรระวัง..." minRows={2} maxRows={3} />
-            </FormControl>
-            <FormControl>
+            </FormControl></Grid>
+            <Grid item xs={size0}><FormControl>
               <FormLabel>ราคารวม</FormLabel>
               <Input name="totalPrice" type="number" required value={totalPrice} onChange={(e) => setTotalPrice(e.target.value)} />
-            </FormControl>
-            <FormControl>
+            </FormControl></Grid>
+            <Grid item xs={size0}><FormControl>
               <FormLabel>จำนวนแพ็กเกจ</FormLabel>
               <Input name="quantity" type="number" required value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-            </FormControl>
-
-          </Stack>
-          <Stack spacing={2} style={{ marginLeft: '50px' }}>
-            <FormControl>
+            </FormControl></Grid>
+            <Grid item xs={size0}><FormControl>
               <FormLabel>เลือกห้องพัก</FormLabel>
               <Select
                 multiple
@@ -370,14 +373,14 @@ const ModelPackage: React.FC<ModelPackageProps> = ({ open, setOpen, id = 0, pack
                   </div>
                 ))}
               </Select>
-            </FormControl>
-            {roomPackages.length > 0 &&
+            </FormControl></Grid>
+            <Grid item xs={size0}>{roomPackages.length > 0 &&
               <FormControl>
                 <FormLabel>จำนวนกี่คืน</FormLabel>
                 <Input name="day" type="number" value={quantityDay} onChange={(e) => setQuantityDay(e.target.value)} />
               </FormControl>
-            }
-            <FormControl>
+            }</Grid>
+            <Grid item xs={size0}><FormControl>
               <FormLabel>เลือกซอฟต์พาวเวอร์</FormLabel>
               <Select
                 multiple
@@ -421,10 +424,9 @@ const ModelPackage: React.FC<ModelPackageProps> = ({ open, setOpen, id = 0, pack
                 ))}
 
               </Select>
-            </FormControl>
-            <Button type="submit">ยืนยัน</Button>
-
-          </Stack>
+            </FormControl></Grid>
+            <Grid item xs={12}><Button type="submit" fullWidth>ยืนยัน</Button></Grid>
+          </Grid>
         </form>
       </ModalDialog>
     </Modal>

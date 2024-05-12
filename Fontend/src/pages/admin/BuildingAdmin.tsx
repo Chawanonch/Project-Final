@@ -1,5 +1,5 @@
-import { Button, DialogTitle, FormControl, FormLabel, IconButton, Input, Modal, ModalDialog, Stack } from '@mui/joy'
-import { Box } from '@mui/material'
+import { Button, FormControl, IconButton, Input, Modal, ModalDialog, Stack } from '@mui/joy'
+import { Box, Grid } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -12,6 +12,8 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useDropzone } from 'react-dropzone';
 import { Building } from '../../components/models/building';
 import Swal from 'sweetalert2';
+import { dropzoneStyles, previewStyles } from '../../components/Reuse';
+import { windowSizes } from '../../components/Reuse';
 
 export default function BuildingAdmin() {
   const dispatch = useAppDispatch();
@@ -20,6 +22,7 @@ export default function BuildingAdmin() {
   const [filteredBuilding, setFilteredBuilding] = useState<Building[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
+  const windowSize = windowSizes();
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'รหัส', width: 80 },
@@ -37,26 +40,26 @@ export default function BuildingAdmin() {
         />
       ),
     },
-    { 
-      field: 'Edit', 
-      headerName: '', 
-      width: 55, 
+    {
+      field: 'Edit',
+      headerName: '',
+      width: 55,
       renderCell: (params) => (
         <IconButton
           color="primary"
           onClick={() => {
             setId(params.row.id)
             setOpen(true)
-          }} 
+          }}
         >
           <AutoFixHighIcon />
         </IconButton>
       ),
     },
-    { 
-      field: 'Remove', 
-      headerName: '', 
-      width: 55, 
+    {
+      field: 'Remove',
+      headerName: '',
+      width: 55,
       renderCell: (params) => (
         <IconButton
           color="danger"
@@ -81,7 +84,7 @@ export default function BuildingAdmin() {
               });
             }
             fetchData();
-          }} 
+          }}
         >
           <RemoveCircleOutlineIcon />
         </IconButton>
@@ -105,45 +108,49 @@ export default function BuildingAdmin() {
   }, [searchQuery, building]);
 
   return (
-    <Box sx={{ marginTop: 9.5, marginLeft: 30 }}>
-      
-      <h2 style={{marginTop:100,marginBottom:-30}}>อาคาร</h2>
-      <div style={{marginTop:50}}/>
-      
+    <Box sx={{ marginTop: 9.5, marginLeft: windowSize < 1183 ? 5 : 30, marginRight: windowSize < 1183 ? 5 : 0 }}>
+
+      <h2 style={{ marginTop: 100, marginBottom: -30 }}>อาคาร</h2>
+      <div style={{ marginTop: 50 }} />
+
       <Box sx={{ marginTop: 3 }}>
-        <Box sx={{ display: "flex" }}>
-          <FormControl sx={{ width: "auto" }}>
-            <h4>
-              ค้นหาอาคาร
-            </h4>
-            <Input
-              placeholder="search"
-              startDecorator={
-                <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
-                </Button>
-              }
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              sx={{ borderRadius: 8, width: 600 }}
-            />
-          </FormControl>
-          <FormControl sx={{ width: 80, marginLeft: 3 }}>
-            <h4>
-              สร้างอาคาร
-            </h4>
-            <IconButton
-              color="success"
-              onClick={() => {
-                setId(0)
-                setOpen(true)
-              }}
-            >
-              <AddCircleOutlineIcon />
-            </IconButton>
-          </FormControl>
-        </Box>
-        <div style={{ height: 400, width: 1220, marginTop: 20 }}>
-            <DataGrid
+        <Grid container spacing={1} >
+          <Grid item xs={windowSize < 1183 ? 12 : 6}>
+            <FormControl>
+              <h4>
+                ค้นหาอาคาร
+              </h4>
+              <Input
+                placeholder="ค้นหา..."
+                startDecorator={
+                  <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
+                  </Button>
+                }
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                sx={{ borderRadius: 8 }}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl sx={{ width: 80, marginLeft: windowSize < 1183 ? 0 : 1 }}>
+              <h4>
+                สร้างอาคาร
+              </h4>
+              <IconButton
+                color="success"
+                onClick={() => {
+                  setId(0)
+                  setOpen(true)
+                }}
+              >
+                <AddCircleOutlineIcon />
+              </IconButton>
+            </FormControl>
+          </Grid>
+        </Grid>
+        <div style={{ height: 400, maxWidth: 1220, marginTop: 20 }}>
+          <DataGrid
             rows={filteredBuilding}
             columns={columns}
             initialState={{
@@ -165,7 +172,7 @@ interface ModelBuildingProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   id?: number;
-  buildings: Building[]; 
+  buildings: Building[];
 }
 
 const ModelBuilding: React.FC<ModelBuildingProps> = ({ open, setOpen, id = 0, buildings }) => {
@@ -218,15 +225,16 @@ const ModelBuilding: React.FC<ModelBuildingProps> = ({ open, setOpen, id = 0, bu
     fetchData()
   };
 
-  const { getRootProps, getInputProps } = useDropzone({
+  const getRootProp = useDropzone({
     onDrop: (acceptedFiles) => {
-      // Update the image state with the first accepted file
       if (acceptedFiles && acceptedFiles.length > 0) {
-        setImage(acceptedFiles[0])
-        console.log(acceptedFiles[0])
+        setImage(acceptedFiles[0]);
       }
     },
+    multiple: false,
   });
+  const windowSize = windowSizes();
+  const size0 = windowSize < 1183 ? 12 : 6;
 
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
@@ -239,44 +247,38 @@ const ModelBuilding: React.FC<ModelBuildingProps> = ({ open, setOpen, id = 0, bu
             createAndUpdate()
           }}
         >
-          <Stack spacing={2}>
-            <FormControl>
-              <h4>ชื่ออาคาร</h4>
-              <Input name="name" autoFocus required value={name} onChange={(e) => setName(e.target.value)} />
-            </FormControl>
-            <FormControl>
-              <h4>สถานที่ตั้ง</h4>
-              <Input name="location" required value={location} onChange={(e) => setLocation(e.target.value)} />
-            </FormControl>
-            <FormControl>
-              <h4>รูปภาพ</h4>
-              <div {...getRootProps()} style={dropzoneStyles}>
-                <input {...getInputProps()} />
-                {image ? (
-                  <img src={typeof image === 'string' ? folderImage + image : URL.createObjectURL(image)} alt="Preview" style={previewStyles} />
-                ) : (
-                  <p>ลากและวางรูปภาพที่นี่ หรือคลิกเพื่อเลือกหนึ่งภาพ</p>
-                )}
-              </div>
-            </FormControl>
-            <Button type="submit">ยืนยัน</Button>
-          </Stack>
+          <Grid container spacing={1} style={{ overflow: 'auto', maxHeight: 400 }}>
+            <Grid item xs={size0}>
+              <FormControl>
+                <h4>ชื่ออาคาร</h4>
+                <Input name="name" autoFocus required value={name} onChange={(e) => setName(e.target.value)} />
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl>
+                <h4>สถานที่ตั้ง</h4>
+                <Input name="location" required value={location} onChange={(e) => setLocation(e.target.value)} />
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl>
+                <h4>รูปภาพ</h4>
+                <div {...getRootProp.getRootProps()} style={dropzoneStyles}>
+                  <input {...getRootProp.getInputProps()} />
+                  {image ? (
+                    <img src={typeof image === 'string' ? folderImage + image : URL.createObjectURL(image)} alt="Preview" style={previewStyles} />
+                  ) : (
+                    <p>ลากและวางรูปภาพที่นี่ หรือคลิกเพื่อเลือกหนึ่งภาพ</p>
+                  )}
+                </div>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Button type="submit" fullWidth>ยืนยัน</Button>
+            </Grid>
+          </Grid>
         </form>
       </ModalDialog>
     </Modal>
   )
 }
-
-const dropzoneStyles :object= {
-  border: '2px dashed #ccc',
-  borderRadius: '4px',
-  padding: '20px',
-  textAlign: 'center',
-  cursor: 'pointer',
-};
-
-const previewStyles :object= {
-  maxWidth: '200px',
-  maxHeight: '200px',
-  marginTop: '10px',
-};

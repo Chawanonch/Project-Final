@@ -43,6 +43,8 @@ export const createAndUpdateSoftpower  = createAsyncThunk<Softpower, FieldValues
         ImportantName : data.importantName,
         WhatIs : data.whatIs,
         Origin : data.origin,
+        ValueSoftpower : data.valueSoftpower,
+        PromoteSoftpower : data.promoteSoftpower,
         Refer : data.refer,
         SoftpowerTypeId : data.softpowerTypeId,
         Image : data.image,

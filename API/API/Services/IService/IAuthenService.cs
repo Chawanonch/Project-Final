@@ -13,6 +13,7 @@ namespace API.Services.IService
         Task<User> GetUser();
         Task<Object> ChangeUser(ChangeUserDto dto);
         Task<Object> AddImageUser(AddImageUserDto dto);
+        Task<Object> ForgotPassword(ForgotPasswordDto dto);
         Task<Object> RemoveUser(int id);
 
         Task<bool> IsTokenExpired(string token);

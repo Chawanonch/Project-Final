@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, Grid } from '@mui/material';
+import { Box, Container, Grid, Pagination } from '@mui/material';
 import { folderImage } from '../components/api/agent';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { getBuildingAndRoom } from '../store/features/room&BuildingSlice';
@@ -25,41 +25,52 @@ const BuildingPage = () => {
   const navigate = useNavigate()
   const fetchData = async () => {
     await dispatch(getBuildingAndRoom());
-    if(token !== "") await dispatch(getBookingByUser());
+    if (token !== "") await dispatch(getBookingByUser());
   };
   useEffect(() => {
     fetchData();
   }, []);
 
   const navigateToRoomPage = (buildingId: number) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate(`/rooms/${buildingId}?start=${start}&end=${end}`)
   };
 
   const getRoomCount = (buildingId: number) => {
-      const roomsForBuilding = room.filter((r) => r.buildingId === buildingId);
-      const bookingsForBuilding = bookings.filter((x) => {
-        const xEndDate = new Date(x.end);
-        const startDateTime = new Date(start);
-        const xEndDateWithoutTime = new Date(xEndDate.getFullYear(), xEndDate.getMonth(), xEndDate.getDate());
-        const startDateTimeWithoutTime = new Date(startDateTime.getFullYear() + 543, startDateTime.getMonth(), startDateTime.getDate());
-        const isStartAfterEnd = startDateTimeWithoutTime.getTime() >= xEndDateWithoutTime.getTime();
+    const roomsForBuilding = room.filter((r) => r.buildingId === buildingId);
+    const bookingsForBuilding = bookings.filter((x) => {
+      const xEndDate = new Date(x.end);
+      const startDateTime = new Date(start);
+      const xEndDateWithoutTime = new Date(xEndDate.getFullYear(), xEndDate.getMonth(), xEndDate.getDate());
+      const startDateTimeWithoutTime = new Date(startDateTime.getFullYear() + 543, startDateTime.getMonth(), startDateTime.getDate());
+      const isStartAfterEnd = startDateTimeWithoutTime.getTime() >= xEndDateWithoutTime.getTime();
 
-        return roomsForBuilding.some((room) => 
-          x.listRooms.some((listRoom) => 
-            listRoom.roomId === room.id && 
-            (x.status === 1 || x.status === 2) && 
-            (isStartAfterEnd || startDateTimeWithoutTime.getTime() > xEndDateWithoutTime.getTime())
-          )
-        );
-      });
-    
-      const sumRoom = roomsForBuilding.reduce((total, room) => total + room.quantityRoom, 0);
-      const bookedRoomCount = bookingsForBuilding.reduce((total, booking) => total + booking.listRooms.reduce((acc, listRoom) => acc + listRoom.quantityRoom, 0), 0);
-      const allCount = sumRoom + bookedRoomCount;
-      const checkCount  = bookedRoomCount;
-      return {allCount, checkCount};
+      return roomsForBuilding.some((room) =>
+        x.listRooms.some((listRoom) =>
+          listRoom.roomId === room.id &&
+          (x.status === 1 || x.status === 2) &&
+          (isStartAfterEnd || startDateTimeWithoutTime.getTime() > xEndDateWithoutTime.getTime())
+        )
+      );
+    });
+
+    const sumRoom = roomsForBuilding.reduce((total, room) => total + room.quantityRoom, 0);
+    const bookedRoomCount = bookingsForBuilding.reduce((total, booking) => total + booking.listRooms.reduce((acc, listRoom) => acc + listRoom.quantityRoom, 0), 0);
+    const allCount = sumRoom + bookedRoomCount;
+    const checkCount = bookedRoomCount;
+    return { allCount, checkCount };
   };
-  
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const itemsPerPage = 6;
+  const filterBuilding = building && building;
+
+  const paginatedBuilding = building && filterBuilding.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setCurrentPage(value);
+  };
+
   return (
     <Container>
       <Grid container spacing={2} justifyContent="center" alignItems="center">
@@ -89,15 +100,15 @@ const BuildingPage = () => {
             }} name="end" value={end.toString().split('T')} onChange={(e) => setEnd(e.target.value)} />
             {start && end && <h4>
               {new Date(start).toLocaleDateString()} ถึง {new Date(end).toLocaleDateString()} จอง {daysDiff} คืน
-              </h4>
+            </h4>
             }
           </Stack>
         </Grid>
-        {building.map((item, index) => {
+        {paginatedBuilding.map((item, index) => {
           const countRoom = getRoomCount(item.id)
           return (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card sx={{ minWidth: 250 }} size="lg" variant="outlined" >
+              <Card size="lg" variant="outlined" >
                 <AspectRatio minHeight="120px" maxHeight="200px">
                   <img
                     src={folderImage + item.image}
@@ -111,11 +122,11 @@ const BuildingPage = () => {
                       <h2>{item.name}</h2>
                     </div>
                     <p>ที่ตั้ง {item.location}</p>
-                    <div style={{display:"flex",alignItems:"center"}}>
-                      <h4>
-                        ห้องว่าง {countRoom.allCount} 
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <h4 style={{ color: countRoom.allCount === 0 ? "#C83B55" : "#000" }}>
+                        ห้องว่าง {countRoom.allCount}
                         {countRoom.checkCount > 0 &&
-                         <NavigationIcon color='success' sx={{fontSize:15}} />
+                          <NavigationIcon color='success' sx={{ fontSize: 15 }} />
                         }
                         {" "}ห้อง
                       </h4>
@@ -124,10 +135,10 @@ const BuildingPage = () => {
                   <Button
                     size="md"
                     variant="soft"
-                    color="neutral"
+                    color="primary"
                     endDecorator={<KeyboardArrowRight />}
                     aria-label="Explore Bahamas Islands"
-                    sx={{ ml: 'auto', alignSelf: 'end', fontWeight: 600,fontFamily: 'Sarabun' }}
+                    sx={{ ml: 'auto', alignSelf: 'end', fontWeight: 600, fontFamily: 'Sarabun' }}
                     onClick={() => navigateToRoomPage(item.id)}
                     disabled={start && end && countRoom.allCount !== 0 ? false : true}
                   >
@@ -138,6 +149,16 @@ const BuildingPage = () => {
             </Grid>
           );
         })}
+      </Grid>
+      <Grid container justifyContent="center">
+        {building && building.length > 0 &&
+          <Pagination
+            count={Math.ceil(building.length / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            sx={{ marginTop: 2 }}
+          />
+        }
       </Grid>
     </Container>
   );

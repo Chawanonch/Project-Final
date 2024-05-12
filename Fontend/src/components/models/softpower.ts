@@ -4,6 +4,8 @@ export interface Softpower {
   importantName: string;
   whatIs: string;
   origin: string;
+  valueSoftpower: string;
+  promoteSoftpower: string;
   refer: string;
   softpowerTypeId: number;
   image: string;

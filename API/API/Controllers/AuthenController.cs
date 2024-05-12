@@ -51,6 +51,10 @@ namespace API.Controllers
         public async Task<IActionResult> AddImageUser([FromForm] AddImageUserDto dto) =>
             Ok(await _authenService.AddImageUser(dto));
 
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto dto) =>
+            Ok(await _authenService.ForgotPassword(dto));
+
         [HttpDelete("RemoveUser")]
         public async Task<IActionResult> RemoveUser(int id)
         {

@@ -3,16 +3,92 @@
   "WorkspaceRootPath": "D:\\chawanon\\PJ-END\\API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\authenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\services\\authenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\bookingpackageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\services\\bookingpackageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\bookingroomservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\services\\bookingroomservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\authenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\services\\authenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\bookingpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\bookingpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\package.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\package.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\dtos\\changeuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\dtos\\changeuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\controllers\\authencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\controllers\\authencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\packageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\services\\packageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\controllers\\buildingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\controllers\\buildingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\controllers\\packagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\controllers\\packagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\controllers\\bookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\controllers\\bookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\status.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\status.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\dtos\\forgotpassworddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\dtos\\forgotpassworddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\iservice\\iauthenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\services\\iservice\\iauthenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\dtos\\addimageuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\dtos\\addimageuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\dtos\\buildingrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\dtos\\buildingrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\softpower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\softpower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\roomimages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\roomimages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\commentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -25,10 +101,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\data\\context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\data\\context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\controllers\\bookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\controllers\\bookingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\dtos\\commentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -51,40 +123,8 @@
       "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\controllers\\bookingpackagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\controllers\\authencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\controllers\\authencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\iservice\\iauthenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\services\\iservice\\iauthenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\softpower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\softpower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\room.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\roomservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\services\\roomservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\roomimages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\roomimages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\bookingpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\bookingpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\package.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\package.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\iservice\\icommentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -97,10 +137,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\commentimages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\commentimages.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\dtos\\changeuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\dtos\\changeuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\iservice\\ibookingpackageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -123,10 +159,6 @@
       "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\services\\iservice\\ibookingroomservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\bookingroomservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\services\\bookingroomservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\dtos\\bookingpackagepaymentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\dtos\\bookingpackagepaymentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -137,10 +169,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\dtos\\bookingpaymentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\dtos\\bookingpaymentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\dtos\\addimageuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\dtos\\addimageuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\dtos\\bookingrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -157,14 +185,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\building.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\building.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\models\\status.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|solutionrelative:api\\models\\status.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{03C52998-BBB3-4E65-854D-257464A4E2C5}|API\\API.csproj|d:\\chawanon\\pj-end\\api\\api\\services\\iservice\\isoftpowerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -194,7 +214,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 237,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -202,416 +222,110 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "User.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\User.cs",
-              "RelativeDocumentMoniker": "API\\Models\\User.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\User.cs",
-              "RelativeToolTip": "API\\Models\\User.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 5,
+              "Title": "ChangeUserDto.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\ChangeUserDto.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\ChangeUserDto.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\ChangeUserDto.cs",
+              "RelativeToolTip": "API\\Dtos\\ChangeUserDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-18T08:41:46.857Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CommentService.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\CommentService.cs",
-              "RelativeDocumentMoniker": "API\\Services\\CommentService.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\CommentService.cs",
-              "RelativeToolTip": "API\\Services\\CommentService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-18T08:14:28.152Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CommentController.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\CommentController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\CommentController.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\CommentController.cs",
-              "RelativeToolTip": "API\\Controllers\\CommentController.cs",
-              "ViewState": "AQIAACcAAAAAAAAAAAAowDEAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T09:29:32.598Z"
+              "WhenOpened": "2024-04-05T09:21:42.104Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "BookingPackageService.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\BookingPackageService.cs",
+              "RelativeDocumentMoniker": "API\\Services\\BookingPackageService.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\BookingPackageService.cs",
+              "RelativeToolTip": "API\\Services\\BookingPackageService.cs",
+              "ViewState": "AQIAAKIAAAAAAAAAAAAQwKwAAABSAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-12T16:03:15.047Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AuthenController.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\AuthenController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\AuthenController.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\AuthenController.cs",
+              "RelativeToolTip": "API\\Controllers\\AuthenController.cs",
+              "ViewState": "AQIAABwAAAAAAAAAAAAkwC4AAABMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-31T08:01:25.75Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BookingRoomService.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\BookingRoomService.cs",
+              "RelativeDocumentMoniker": "API\\Services\\BookingRoomService.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\BookingRoomService.cs",
+              "RelativeToolTip": "API\\Services\\BookingRoomService.cs",
+              "ViewState": "AQIAAF8BAAAAAAAAAAAAAHUBAAA8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-12T16:23:09.912Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Package.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Package.cs",
+              "RelativeDocumentMoniker": "API\\Models\\Package.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Package.cs",
+              "RelativeToolTip": "API\\Models\\Package.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAASwA0AAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T06:38:53.004Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BookingPackage.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\BookingPackage.cs",
+              "RelativeDocumentMoniker": "API\\Models\\BookingPackage.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\BookingPackage.cs",
+              "RelativeToolTip": "API\\Models\\BookingPackage.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAuwBsAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T06:38:32.46Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "AuthenService.cs",
               "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\AuthenService.cs",
               "RelativeDocumentMoniker": "API\\Services\\AuthenService.cs",
               "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\AuthenService.cs",
               "RelativeToolTip": "API\\Services\\AuthenService.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAAEsAAAArAAAA",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAG8AAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-14T14:43:38.809Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Comment.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Comment.cs",
-              "RelativeDocumentMoniker": "API\\Models\\Comment.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Comment.cs",
-              "RelativeToolTip": "API\\Models\\Comment.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAYAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T09:05:54.837Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Context.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Data\\Context.cs",
-              "RelativeDocumentMoniker": "API\\Data\\Context.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Data\\Context.cs",
-              "RelativeToolTip": "API\\Data\\Context.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAIwB0AAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T09:20:56.056Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "BookingController.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\BookingController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\BookingController.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\BookingController.cs",
-              "RelativeToolTip": "API\\Controllers\\BookingController.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAADwvyIAAAA8AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T15:06:29.076Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BookingPackageService.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\BookingPackageService.cs",
-              "RelativeDocumentMoniker": "API\\Services\\BookingPackageService.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\BookingPackageService.cs",
-              "RelativeToolTip": "API\\Services\\BookingPackageService.cs",
-              "ViewState": "AQIAAGAAAAAAAAAAAAAowJUAAAAlAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-12T16:03:15.047Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "CommentRequest.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\CommentRequest.cs",
-              "RelativeDocumentMoniker": "API\\Dtos\\CommentRequest.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\CommentRequest.cs",
-              "RelativeToolTip": "API\\Dtos\\CommentRequest.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAfAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T09:21:22.087Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AutoMapperProfile.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\AutoMapperProfile.cs",
-              "RelativeDocumentMoniker": "API\\AutoMapperProfile.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\AutoMapperProfile.cs",
-              "RelativeToolTip": "API\\AutoMapperProfile.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAQwCMAAAA7AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T08:34:48.368Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "CommentPackage.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\CommentPackage.cs",
-              "RelativeDocumentMoniker": "API\\Models\\CommentPackage.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\CommentPackage.cs",
-              "RelativeToolTip": "API\\Models\\CommentPackage.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAfAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T09:19:02.615Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "BookingPackageController.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\BookingPackageController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\BookingPackageController.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\BookingPackageController.cs",
-              "RelativeToolTip": "API\\Controllers\\BookingPackageController.cs",
-              "ViewState": "AQIAAB8AAAAAAAAAAAAkwCoAAABEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-12T16:20:01.383Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "AuthenController.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\AuthenController.cs",
-              "RelativeDocumentMoniker": "API\\Controllers\\AuthenController.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\AuthenController.cs",
-              "RelativeToolTip": "API\\Controllers\\AuthenController.cs",
-              "ViewState": "AQIAACoAAAAAAAAAAAA7wEIAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-31T08:01:25.75Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 14,
-              "Title": "Softpower.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Softpower.cs",
-              "RelativeDocumentMoniker": "API\\Models\\Softpower.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Softpower.cs",
-              "RelativeToolTip": "API\\Models\\Softpower.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAApAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T06:38:57.084Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "RoomService.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\RoomService.cs",
-              "RelativeDocumentMoniker": "API\\Services\\RoomService.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\RoomService.cs",
-              "RelativeToolTip": "API\\Services\\RoomService.cs",
-              "ViewState": "AQIAAGMAAAAAAAAAAAAkwG4AAAA+AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-12T16:20:07.322Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "RoomImages.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\RoomImages.cs",
-              "RelativeDocumentMoniker": "API\\Models\\RoomImages.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\RoomImages.cs",
-              "RelativeToolTip": "API\\Models\\RoomImages.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T06:38:59.194Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Room.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Room.cs",
-              "RelativeDocumentMoniker": "API\\Models\\Room.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Room.cs",
-              "RelativeToolTip": "API\\Models\\Room.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAArAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T06:38:53.395Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
               "Title": "IAuthenService.cs",
               "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\IAuthenService.cs",
               "RelativeDocumentMoniker": "API\\Services\\IService\\IAuthenService.cs",
               "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\IAuthenService.cs",
               "RelativeToolTip": "API\\Services\\IService\\IAuthenService.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAA6wBEAAAASAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-14T15:00:56.206Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Booking.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Booking.cs",
-              "RelativeDocumentMoniker": "API\\Models\\Booking.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Booking.cs",
-              "RelativeToolTip": "API\\Models\\Booking.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAvwCYAAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T08:33:43.584Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "BookingPackage.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\BookingPackage.cs",
-              "RelativeDocumentMoniker": "API\\Models\\BookingPackage.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\BookingPackage.cs",
-              "RelativeToolTip": "API\\Models\\BookingPackage.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAkwBsAAAApAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T06:38:32.46Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Package.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Package.cs",
-              "RelativeDocumentMoniker": "API\\Models\\Package.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Package.cs",
-              "RelativeToolTip": "API\\Models\\Package.cs",
-              "ViewState": "AQIAAAIAAAAAAAAAAAASwBYAAAAmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T06:38:53.004Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "CommentPackageImages.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\CommentPackageImages.cs",
-              "RelativeDocumentMoniker": "API\\Models\\CommentPackageImages.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\CommentPackageImages.cs",
-              "RelativeToolTip": "API\\Models\\CommentPackageImages.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAA6AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T09:19:12.792Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "CommentImages.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\CommentImages.cs",
-              "RelativeDocumentMoniker": "API\\Models\\CommentImages.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\CommentImages.cs",
-              "RelativeToolTip": "API\\Models\\CommentImages.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T08:02:35.189Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "ICommentService.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\ICommentService.cs",
-              "RelativeDocumentMoniker": "API\\Services\\IService\\ICommentService.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\ICommentService.cs",
-              "RelativeToolTip": "API\\Services\\IService\\ICommentService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAyAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T09:22:59.705Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "ChangeUserDto.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\ChangeUserDto.cs",
-              "RelativeDocumentMoniker": "API\\Dtos\\ChangeUserDto.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\ChangeUserDto.cs",
-              "RelativeToolTip": "API\\Dtos\\ChangeUserDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T09:21:42.104Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "BookingPackagePayment.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\BookingPackagePayment.cs",
-              "RelativeDocumentMoniker": "API\\Models\\BookingPackagePayment.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\BookingPackagePayment.cs",
-              "RelativeToolTip": "API\\Models\\BookingPackagePayment.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAxAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T08:54:26.194Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "BookingPayment.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\BookingPayment.cs",
-              "RelativeDocumentMoniker": "API\\Models\\BookingPayment.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\BookingPayment.cs",
-              "RelativeToolTip": "API\\Models\\BookingPayment.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAsAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T06:40:15.65Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "IBookingPackageService.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\IBookingPackageService.cs",
-              "RelativeDocumentMoniker": "API\\Services\\IService\\IBookingPackageService.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\IBookingPackageService.cs",
-              "RelativeToolTip": "API\\Services\\IService\\IBookingPackageService.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAiwAsAAAApAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T14:53:37.614Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "BookingPackageRequest.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingPackageRequest.cs",
-              "RelativeDocumentMoniker": "API\\Dtos\\BookingPackageRequest.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingPackageRequest.cs",
-              "RelativeToolTip": "API\\Dtos\\BookingPackageRequest.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAA3wAQAAAAmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T05:27:14.306Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "IBookingRoomService.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\IBookingRoomService.cs",
-              "RelativeDocumentMoniker": "API\\Services\\IService\\IBookingRoomService.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\IBookingRoomService.cs",
-              "RelativeToolTip": "API\\Services\\IService\\IBookingRoomService.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABEAAAAsAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T14:53:39.936Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "BookingRoomService.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\BookingRoomService.cs",
-              "RelativeDocumentMoniker": "API\\Services\\BookingRoomService.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\BookingRoomService.cs",
-              "RelativeToolTip": "API\\Services\\BookingRoomService.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAkwCIAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-12T16:23:09.912Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "BookingPackagePaymentRequest.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingPackagePaymentRequest.cs",
-              "RelativeDocumentMoniker": "API\\Dtos\\BookingPackagePaymentRequest.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingPackagePaymentRequest.cs",
-              "RelativeToolTip": "API\\Dtos\\BookingPackagePaymentRequest.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T14:53:11.081Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "RoomType.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\RoomType.cs",
-              "RelativeDocumentMoniker": "API\\Models\\RoomType.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\RoomType.cs",
-              "RelativeToolTip": "API\\Models\\RoomType.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T09:05:55.353Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "BookingPaymentRequest.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingPaymentRequest.cs",
-              "RelativeDocumentMoniker": "API\\Dtos\\BookingPaymentRequest.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingPaymentRequest.cs",
-              "RelativeToolTip": "API\\Dtos\\BookingPaymentRequest.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T14:53:15.153Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 15,
               "Title": "AddImageUserDto.cs",
               "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\AddImageUserDto.cs",
               "RelativeDocumentMoniker": "API\\Dtos\\AddImageUserDto.cs",
@@ -623,55 +337,151 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "BookingRequest.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingRequest.cs",
-              "RelativeDocumentMoniker": "API\\Dtos\\BookingRequest.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingRequest.cs",
-              "RelativeToolTip": "API\\Dtos\\BookingRequest.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAAnwBsAAAAmAAAA",
+              "DocumentIndex": 18,
+              "Title": "Softpower.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Softpower.cs",
+              "RelativeDocumentMoniker": "API\\Models\\Softpower.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Softpower.cs",
+              "RelativeToolTip": "API\\Models\\Softpower.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-18T15:19:14.535Z"
+              "WhenOpened": "2024-03-13T06:38:57.084Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
-              "Title": "BuildingService.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\BuildingService.cs",
-              "RelativeDocumentMoniker": "API\\Services\\BuildingService.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\BuildingService.cs",
-              "RelativeToolTip": "API\\Services\\BuildingService.cs",
-              "ViewState": "AQIAACQAAAAAAAAAAAAYwAAAAAAAAAAA",
+              "DocumentIndex": 9,
+              "Title": "PackageController.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\PackageController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\PackageController.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\PackageController.cs",
+              "RelativeToolTip": "API\\Controllers\\PackageController.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAQwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T05:14:35.914Z"
+              "WhenOpened": "2024-05-09T10:57:50.771Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
-              "Title": "20240318155423_UpdateDb1.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Migrations\\20240318155423_UpdateDb1.cs",
-              "RelativeDocumentMoniker": "API\\Migrations\\20240318155423_UpdateDb1.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Migrations\\20240318155423_UpdateDb1.cs",
-              "RelativeToolTip": "API\\Migrations\\20240318155423_UpdateDb1.cs",
-              "ViewState": "AQIAAFoAAAAAAAAAAAAYwAAAAAAAAAAA",
+              "DocumentIndex": 7,
+              "Title": "PackageService.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\PackageService.cs",
+              "RelativeDocumentMoniker": "API\\Services\\PackageService.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\PackageService.cs",
+              "RelativeToolTip": "API\\Services\\PackageService.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-18T15:54:25.092Z"
+              "WhenOpened": "2024-05-11T03:20:57.005Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
-              "Title": "Building.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Building.cs",
-              "RelativeDocumentMoniker": "API\\Models\\Building.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Building.cs",
-              "RelativeToolTip": "API\\Models\\Building.cs",
+              "DocumentIndex": 8,
+              "Title": "BuildingController.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\BuildingController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\BuildingController.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\BuildingController.cs",
+              "RelativeToolTip": "API\\Controllers\\BuildingController.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-09T10:57:56.537Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Booking.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Booking.cs",
+              "RelativeDocumentMoniker": "API\\Models\\Booking.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Booking.cs",
+              "RelativeToolTip": "API\\Models\\Booking.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAD4vw0AAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T08:33:43.584Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Status.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Status.cs",
+              "RelativeDocumentMoniker": "API\\Models\\Status.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Status.cs",
+              "RelativeToolTip": "API\\Models\\Status.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-14T08:36:07.818Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "BookingController.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\BookingController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\BookingController.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\BookingController.cs",
+              "RelativeToolTip": "API\\Controllers\\BookingController.cs",
+              "ViewState": "AQIAABsAAAAAAAAAAADwvyIAAAA8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T15:06:29.076Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "LoginDto.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\LoginDto.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\LoginDto.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\LoginDto.cs",
+              "RelativeToolTip": "API\\Dtos\\LoginDto.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-18T14:32:37.014Z"
+              "WhenOpened": "2024-05-08T17:26:49.066Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 13,
+              "Title": "ForgotPasswordDto.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\ForgotPasswordDto.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\ForgotPasswordDto.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\ForgotPasswordDto.cs",
+              "RelativeToolTip": "API\\Dtos\\ForgotPasswordDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAIAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-08T17:27:30.372Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "BuildingRequest.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BuildingRequest.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\BuildingRequest.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BuildingRequest.cs",
+              "RelativeToolTip": "API\\Dtos\\BuildingRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-08T17:28:14.104Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Room.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Room.cs",
+              "RelativeDocumentMoniker": "API\\Models\\Room.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Room.cs",
+              "RelativeToolTip": "API\\Models\\Room.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T06:38:53.395Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "RoomImages.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\RoomImages.cs",
+              "RelativeDocumentMoniker": "API\\Models\\RoomImages.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\RoomImages.cs",
+              "RelativeToolTip": "API\\Models\\RoomImages.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T06:38:59.194Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
               "Title": "Role.cs",
               "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Role.cs",
               "RelativeDocumentMoniker": "API\\Models\\Role.cs",
@@ -683,19 +493,295 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
-              "Title": "Status.cs",
-              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Status.cs",
-              "RelativeDocumentMoniker": "API\\Models\\Status.cs",
-              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Status.cs",
-              "RelativeToolTip": "API\\Models\\Status.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAVAAAA",
+              "DocumentIndex": 24,
+              "Title": "Context.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Data\\Context.cs",
+              "RelativeDocumentMoniker": "API\\Data\\Context.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Data\\Context.cs",
+              "RelativeToolTip": "API\\Data\\Context.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAIwB0AAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-14T08:36:07.818Z"
+              "WhenOpened": "2024-04-05T09:20:56.056Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Comment.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Comment.cs",
+              "RelativeDocumentMoniker": "API\\Models\\Comment.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Comment.cs",
+              "RelativeToolTip": "API\\Models\\Comment.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-02T09:05:54.837Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "CommentController.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\CommentController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\CommentController.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\CommentController.cs",
+              "RelativeToolTip": "API\\Controllers\\CommentController.cs",
+              "ViewState": "AQIAACcAAAAAAAAAAAAowDEAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-05T09:29:32.598Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "CommentService.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\CommentService.cs",
+              "RelativeDocumentMoniker": "API\\Services\\CommentService.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\CommentService.cs",
+              "RelativeToolTip": "API\\Services\\CommentService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-18T08:14:28.152Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "CommentRequest.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\CommentRequest.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\CommentRequest.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\CommentRequest.cs",
+              "RelativeToolTip": "API\\Dtos\\CommentRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-05T09:21:22.087Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "AutoMapperProfile.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\AutoMapperProfile.cs",
+              "RelativeDocumentMoniker": "API\\AutoMapperProfile.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\AutoMapperProfile.cs",
+              "RelativeToolTip": "API\\AutoMapperProfile.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAQwCMAAAA7AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T08:34:48.368Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "CommentPackage.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\CommentPackage.cs",
+              "RelativeDocumentMoniker": "API\\Models\\CommentPackage.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\CommentPackage.cs",
+              "RelativeToolTip": "API\\Models\\CommentPackage.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-05T09:19:02.615Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "BookingPackageController.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\BookingPackageController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\BookingPackageController.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Controllers\\BookingPackageController.cs",
+              "RelativeToolTip": "API\\Controllers\\BookingPackageController.cs",
+              "ViewState": "AQIAAB8AAAAAAAAAAAAkwCoAAABEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-12T16:20:01.383Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "RoomService.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\RoomService.cs",
+              "RelativeDocumentMoniker": "API\\Services\\RoomService.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\RoomService.cs",
+              "RelativeToolTip": "API\\Services\\RoomService.cs",
+              "ViewState": "AQIAAGMAAAAAAAAAAAAkwG4AAAA+AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-12T16:20:07.322Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "CommentPackageImages.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\CommentPackageImages.cs",
+              "RelativeDocumentMoniker": "API\\Models\\CommentPackageImages.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\CommentPackageImages.cs",
+              "RelativeToolTip": "API\\Models\\CommentPackageImages.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAA6AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-05T09:19:12.792Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "CommentImages.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\CommentImages.cs",
+              "RelativeDocumentMoniker": "API\\Models\\CommentImages.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\CommentImages.cs",
+              "RelativeToolTip": "API\\Models\\CommentImages.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-05T08:02:35.189Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "ICommentService.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\ICommentService.cs",
+              "RelativeDocumentMoniker": "API\\Services\\IService\\ICommentService.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\ICommentService.cs",
+              "RelativeToolTip": "API\\Services\\IService\\ICommentService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-05T09:22:59.705Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "BookingPackagePayment.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\BookingPackagePayment.cs",
+              "RelativeDocumentMoniker": "API\\Models\\BookingPackagePayment.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\BookingPackagePayment.cs",
+              "RelativeToolTip": "API\\Models\\BookingPackagePayment.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T08:54:26.194Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "BookingPayment.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\BookingPayment.cs",
+              "RelativeDocumentMoniker": "API\\Models\\BookingPayment.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\BookingPayment.cs",
+              "RelativeToolTip": "API\\Models\\BookingPayment.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T06:40:15.65Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "IBookingPackageService.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\IBookingPackageService.cs",
+              "RelativeDocumentMoniker": "API\\Services\\IService\\IBookingPackageService.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\IBookingPackageService.cs",
+              "RelativeToolTip": "API\\Services\\IService\\IBookingPackageService.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAiwAsAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T14:53:37.614Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "BookingPackageRequest.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingPackageRequest.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\BookingPackageRequest.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingPackageRequest.cs",
+              "RelativeToolTip": "API\\Dtos\\BookingPackageRequest.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAA3wAQAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T05:27:14.306Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "IBookingRoomService.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\IBookingRoomService.cs",
+              "RelativeDocumentMoniker": "API\\Services\\IService\\IBookingRoomService.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\IBookingRoomService.cs",
+              "RelativeToolTip": "API\\Services\\IService\\IBookingRoomService.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABEAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T14:53:39.936Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "BookingPackagePaymentRequest.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingPackagePaymentRequest.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\BookingPackagePaymentRequest.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingPackagePaymentRequest.cs",
+              "RelativeToolTip": "API\\Dtos\\BookingPackagePaymentRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T14:53:11.081Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "RoomType.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\RoomType.cs",
+              "RelativeDocumentMoniker": "API\\Models\\RoomType.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\RoomType.cs",
+              "RelativeToolTip": "API\\Models\\RoomType.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-02T09:05:55.353Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 41,
+              "Title": "BookingPaymentRequest.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingPaymentRequest.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\BookingPaymentRequest.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingPaymentRequest.cs",
+              "RelativeToolTip": "API\\Dtos\\BookingPaymentRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T14:53:15.153Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "BookingRequest.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingRequest.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\BookingRequest.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Dtos\\BookingRequest.cs",
+              "RelativeToolTip": "API\\Dtos\\BookingRequest.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAnwBsAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-18T15:19:14.535Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "BuildingService.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\BuildingService.cs",
+              "RelativeDocumentMoniker": "API\\Services\\BuildingService.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Services\\BuildingService.cs",
+              "RelativeToolTip": "API\\Services\\BuildingService.cs",
+              "ViewState": "AQIAACQAAAAAAAAAAAAYwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T05:14:35.914Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "20240318155423_UpdateDb1.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Migrations\\20240318155423_UpdateDb1.cs",
+              "RelativeDocumentMoniker": "API\\Migrations\\20240318155423_UpdateDb1.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Migrations\\20240318155423_UpdateDb1.cs",
+              "RelativeToolTip": "API\\Migrations\\20240318155423_UpdateDb1.cs",
+              "ViewState": "AQIAAFoAAAAAAAAAAAAYwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-18T15:54:25.092Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "Building.cs",
+              "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Building.cs",
+              "RelativeDocumentMoniker": "API\\Models\\Building.cs",
+              "ToolTip": "D:\\chawanon\\PJ-END\\API\\API\\Models\\Building.cs",
+              "RelativeToolTip": "API\\Models\\Building.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-18T14:32:37.014Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
               "Title": "ISoftpowerService.cs",
               "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\ISoftpowerService.cs",
               "RelativeDocumentMoniker": "API\\Services\\IService\\ISoftpowerService.cs",
@@ -707,7 +793,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 47,
               "Title": "IRoomService.cs",
               "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\IService\\IRoomService.cs",
               "RelativeDocumentMoniker": "API\\Services\\IService\\IRoomService.cs",
@@ -719,7 +805,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 48,
               "Title": "20240313091222_NewUpdate.cs",
               "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Migrations\\20240313091222_NewUpdate.cs",
               "RelativeDocumentMoniker": "API\\Migrations\\20240313091222_NewUpdate.cs",
@@ -731,7 +817,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 49,
               "Title": "SoftpowerImages.cs",
               "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Models\\SoftpowerImages.cs",
               "RelativeDocumentMoniker": "API\\Models\\SoftpowerImages.cs",
@@ -743,7 +829,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 50,
               "Title": "SoftpowerService.cs",
               "DocumentMoniker": "D:\\chawanon\\PJ-END\\API\\API\\Services\\SoftpowerService.cs",
               "RelativeDocumentMoniker": "API\\Services\\SoftpowerService.cs",

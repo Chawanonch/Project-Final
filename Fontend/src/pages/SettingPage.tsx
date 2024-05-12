@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "../store/store";
 import { changeUser, getByUser, logout } from "../store/features/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Grid, Pagination, Rating } from "@mui/material";
+import { Grid, Pagination, Paper, Rating, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { cancelBooking, cancelBookingPackage, getBookingAdmin, getBookingByUser, getBookingPackageAdmin, getBookingPackageByUser, getPaymentBooking, getPaymentBookingPackages, paymentBooking, paymentBookingPackage } from "../store/features/bookingSlice";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import Swal from 'sweetalert2';
@@ -34,8 +34,7 @@ import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import InfoOutlined from '@mui/icons-material/InfoOutlined';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import { formatCVC, formatCreditCardNumber, formatExpirationDate } from "../components/utils";
-import { formatNumberWithCommas } from "../components/Reuse";
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import { formatNumberWithCommas, windowSizes } from "../components/Reuse";
 
 interface State {
   number: string;
@@ -51,8 +50,9 @@ const SettingPage = () => {
   const navigate = useNavigate();
   const { user, token } = useAppSelector((state) => state.user);
   const { booking, payments, bookingPackage, paymentPackages } = useAppSelector((state) => state.booking);
-  const { room } = useAppSelector((state) => state.room);
+  const { room, roomType} = useAppSelector((state) => state.room);
   const { comment, commentPackage } = useAppSelector((state) => state.comment);
+  const { packageAll } = useAppSelector((state) => state.package);
 
   //change user
   const [email, setEmail] = useState<string>(token !== "" && user ? user.email : "");
@@ -69,6 +69,7 @@ const SettingPage = () => {
   const [selectStatus, setSelectStatus] = useState<number | null>(5);
   const [selectTypeBooking, setSelectTypeBooking] = useState<number | null>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPageP, setCurrentPageP] = useState<number>(1);
 
   const [remainingTime, setRemainingTime] = useState({ hours: 0, minutes: 0, seconds: 0, id: 0, status: 0 });
 
@@ -184,9 +185,11 @@ const SettingPage = () => {
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value);
   };
-
+  const handlePagePChange = (_: React.ChangeEvent<unknown>, value: number) => {
+    setCurrentPageP(value);
+  };
   //#region  filter
-  const itemsPerPage = 4;
+  const itemsPerPage = 3;
   const filterBooking = booking && booking;
 
   const filterStatus = booking && booking.filter((x) => x.status === selectStatus);
@@ -194,7 +197,7 @@ const SettingPage = () => {
 
   const filterBookingPackage = bookingPackage && bookingPackage;
   const filterStatusPackage = bookingPackage && bookingPackage.filter((x) => x.status === selectStatus);
-  const paginatedBookingPackage = bookingPackage && (selectStatus === 5 ? filterBookingPackage.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage) : filterStatusPackage.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
+  const paginatedBookingPackage = bookingPackage && (selectStatus === 5 ? filterBookingPackage.slice((currentPageP - 1) * itemsPerPage, currentPageP * itemsPerPage) : filterStatusPackage.slice((currentPageP - 1) * itemsPerPage, currentPageP * itemsPerPage));
   //#endregion
 
   //#region Model
@@ -238,6 +241,23 @@ const SettingPage = () => {
     setIdModel(0)
     setDetailRoom(null)
     setDetailBooking(null)
+  };
+
+  const openModelPDetail = (id: number) => {
+    setOpenDetailPackage(true);
+    setIdPackageModel(id);
+    const item = bookingPackage.find((x) => x.id === id);
+    if (item !== undefined) {
+      setDetailBookingPackage(item)
+      setBookingPackageId(item.id);
+    } else {
+      setBookingPackageId(0);
+    }
+  };
+  const closeModelPDetail = () => {
+    setOpenDetailPackage(false)
+    setIdPackageModel(0)
+    setDetailBookingPackage(null)
   };
   const openModelComment = (id: number) => {
     setOpenComment(true)
@@ -435,12 +455,12 @@ const SettingPage = () => {
   const handleDepositAndAllPackage = async () => {
     const payment = paymentPackages.find((x) => x.bookingPackageId === bookingPackageId);
     let paymentId: number;
-    if (payment !== undefined && statusPaymnet === 1) paymentId = Number(payment.id);
+    if (payment !== undefined && statusPaymnetPackage === 1) paymentId = Number(payment.id);
     else paymentId = 0;
 
-    const item = await dispatch(paymentBookingPackage({ id: paymentId, status: statusPaymnet, bookingPackageId }));
+    const item = await dispatch(paymentBookingPackage({ id: paymentId, status: statusPaymnetPackage, bookingPackageId }));
     if (item.payload !== "" && item.payload !== undefined && item.payload !== null) {
-      const successMessage = statusPaymnet === 0 ? 'มัดจำเสร็จสิน !' : 'ชำระเงินเสร็จสิน !';
+      const successMessage = statusPaymnetPackage === 0 ? 'มัดจำเสร็จสิน !' : 'ชำระเงินเสร็จสิน !';
       Swal.fire({
         position: 'center',
         icon: 'success',
@@ -530,11 +550,13 @@ const SettingPage = () => {
         icon: 'success',
         title: 'ทำการเปลี่ยนแปลงเสร็จสิน !',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1000
       });
-      setTimeout(() => {
-        navigate('/settings');
-      }, 1400);
+      setTimeout(async () => {
+        await dispatch(logout());
+        fetchData()
+        navigate("/login");
+      }, 900);
     }
     else {
       Swal.fire({
@@ -579,7 +601,7 @@ const SettingPage = () => {
       case 1:
         return 'มัดจำเสร็จสิน';
       case 2:
-        return 'ทั้งหมดเสร็จสิน';
+        return 'เสร็จสิน';
       case 3:
         return 'ยกเลิกการจอง';
       default:
@@ -677,10 +699,337 @@ const SettingPage = () => {
     dateE.setFullYear(dateE.getFullYear() - 543);
   }
 
+  const allModalBooking = () => {
+    return (
+      <>
+        <Modal open={openCancel} onClose={closeModelCancel}>
+          <ModalDialog variant="outlined" role="alertdialog">
+            <DialogTitle>
+              <WarningRoundedIcon />
+              การยืนยัน
+            </DialogTitle>
+            <Divider />
+            <DialogContent>
+              คุณแน่ใจหรือไม่ว่าต้องการยกเลิกการจอง
+            </DialogContent>
+            <DialogActions>
+              <Button variant="solid" color="danger" onClick={cancelBookingUser}>
+                ยืนยัน
+              </Button>
+              <Button variant="plain" color="neutral" onClick={closeModelCancel}>
+                ยกเลิก
+              </Button>
+            </DialogActions>
+          </ModalDialog>
+        </Modal>
+        <Modal open={openDetail} onClose={closeModelDetail}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-desc"
+
+          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Sheet
+            variant="outlined"
+            sx={{
+              borderRadius: 'md',
+              p: 3,
+              boxShadow: 'lg',
+            }}
+          >
+            <ModalClose variant="plain" sx={{ m: 1 }} />
+            <h2>ข้อมูลการจองห้องพัก</h2>
+              <TableContainer style={{ maxHeight: '200px' }} component={Paper}>
+                <Table sx={{ minWidth: 300 }} aria-label="caption table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center"><h3>ประเภทห้องพัก</h3></TableCell>
+                      <TableCell align="center"><h3>รูปภาพ</h3></TableCell>
+                      <TableCell align="center"><h3>จำนวนห้องพักที่จอง</h3></TableCell>
+                      <TableCell align="center"><h3>ราคาต่อห้อง</h3></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  {detailBooking?.listRooms && detailBooking?.listRooms.map((value, index: number) => {
+                    const idRoom = room && room.find((room) => room.id === value.roomId)
+                    return (
+                      <TableBody key={index}>
+                        <TableRow>
+                          <TableCell align="center">
+                            <p>
+                              {roomType.find((room) => room.id === value.roomId)?.name || 'ไม่พบข้อมูล'}
+                            </p>
+                          </TableCell>
+                          <TableCell align="center">
+                            {idRoom && idRoom.roomImages.map((value: { image: string; }, index: number) => (
+                              <img
+                                key={index}
+                                src={folderImage + value.image}
+                                alt={`Image ${index}`}
+                                style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '5px' }}
+                              />
+                            ))}
+                          </TableCell>
+                          <TableCell align="center">
+                            <p>{value.quantityRoom + value.quantityRoomExcess}</p>
+                          </TableCell>
+                          <TableCell align="center">
+                            <p>
+                              {idRoom?.price || 'ไม่พบข้อมูล'}
+                            </p>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                      )
+                    })}
+                </Table>
+              </TableContainer>
+          </Sheet>
+        </Modal>
+        <Modal open={openPayment} onClose={closeModelPayment}>
+          <ModalDialog
+            aria-labelledby="payment-modal-title"
+            aria-describedby="payment-modal-description"
+
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12} >
+                <Cards
+                  number={state.number}
+                  expiry={state.expiry}
+                  cvc={state.cvc}
+                  name={state.name}
+                  focused={state.focus}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <form
+                  onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+                    event.preventDefault();
+                    handleDepositAndAll()
+                  }}
+                  style={{ display: 'flex', flexDirection: 'row' }}
+                >
+                  <Grid container spacing={2}>
+                    <Grid item xs={windowSize < 1183 ? 12 : 6}>
+                    <FormControl>
+                      <h4>หมายเลขบัตร</h4>
+                      <Input required name="number" placeholder="หมายเลขบัตร..." endDecorator={<CreditCardIcon />} value={state.number}
+                        onChange={handleInputChange} onFocus={handleInputFocus} />
+                    </FormControl>
+                    <div style={{ marginTop: 5 }} />
+                    </Grid>
+                    <Grid item xs={windowSize < 1183 ? 12 : 6}>
+                      <FormControl>
+                        <h4>ชื่อบนบัตร</h4>
+                        <Input required name="name" placeholder="กรอกชื่อเต็มบนบัตร..." value={state.name}
+                          onChange={handleInputChange} onFocus={handleInputFocus} />
+                      </FormControl>
+                    <div style={{ marginTop: 5 }} />
+                    </Grid>
+                    <Grid item xs={windowSize < 1183 ? 12 : 6}>
+                      <FormControl>
+                        <h4>วันหมดอายุ</h4>
+                        <Input required name="expiry" placeholder="วันที่หมดอายุ..." endDecorator={<CreditCardIcon />} value={state.expiry}
+                          onChange={handleInputChange} onFocus={handleInputFocus} />
+                      </FormControl>
+                      <div style={{ marginTop: 5 }} />
+                    </Grid>
+                    <Grid item xs={windowSize < 1183 ? 12 : 6}>
+                      <FormControl>
+                        <h4>CVC/CVV</h4>
+                        <Input required name="cvc" placeholder="cvc/cvv" endDecorator={<InfoOutlined />} value={state.cvc}
+                          onChange={handleInputChange} onFocus={handleInputFocus} />
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                    <CardActions sx={{ gridColumn: '1/-1' }}>
+                      <Button variant="solid" color="primary" type="submit" fullWidth>
+                        ชำระเงิน
+                      </Button>
+                    </CardActions>
+                    </Grid>
+                  </Grid>
+                </form>
+              </Grid>
+            </Grid>
+          </ModalDialog>
+        </Modal>
+      </>
+    )
+  }
+
+  const allModalBookingPackage = () => {
+    return (
+      <>
+        <Modal open={openCancelPackage} onClose={closeModelCancelPackage}>
+            <ModalDialog variant="outlined" role="alertdialog">
+              <DialogTitle>
+                <WarningRoundedIcon />
+                การยืนยัน
+              </DialogTitle>
+              <Divider />
+              <DialogContent>
+                คุณแน่ใจหรือไม่ว่าต้องการยกเลิกการจอง
+              </DialogContent>
+              <DialogActions>
+                <Button variant="solid" color="danger" onClick={cancelBookingPackageUser}>
+                  ยืนยัน
+                </Button>
+                <Button variant="plain" color="neutral" onClick={closeModelCancelPackage}>
+                  ยกเลิก
+                </Button>
+              </DialogActions>
+            </ModalDialog>
+        </Modal>
+        <Modal open={openDetailPackage} onClose={closeModelPDetail}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-desc"
+
+          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Sheet
+            variant="outlined"
+            sx={{
+              borderRadius: 'md',
+              p: 3,
+              boxShadow: 'lg',
+            }}
+          >
+            <ModalClose variant="plain" sx={{ m: 1 }} />
+            <h2>ข้อมูลการจองแพ็กเกจ</h2>
+              <TableContainer style={{ maxHeight: '200px' }} component={Paper}>
+                <Table sx={{ minWidth: 200 }} aria-label="caption table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center"><h3>ชื่อแพ็กเกจ</h3></TableCell>
+                      <TableCell align="center"><h3>เช็คอินได้ตั้งแต่</h3></TableCell>
+                      <TableCell align="center"><h3>ราคาต่อแพ็กเกจ</h3></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  {detailBookingPackage?.listPackages && detailBookingPackage?.listPackages.map((value, index: number) => {
+                    let itemDS;
+                    let itemDE;
+                    let itemDC;
+                    console.log(value)
+                    if (value.start && value.end && value.checkInTime) {
+                      itemDS = new Date(value.start);
+                      itemDS.setFullYear(itemDS.getFullYear() - 543);
+                      itemDE = new Date(value.end);
+                      itemDE.setFullYear(itemDE.getFullYear() - 543);
+                      itemDC = new Date(value.checkInTime);
+                      itemDC.setFullYear(itemDC.getFullYear() - 543);
+                    }
+                    return (
+                      <TableBody key={index}>
+                        <TableRow>
+                          <TableCell align="center">
+                            <p>
+                              {packageAll.find((pck) => pck.id === value.packageId)?.name || 'ไม่พบข้อมูล'}
+                            </p>
+                          </TableCell>
+                          <TableCell align="center">
+                            <p>
+                              {itemDS?.toLocaleString('th-TH', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                              })} ถึงวันที่ {itemDE?.toLocaleString('th-TH', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                              })}
+                            </p>
+                          </TableCell>
+                          <TableCell align="center">
+                            <p>
+                            {packageAll.find((pck) => pck.id === value.packageId)?.totalPrice || 'ไม่พบข้อมูล'}
+                            </p>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    )
+                  })}
+                </Table>
+              </TableContainer>
+          </Sheet>
+        </Modal>
+        <Modal open={openPaymentPackage} onClose={closeModelPaymentPackage}>
+        <ModalDialog
+            aria-labelledby="payment-modal-title"
+            aria-describedby="payment-modal-description"
+
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={windowSize < 1183 ? 12 : 6} >
+                <Cards
+                  number={state.number}
+                  expiry={state.expiry}
+                  cvc={state.cvc}
+                  name={state.name}
+                  focused={state.focus}
+                />
+              </Grid>
+              <Grid item xs={windowSize < 1183 ? 12 : 6}>
+                <form
+                  onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+                    event.preventDefault();
+                    handleDepositAndAllPackage()
+                  }}
+                  style={{ display: 'flex', flexDirection: 'row' }}
+                >
+                  <Grid container spacing={2}>
+                    <Grid item xs={windowSize < 1183 ? 12 : 6}>
+                    <FormControl sx={{ gridColumn: '1/-1' }}>
+                      <h4>หมายเลขบัตร</h4>
+                      <Input required name="number" placeholder="หมายเลขบัตร..." endDecorator={<CreditCardIcon />} value={state.number}
+                        onChange={handleInputChange} onFocus={handleInputFocus} />
+                    </FormControl>
+                    <div style={{ marginTop: 5 }} />
+                    </Grid>
+                    <Grid item xs={windowSize < 1183 ? 12 : 6}>
+                    <FormControl sx={{ gridColumn: '1/-1' }}>
+                      <h4>ชื่อบนบัตร</h4>
+                      <Input required name="name" placeholder="กรอกชื่อเต็มบนบัตร..." value={state.name}
+                        onChange={handleInputChange} onFocus={handleInputFocus} />
+                    </FormControl>
+                    <div style={{ marginTop: 5 }} />
+                    </Grid>
+                    <Grid item xs={windowSize < 1183 ? 12 : 6}>
+                      <FormControl>
+                        <h4>วันหมดอายุ</h4>
+                        <Input required name="expiry" placeholder="วันที่หมดอายุ..." endDecorator={<CreditCardIcon />} value={state.expiry}
+                          onChange={handleInputChange} onFocus={handleInputFocus} />
+                      </FormControl>
+                      <div style={{ marginTop: 5 }} />
+                    </Grid>
+                    <Grid item xs={windowSize < 1183 ? 12 : 6}>
+                      <FormControl>
+                        <h4>CVC/CVV</h4>
+                        <Input required name="cvc" placeholder="cvc/cvv" endDecorator={<InfoOutlined />} value={state.cvc}
+                          onChange={handleInputChange} onFocus={handleInputFocus} />
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                    <CardActions sx={{ gridColumn: '1/-1' }}>
+                      <Button variant="solid" color="primary" type="submit" fullWidth>
+                        ชำระเงิน
+                      </Button>
+                    </CardActions>
+                    </Grid>
+                  </Grid>
+                </form>
+              </Grid>
+            </Grid>
+          </ModalDialog>
+        </Modal>
+      </>
+    )
+  }
+  const windowSize = windowSizes();
+
   return (
     <Container>
-      <Tabs defaultValue={0} orientation="vertical">
-        <TabsList>
+      <Tabs defaultValue={0} orientation="vertical" sx={{ display: windowSize < 1183 ? "" : "flex" }}>
+        <TabsList sx={{ minWidth: windowSize < 1183 ? 200 : 180, maxHeight: 180, flexDirection: "column", justifyContent: "center" }}>
           <Tab><h4>ประวัติการจองทั้งหมด</h4></Tab>
           <Tab><h4>ตั้งค่าบัญชี</h4></Tab>
           <Button onClick={handleLogout} style={{ backgroundColor: "#C83B55", marginTop: 1, width: "auto" }}>
@@ -689,44 +1038,69 @@ const SettingPage = () => {
         </TabsList>
         <TabPanel value={0}>
           {!openCommentPackage && !openComment &&
-            <Grid container spacing={2}>
-              <Grid item xs={12} style={{ display: "flex", flexDirection: "row", gap: 15 }}>
-                <div>
-                  <h4>
-                    ประเภทการจอง
-                  </h4>
-                  <Select value={selectTypeBooking} onChange={handleChangeTypeBooking}>
-                    <Option value={0}>
-                      ห้องพัก 
-                    </Option>
-                    <Option value={1}>
-                      แพ็กเกจ 
-                    </Option>
-                  </Select>
-                </div>
-                <div>
-                  <h4>
-                    สถานะการจอง
-                  </h4>
-                  <Select value={selectStatus} onChange={handleChange}>
-                    <Option value={5}>
-                      ทั้งหมด
-                    </Option>
-                    <Option value={0}>
-                      รอดำเนินการ
-                    </Option>
-                    <Option value={1}>
-                      ชำระเงินมัดจำ
-                    </Option>
-                    <Option value={2}>
-                      ชำระเงินทั้งหมด
-                    </Option>
-                    <Option value={3}>
-                      ยกเลิกการจอง
-                    </Option>
-                  </Select>
-                </div>
+            <Grid container spacing={2} alignItems="center" sx={{ maxHeight: "auto", minWidth: 200 }}>
+              <Grid item xs={12} style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+                <Grid item xs={windowSize < 1183 ? 3 : 2}>
+                  <FormControl>
+                    <h4>
+                      ประเภทการจอง
+                    </h4>
+                    <Select value={selectTypeBooking} onChange={handleChangeTypeBooking}>
+                      <Option value={0}>
+                        ห้องพัก
+                      </Option>
+                      <Option value={1}>
+                        แพ็กเกจ
+                      </Option>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={windowSize < 1183 ? 3 : 2}>
+                  <FormControl>
+                    <h4>
+                      สถานะการจอง
+                    </h4>
+                    <Select value={selectStatus} onChange={handleChange}>
+                      <Option value={5}>
+                        ทั้งหมด
+                      </Option>
+                      <Option value={0}>
+                        รอดำเนินการ
+                      </Option>
+                      <Option value={1}>
+                        ชำระเงินมัดจำ
+                      </Option>
+                      <Option value={2}>
+                        ชำระเงินทั้งหมด
+                      </Option>
+                      <Option value={3}>
+                        ยกเลิกการจอง
+                      </Option>
+                    </Select>
+                  </FormControl>
+                </Grid>
               </Grid>
+              {paginatedBooking.length > 0 && paginatedBookingPackage.length > 0 &&
+                selectTypeBooking === 0 ?
+                <Grid item xs={windowSize < 1183 ? 12 : 8.5} style={{ display: "flex", flexDirection: "row", gap: 0, minWidth: 200 }}>
+                  <Grid item xs={3}>
+                    <h4 style={{ flex: 1, textAlign: "center" }}>วันที่เข้า</h4>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <h4 style={{ flex: 1, textAlign: "center" }}>วันที่ออก</h4>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <h4 style={{ flex: 1, textAlign: "center" }}>สถานะการจอง</h4>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <h4 style={{ flex: 1, textAlign: "center" }}>ราคารวม</h4>
+                  </Grid>
+                </Grid>
+                :
+                <>
+                </>
+              }
+              <Box sx={{ minWidth: windowSize < 1183 ? 0 : 900 }}></Box>
             </Grid>
           }
 
@@ -738,67 +1112,7 @@ const SettingPage = () => {
                   animate={{ y: 0 }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                 >
-                  <Card sx={{ height: "auto", width: 900, marginBottom: 1.5, flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderTopColor: detailBooking.status === 2 ? "#8BD97F" : detailBooking.status === 1 ? "#D9C27F" : detailBooking.status === 3 ? "#C83B55" : "#000", borderWidth: 3 }}>
-                    <h4>
-                      {dateS?.toLocaleString('th-TH', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                      {" "} 12.30
-                    </h4>
-                    <h4>
-                      {dateE?.toLocaleString('th-TH', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                      {" "} 10.30
-                    </h4>
-                    <h4>
-                      {getStatusLabel(detailBooking.status)}
-                    </h4>
-                    <h4>
-                      {formatNumberWithCommas(detailBooking.totalPrice)} บาท
-                    </h4>
-                    <div style={{ alignItems: "center", display: "flex" }}>
-                      <Button onClick={() => openModelDetail(detailBooking.id)} sx={{ backgroundColor: "#7FD9D4", width: "auto", color: "#000", marginRight: 1 }}>
-                        <VisibilityIcon />
-                      </Button>
-                      {detailBooking.status === 2 &&
-                        <Button onClick={closeModelComment} sx={{ backgroundColor: "#7FB4D9", width: "auto", color: "#000", marginRight: 1 }}>
-                          <TextsmsIcon />
-                        </Button>
-                      }
-
-                      {detailBooking.status === 0 ?
-                        <>
-                          <Button onClick={() => {
-                            openModelPayment(1, detailBooking.id)
-                          }} sx={{ backgroundColor: "#D9C27F", width: "auto", color: "#000", marginRight: 1 }}>ชำระมัดจำ</Button>
-                          <Button onClick={() => {
-                            openModelPayment(3, detailBooking.id)
-                          }} sx={{ backgroundColor: "#8BD97F", width: "auto", color: "#000", marginRight: 1 }}>ชำระทั้งหมด</Button>
-                        </>
-                        :
-                        detailBooking.status === 1 ?
-                          <>
-                            <Button onClick={() => {
-                              openModelPayment(2, detailBooking.id)
-                            }} sx={{ backgroundColor: "#CFD97F", width: "auto", color: "#000", marginRight: 1 }}>ชำระส่วนที่เหลือ</Button>
-                          </>
-                          : <></>
-                      }
-                      {detailBooking.status !== 3 &&
-                        <IconButton onClick={() => openModelCancel(detailBooking.id)} sx={{ backgroundColor: "#C83B55", width: "auto", color: "#000" }}>
-                          <RemoveCircleOutlineIcon />
-                        </IconButton>
-                      }
-
-                    </div>
-                  </Card>
-
-                  <Card sx={{ minWidth: 900 }}>
+                  <Card sx={{ minWidth: 200 }}>
                     <div>
                       <h2 style={{ marginTop: 0 }}>{idComment === 0 ? "แสดงความคิดเห็น" : "แก้ไข แสดงความคิดเห็น"}</h2>
                       <IconButton onClick={closeModelComment} aria-label="bookmark Bahamas Islands"
@@ -847,7 +1161,6 @@ const SettingPage = () => {
                           }
                           sx={{ minWidth: 300 }}
                         />
-
                       </FormControl>
 
                       <FormControl style={{ marginTop: 20 }}>
@@ -884,6 +1197,7 @@ const SettingPage = () => {
                       </Button>
                     </CardContent>
                   </Card>
+                  <Box sx={{ minWidth: windowSize < 1183 ? 0 : 900 }}></Box>
                 </motion.div>
               }
               {!openComment &&
@@ -892,9 +1206,8 @@ const SettingPage = () => {
                   animate={{ x: 0, opacity: 1 }} // การเลื่อนและความโปร่งใสที่ถูกเปลี่ยนแปลง
                   transition={{ duration: 0.15 }} // ระยะเวลาที่ใช้ในการเลื่อนและการแสดงเอฟเฟกต์
                 >
-
                   <br></br>
-                  {booking && paginatedBooking.map((item, index) => {
+                  {paginatedBooking && paginatedBooking.map((item, index) => {
                     const remainingTimeForItem = calculateRemainingTime(item.dateCreated, item.id, item.status);
                     const hours = remainingTimeForItem?.hours;
                     const minutes = remainingTimeForItem?.minutes;
@@ -911,35 +1224,43 @@ const SettingPage = () => {
                     }
 
                     return (
-                      <Card sx={{ height: "auto", minWidth: 900, marginBottom: 1.5, flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderTopColor: item.status === 2 ? "#8BD97F" : item.status === 1 ? "#D9C27F" : item.status === 3 ? "#C83B55" : "#000", borderWidth: 3 }} key={index}>
+                      <Card sx={{ maxHeight: "auto", minWidth: 200, marginBottom: 1.5, borderTopColor: item.status === 2 ? "#8BD97F" : item.status === 1 ? "#D9C27F" : item.status === 3 ? "#C83B55" : "#000", borderWidth: 3 }} key={index}>
                         {item.status === 0 && checkTimeForItem &&
                           <h4 style={{ position: "absolute", top: 0, color: "#C83B55", fontSize: 14 }}>เหลือเวลาชำระเงินมัดจำ {hours} ชั่วโมง {minutes} นาที {seconds} วินาที
                           </h4>
                         }
-                        <Grid container spacing={2} justifyContent="center" alignItems="center">
-                          <Grid item xs={8.5} style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-                            <h4 style={{ flex: 1 }}>
-                              {itemDS?.toLocaleString('th-TH', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                              })} {" "} 12.30
-                            </h4>
-                            <h4 style={{ flex: 1 }}>
-                              {itemDE?.toLocaleString('th-TH', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                              })} {" "} 10.30
-                            </h4>
-                            <h4 style={{ flex: 0.8, textAlign: "center" }}>
-                              {getStatusLabel(item.status)}
-                            </h4>
-                            <h4 style={{ flex: 0.8, textAlign: "center" }}>
-                              {formatNumberWithCommas(item.totalPrice)} บาท
-                            </h4>
+                        <Grid container spacing={2} alignItems="center">
+                          <Grid item xs={windowSize < 1183 ? 12 : 8.5} style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+                            <Grid item xs={3}>
+                              <h4 style={{ flex: 1, textAlign: "center" }}>
+                                {itemDS?.toLocaleString('th-TH', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric',
+                                })}
+                              </h4>
+                            </Grid>
+                            <Grid item xs={3}>
+                              <h4 style={{ flex: 1, textAlign: "center" }}>
+                                {itemDE?.toLocaleString('th-TH', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric',
+                                })}
+                              </h4>
+                            </Grid>
+                            <Grid item xs={3}>
+                              <h4 style={{ flex: 1, textAlign: "center" }}>
+                                {getStatusLabel(item.status)}
+                              </h4>
+                            </Grid>
+                            <Grid item xs={3}>
+                              <h4 style={{ flex: 1, textAlign: "center" }}>
+                                {formatNumberWithCommas(item.totalPrice)} บาท
+                              </h4>
+                            </Grid>
                           </Grid>
-                          <Grid item xs={3.5}>
+                          <Grid item xs={windowSize < 1183 ? 12 : 3.5}>
                             <div style={{ alignItems: "center", display: "flex" }}>
                               <Button onClick={() => openModelDetail(item.id)} sx={{ backgroundColor: "#7FD9D4", width: "auto", color: "#000", marginRight: 1 }}>
                                 <VisibilityIcon />
@@ -970,157 +1291,30 @@ const SettingPage = () => {
                                   </>
                                   : <></>
                               }
-                              {item.status !== 3 &&
+                              {item.status !== 3 && item.statusCheckIn !== 1 &&
                                 <IconButton onClick={() => openModelCancel(item.id)} sx={{ backgroundColor: "#C83B55", width: "auto", color: "#000" }}>
                                   <RemoveCircleOutlineIcon />
                                 </IconButton>
                               }
-
                             </div>
                           </Grid>
                         </Grid>
                       </Card>
                     )
                   })}
-
-                  {booking && booking.length > 0 &&
+                  
+                  {paginatedBooking && paginatedBooking.length > 0 &&
                     <Pagination
                       count={Math.ceil(selectStatus !== 5 ? filterStatus.length / itemsPerPage : booking.length / itemsPerPage)}
                       page={currentPage}
                       onChange={handlePageChange}
+                      style={{ minWidth: windowSize < 1183 ? 0 : 900 }}
                     />
                   }
+                  
                 </motion.div>
               }
-              <Modal open={openCancel} onClose={closeModelCancel}>
-                <ModalDialog variant="outlined" role="alertdialog">
-                  <DialogTitle>
-                    <WarningRoundedIcon />
-                    การยืนยัน
-                  </DialogTitle>
-                  <Divider />
-                  <DialogContent>
-                    คุณแน่ใจหรือไม่ว่าต้องการยกเลิกการจอง
-                  </DialogContent>
-                  <DialogActions>
-                    <Button variant="solid" color="danger" onClick={cancelBookingUser}>
-                      ยืนยัน
-                    </Button>
-                    <Button variant="plain" color="neutral" onClick={closeModelCancel}>
-                      ยกเลิก
-                    </Button>
-                  </DialogActions>
-                </ModalDialog>
-              </Modal>
-              <Modal open={openDetail} onClose={closeModelDetail}
-                aria-labelledby="modal-title"
-                aria-describedby="modal-desc"
-
-                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-              >
-                <Sheet
-                  variant="outlined"
-                  sx={{
-                    maxWidth: 500,
-                    borderRadius: 'md',
-                    p: 3,
-                    boxShadow: 'lg',
-                  }}
-                >
-                  <ModalClose variant="plain" sx={{ m: 1 }} />
-                  {detailRoom && detailRoom.map((item, index) =>
-                    <div key={index}>
-                      <h4>
-                        <img
-                          src={folderImage + item.image}
-                          alt="room Image"
-                          style={{ width: '50%', height: '100%', objectFit: 'cover' }}
-                        />
-                      </h4>
-                      <h4>
-                        ราคาต่อห้อง : {item.price}
-                      </h4>
-                      <h4>
-                        อาคารห้องพัก : {item.buildingId}
-                      </h4>
-                      <h4>
-                        คนอยู่ได้สูงสุดต่อห้อง : {item.quantityPeople}
-                      </h4>
-                      <h4>
-                        คนอยู่ได้สูงสุดต่อห้อง : {item.price}
-                      </h4>
-                    </div>
-                  )}
-                  <div>dd</div>
-                </Sheet>
-              </Modal>
-              <Modal open={openPayment} onClose={closeModelPayment}>
-                <ModalDialog
-                  aria-labelledby="payment-modal-title"
-                  aria-describedby="payment-modal-description"
-                  sx={(theme) => ({
-                    [theme.breakpoints.only('xs')]: {
-                      top: 'unset',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      borderRadius: 0,
-                      transform: 'none',
-                      maxWidth: 'unset',
-                    },
-                  })}
-                >
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                    <Cards
-                      number={state.number}
-                      expiry={state.expiry}
-                      cvc={state.cvc}
-                      name={state.name}
-                      focused={state.focus}
-                    />
-                    <form
-                      onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-                        event.preventDefault();
-                        handleDepositAndAll()
-                      }}
-                      style={{ display: 'flex', flexDirection: 'row' }}
-                    >
-                      <div>
-                        <FormControl sx={{ gridColumn: '1/-1' }}>
-                          <h4>หมายเลขบัตร</h4>
-                          <Input required name="number" placeholder="หมายเลขบัตร..." endDecorator={<CreditCardIcon />} value={state.number}
-                            onChange={handleInputChange} onFocus={handleInputFocus} />
-                        </FormControl>
-                        <div style={{ marginTop: 5 }} />
-                        <FormControl sx={{ gridColumn: '1/-1' }}>
-                          <h4>ชื่อบนบัตร</h4>
-                          <Input required name="name" placeholder="กรอกชื่อเต็มบนบัตร..." value={state.name}
-                            onChange={handleInputChange} onFocus={handleInputFocus} />
-                        </FormControl>
-                        <div style={{ marginTop: 5 }} />
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                          <FormControl>
-                            <h4>วันหมดอายุ</h4>
-                            <Input required name="expiry" placeholder="วันที่หมดอายุ..." endDecorator={<CreditCardIcon />} value={state.expiry}
-                              onChange={handleInputChange} onFocus={handleInputFocus} />
-                          </FormControl>
-                          <FormControl>
-                            <h4>CVC/CVV</h4>
-                            <Input required name="cvc" placeholder="cvc/cvv" endDecorator={<InfoOutlined />} value={state.cvc}
-                              onChange={handleInputChange} onFocus={handleInputFocus} />
-                          </FormControl>
-                        </div>
-                        <div style={{ marginTop: 5 }} />
-                        <CardActions sx={{ gridColumn: '1/-1' }}>
-                          <Button variant="solid" color="primary" type="submit">
-                            ชำระเงิน
-                          </Button>
-                        </CardActions>
-                      </div>
-                    </form>
-                  </div>
-                </ModalDialog>
-              </Modal>
+              {allModalBooking()}
             </>
           }
 
@@ -1132,72 +1326,7 @@ const SettingPage = () => {
                   animate={{ y: 0 }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                 >
-                  <Card sx={{ height: "auto", width: 900, marginBottom: 1.5, flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderTopColor: detailBookingPackage.status === 2 ? "#8BD97F" : detailBookingPackage.status === 1 ? "#D9C27F" : detailBookingPackage.status === 3 ? "#C83B55" : "#000", borderWidth: 3 }}>
-                    {/* <h4>
-                      {dateS?.toLocaleString('th-TH', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                      {" "} 12.30
-                    </h4>
-                    <h4>
-                      {dateE?.toLocaleString('th-TH', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                      {" "} 10.30
-                    </h4> */}
-                    <IconButton
-                      color="neutral"
-                    >
-                      <ManageSearchIcon />
-                    </IconButton>
-                    <h4>
-                      {getStatusLabel(detailBookingPackage.status)}
-                    </h4>
-                    <h4>
-                      {formatNumberWithCommas(detailBookingPackage.totalPriceBookingPackage)} บาท
-                    </h4>
-                    <div style={{ alignItems: "center", display: "flex" }}>
-                      <Button onClick={() => openModelDetail(detailBookingPackage.id)} sx={{ backgroundColor: "#7FD9D4", width: "auto", color: "#000", marginRight: 1 }}>
-                        <VisibilityIcon />
-                      </Button>
-                      {detailBookingPackage.status === 2 &&
-                        <Button onClick={closeModelCommentPackage} sx={{ backgroundColor: "#7FB4D9", width: "auto", color: "#000", marginRight: 1 }}>
-                          <TextsmsIcon />
-                        </Button>
-                      }
-
-                      {detailBookingPackage.status === 0 ?
-                        <>
-                          <Button onClick={() => {
-                            openModelPaymentPackage(1, detailBookingPackage.id)
-                          }} sx={{ backgroundColor: "#D9C27F", width: "auto", color: "#000", marginRight: 1 }}>ชำระมัดจำ</Button>
-                          <Button onClick={() => {
-                            openModelPaymentPackage(3, detailBookingPackage.id)
-                          }} sx={{ backgroundColor: "#8BD97F", width: "auto", color: "#000", marginRight: 1 }}>ชำระทั้งหมด</Button>
-                        </>
-                        :
-                        detailBookingPackage.status === 1 ?
-                          <>
-                            <Button onClick={() => {
-                              openModelPaymentPackage(2, detailBookingPackage.id)
-                            }} sx={{ backgroundColor: "#CFD97F", width: "auto", color: "#000", marginRight: 1 }}>ชำระส่วนที่เหลือ</Button>
-                          </>
-                          : <></>
-                      }
-                      {detailBookingPackage.status !== 3 &&
-                        <IconButton onClick={() => openModelCancelPackage(detailBookingPackage.id)} sx={{ backgroundColor: "#C83B55", width: "auto", color: "#000" }}>
-                          <RemoveCircleOutlineIcon />
-                        </IconButton>
-                      }
-
-                    </div>
-                  </Card>
-
-                  <Card sx={{ minWidth: 900 }}>
+                  <Card sx={{ minWidth: 200 }}>
                     <div>
                       <h2 style={{ marginTop: 0 }}>{idComment === 0 ? "แสดงความคิดเห็น" : "แก้ไข แสดงความคิดเห็น"}</h2>
                       <IconButton onClick={closeModelCommentPackage} aria-label="bookmark Bahamas Islands"
@@ -1283,6 +1412,8 @@ const SettingPage = () => {
                       </Button>
                     </CardContent>
                   </Card>
+                  <Box sx={{ minWidth: 900 }}></Box>
+
                 </motion.div>
               }
               {!openCommentPackage &&
@@ -1293,57 +1424,35 @@ const SettingPage = () => {
                 >
 
                   <br></br>
-                  {bookingPackage && paginatedBookingPackage.map((item, index) => {
+                  {paginatedBookingPackage && paginatedBookingPackage.map((item, index) => {
                     const remainingTimeForItem = calculateRemainingTimePackage(item.dateCreated, item.id, item.status);
                     const hours = remainingTimeForItem?.hours;
                     const minutes = remainingTimeForItem?.minutes;
                     const seconds = remainingTimeForItem?.seconds;
                     const checkTimeForItem = hours >= 0 && minutes >= 0 && seconds >= 0;
-                    // let itemDS;
-                    // let itemDE;
-
-                    // if (item.start && item.end) {
-                    //   itemDS = new Date(item.start);
-                    //   itemDS.setFullYear(itemDS.getFullYear() - 543);
-                    //   itemDE = new Date(item.end);
-                    //   itemDE.setFullYear(itemDE.getFullYear() - 543);
-                    // }
 
                     return (
-                      <Card sx={{ height: "auto", minWidth: 900, marginBottom: 1.5, flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderTopColor: item.status === 2 ? "#8BD97F" : item.status === 1 ? "#D9C27F" : item.status === 3 ? "#C83B55" : "#000", borderWidth: 3 }} key={index}>
+                      <Card sx={{ maxHeight: "auto", minWidth: 200, marginBottom: 1.5, borderTopColor: item.status === 2 ? "#8BD97F" : item.status === 1 ? "#D9C27F" : item.status === 3 ? "#C83B55" : "#000", borderWidth: 3 }} key={index}>
                         {item.status === 0 && checkTimeForItem &&
                           <h4 style={{ position: "absolute", top: 0, color: "#C83B55", fontSize: 14 }}>เหลือเวลาชำระเงินมัดจำ {hours} ชั่วโมง {minutes} นาที {seconds} วินาที
                           </h4>
                         }
                         <Grid container spacing={2} justifyContent="center" alignItems="center">
-                          <Grid item xs={8.5} style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-                            {/* <h4 style={{ flex: 1 }}>
-                              {itemDS?.toLocaleString('th-TH', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                              })} {" "} 12.30
-                            </h4>
-                            <h4 style={{ flex: 1 }}>
-                              {itemDE?.toLocaleString('th-TH', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                              })} {" "} 10.30
-                            </h4> */}
-                            <IconButton color="neutral" sx={{position:"absolute",bottom:15}}>
-                              <ManageSearchIcon />
-                            </IconButton>
-                            <h4 style={{ flex: 0.8, textAlign: "center" }}>
-                              {getStatusLabel(item.status)}
-                            </h4>
-                            <h4 style={{ flex: 0.8, textAlign: "center" }}>
-                              {formatNumberWithCommas(item.totalPriceBookingPackage)} บาท
-                            </h4>
+                          <Grid item xs={windowSize < 1183 ? 12 : 8.5} style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+                            <Grid item xs={6}>
+                              <h4 style={{ flex: 1, textAlign: "center" }}>
+                                {getStatusLabel(item.status)}
+                              </h4>
+                            </Grid>
+                            <Grid item xs={6}>
+                              <h4 style={{ flex: 1, textAlign: "center" }}>
+                                {formatNumberWithCommas(item.totalPriceBookingPackage)} บาท
+                              </h4>
+                            </Grid>
                           </Grid>
-                          <Grid item xs={3.5}>
+                          <Grid item xs={windowSize < 1183 ? 12 : 3.5}>
                             <div style={{ alignItems: "center", display: "flex" }}>
-                              <Button onClick={() => openModelDetail(item.id)} sx={{ backgroundColor: "#7FD9D4", width: "auto", color: "#000", marginRight: 1 }}>
+                              <Button onClick={() => openModelPDetail(item.id)} sx={{ backgroundColor: "#7FD9D4", width: "auto", color: "#000", marginRight: 1 }}>
                                 <VisibilityIcon />
                               </Button>
                               {item.status === 2 &&
@@ -1385,147 +1494,20 @@ const SettingPage = () => {
                     )
                   })}
 
-                  {booking && booking.length > 0 &&
+                  {paginatedBookingPackage && paginatedBookingPackage.length > 0 &&
                     <Pagination
-                      count={Math.ceil(selectStatus !== 5 ? filterStatus.length / itemsPerPage : booking.length / itemsPerPage)}
-                      page={currentPage}
-                      onChange={handlePageChange}
+                      count={Math.ceil(selectStatus !== 5 ? filterStatusPackage.length / itemsPerPage : bookingPackage.length / itemsPerPage)}
+                      page={currentPageP}
+                      onChange={handlePagePChange}
+                      style={{ minWidth: windowSize < 1183 ? 0 : 900 }}
                     />
                   }
                 </motion.div>
               }
-              <Modal open={openCancelPackage} onClose={closeModelCancelPackage}>
-                <ModalDialog variant="outlined" role="alertdialog">
-                  <DialogTitle>
-                    <WarningRoundedIcon />
-                    การยืนยัน
-                  </DialogTitle>
-                  <Divider />
-                  <DialogContent>
-                    คุณแน่ใจหรือไม่ว่าต้องการยกเลิกการจอง
-                  </DialogContent>
-                  <DialogActions>
-                    <Button variant="solid" color="danger" onClick={cancelBookingPackageUser}>
-                      ยืนยัน
-                    </Button>
-                    <Button variant="plain" color="neutral" onClick={closeModelCancelPackage}>
-                      ยกเลิก
-                    </Button>
-                  </DialogActions>
-                </ModalDialog>
-              </Modal>
-              <Modal open={openDetail} onClose={closeModelDetail}
-                aria-labelledby="modal-title"
-                aria-describedby="modal-desc"
-
-                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-              >
-                <Sheet
-                  variant="outlined"
-                  sx={{
-                    maxWidth: 500,
-                    borderRadius: 'md',
-                    p: 3,
-                    boxShadow: 'lg',
-                  }}
-                >
-                  <ModalClose variant="plain" sx={{ m: 1 }} />
-                  {detailRoom && detailRoom.map((item, index) =>
-                    <div key={index}>
-                      <h4>
-                        <img
-                          src={folderImage + item.image}
-                          alt="room Image"
-                          style={{ width: '50%', height: '100%', objectFit: 'cover' }}
-                        />
-                      </h4>
-                      <h4>
-                        ราคาต่อห้อง : {item.price}
-                      </h4>
-                      <h4>
-                        อาคารห้องพัก : {item.buildingId}
-                      </h4>
-                      <h4>
-                        คนอยู่ได้สูงสุดต่อห้อง : {item.quantityPeople}
-                      </h4>
-                      <h4>
-                        คนอยู่ได้สูงสุดต่อห้อง : {item.price}
-                      </h4>
-                    </div>
-                  )}
-                  <div>dd</div>
-                </Sheet>
-              </Modal>
-              <Modal open={openPaymentPackage} onClose={closeModelPaymentPackage}>
-                <ModalDialog
-                  aria-labelledby="payment-modal-title"
-                  aria-describedby="payment-modal-description"
-                  sx={(theme) => ({
-                    [theme.breakpoints.only('xs')]: {
-                      top: 'unset',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      borderRadius: 0,
-                      transform: 'none',
-                      maxWidth: 'unset',
-                    },
-                  })}
-                >
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                    <Cards
-                      number={state.number}
-                      expiry={state.expiry}
-                      cvc={state.cvc}
-                      name={state.name}
-                      focused={state.focus}
-                    />
-                    <form
-                      onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-                        event.preventDefault();
-                        handleDepositAndAllPackage()
-                      }}
-                      style={{ display: 'flex', flexDirection: 'row' }}
-                    >
-                      <div>
-                        <FormControl sx={{ gridColumn: '1/-1' }}>
-                          <h4>หมายเลขบัตร</h4>
-                          <Input required name="number" placeholder="หมายเลขบัตร..." endDecorator={<CreditCardIcon />} value={state.number}
-                            onChange={handleInputChange} onFocus={handleInputFocus} />
-                        </FormControl>
-                        <div style={{ marginTop: 5 }} />
-                        <FormControl sx={{ gridColumn: '1/-1' }}>
-                          <h4>ชื่อบนบัตร</h4>
-                          <Input required name="name" placeholder="กรอกชื่อเต็มบนบัตร..." value={state.name}
-                            onChange={handleInputChange} onFocus={handleInputFocus} />
-                        </FormControl>
-                        <div style={{ marginTop: 5 }} />
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                          <FormControl>
-                            <h4>วันหมดอายุ</h4>
-                            <Input required name="expiry" placeholder="วันที่หมดอายุ..." endDecorator={<CreditCardIcon />} value={state.expiry}
-                              onChange={handleInputChange} onFocus={handleInputFocus} />
-                          </FormControl>
-                          <FormControl>
-                            <h4>CVC/CVV</h4>
-                            <Input required name="cvc" placeholder="cvc/cvv" endDecorator={<InfoOutlined />} value={state.cvc}
-                              onChange={handleInputChange} onFocus={handleInputFocus} />
-                          </FormControl>
-                        </div>
-                        <div style={{ marginTop: 5 }} />
-                        <CardActions sx={{ gridColumn: '1/-1' }}>
-                          <Button variant="solid" color="primary" type="submit">
-                            ชำระเงิน
-                          </Button>
-                        </CardActions>
-                      </div>
-                    </form>
-                  </div>
-                </ModalDialog>
-              </Modal>
+              {allModalBookingPackage()}
             </>
           }
-
+          
         </TabPanel>
         <TabPanel value={1}>
           <motion.div
@@ -1626,29 +1608,25 @@ const Tab = styled(BaseTab)`
 `;
 
 const TabPanel = styled(BaseTabPanel)`
-  width: 100%;
+  minWidth: "auto";
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 0.875rem;
 `;
 
 const Tabs = styled(BaseTabs)`
-  display: flex;
   gap: 16px;
-  width: 200px;
+  minWidth: 100px;
 `;
 
 const TabsList = styled(BaseTabsList)(
   ({ theme }) => `
-  min-width: 180px;
-  height: 180px;
   background-color: #365486;
   border-radius: 12px;
   margin-bottom: 16px;
   display: flex;
   padding: 6px;
   gap: 12px;
-  flex-direction: column;
-  justify-content: center;
+
   align-content: space-between;
   box-shadow: 0px 4px 8px ${theme.palette.mode === 'dark' ? grey[900] : grey[200]};
   `,

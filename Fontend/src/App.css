@@ -2,7 +2,6 @@
 
 header{
     font-family: 'Sarabun', sans-serif;
-    
 }
 
 *{
@@ -41,5 +40,5 @@ header{
 }
 
 .swal2-container {
-    z-index: 10000; /* ค่าความสูงของ z-index ที่สูงกว่า alert อื่น ๆ */
+    z-index: 10000; 
 }

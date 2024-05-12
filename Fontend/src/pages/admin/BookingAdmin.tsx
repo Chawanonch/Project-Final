@@ -1,6 +1,6 @@
 //#region import
-import { Button, FormControl, IconButton, Input, Modal, ModalDialog, Stack, Select as JoySelect, switchClasses, Switch, FormLabel, Select, Chip } from '@mui/joy'
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Button, FormControl, IconButton, Input, Modal, ModalDialog, Select as JoySelect, switchClasses, Switch, FormLabel, Select, Chip } from '@mui/joy'
+import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import SearchIcon from '@mui/icons-material/Search';
 import Option from '@mui/joy/Option';
@@ -20,6 +20,9 @@ import Swal from 'sweetalert2';
 import { formatNumberWithCommas } from '../../components/Reuse';
 import { Package } from '../../components/models/package';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import { windowSizes } from '../../components/Reuse';
+import { folderImage } from '../../components/api/agent';
+
 //#endregion
 
 export default function BookingAdmin() {
@@ -38,6 +41,10 @@ export default function BookingAdmin() {
   const [open, setOpen] = useState<boolean>(false);
   const [openP, setOpenP] = useState<boolean>(false);
   const [openCheckInP, setOpenCheckInP] = useState<boolean>(false);
+
+  const [openCheckIn, setOpenCheckIn] = useState<boolean>(false);
+  const [idCheckIn, setIdCheckIn] = useState<number>(0);
+
   const [id, setId] = useState<number>(0);
   const [idP, setIdP] = useState<number>(0);
   const [idCheckInP, setIdCheckInP] = useState<number>(0);
@@ -48,6 +55,7 @@ export default function BookingAdmin() {
   const [selectStatusP, setSelectStatusP] = useState<number | null>(5);
 
   const [checked, setChecked] = useState<boolean>(false);
+  const windowSize = windowSizes();
 
   const getStatusLabel = (status: number) => {
     switch (status) {
@@ -173,12 +181,66 @@ export default function BookingAdmin() {
     {
       field: 'listRooms', headerName: 'ห้องพัก', width: 80,
       renderCell: (params) => (
-        <div style={{ display: 'flex' }}>
-          {params.value && params.value.map((value: { roomId: number; }, index: number) => (
-            <span key={index}>
-              [{value.roomId}]
-            </span>
-          ))}
+        <div>
+          <IconButton
+            color="neutral"
+            onClick={() => {
+              setIdCheckIn(params.row.id)
+              setOpenCheckIn(true)
+            }}
+          >
+            <ManageSearchIcon />
+          </IconButton>
+          <Modal open={openCheckIn && idCheckIn === params.row.id} onClose={() => setOpenCheckIn(false)}>
+            <ModalDialog>
+              <h2>ข้อมูลห้องพัก</h2>
+              <TableContainer style={{ maxHeight: '200px' }} component={Paper}>
+                <Table sx={{ minWidth: 1200 }} aria-label="caption table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center"><h3>ประเภทห้องพัก</h3></TableCell>
+                      <TableCell align="center"><h3>รูปภาพ</h3></TableCell>
+                      <TableCell align="center"><h3>จำนวนห้องพักที่จอง</h3></TableCell>
+                      <TableCell align="center"><h3>ราคาต่อห้อง</h3></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  {params.value && params.value.map((value, index: number) => {
+                    const idRoom = room && room.find((room) => room.id === value.roomId)
+
+                    return (
+                      <TableBody key={index}>
+                        <TableRow>
+                          <TableCell align="center">
+                            <p>
+                              {roomType.find((room) => room.id === value.roomId)?.name || 'ไม่พบข้อมูล'}
+                            </p>
+                          </TableCell>
+                          <TableCell align="center">
+                            {idRoom && idRoom.roomImages.map((value: { image: string; }, index: number) => (
+                              <img
+                                key={index}
+                                src={folderImage + value.image}
+                                alt={`Image ${index}`}
+                                style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '5px' }}
+                              />
+                            ))}
+                          </TableCell>
+                          <TableCell align="center">
+                            <p>{value.quantityRoom + value.quantityRoomExcess}</p>
+                          </TableCell>
+                          <TableCell align="center">
+                            <p>
+                              {idRoom?.price || 'ไม่พบข้อมูล'}
+                            </p>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    )
+                  })}
+                </Table>
+              </TableContainer>
+            </ModalDialog>
+          </Modal>
         </div>
       )
     },
@@ -278,7 +340,7 @@ export default function BookingAdmin() {
       headerName: 'ปุ่มยกเลิก',
       width: 80,
       renderCell: (params) => {
-        if (params.row.status !== 3) {
+        if (params.row.status !== 3 && params.row.statusCheckIn !== 1) {
           return (
             <IconButton
               color="danger"
@@ -365,7 +427,7 @@ export default function BookingAdmin() {
           <Modal open={openCheckInP && idCheckInP === params.row.id} onClose={() => setOpenCheckInP(false)}>
             <ModalDialog>
               <h2>ข้อมูลแพ็กเกจ</h2>
-              <TableContainer style={{ maxHeight: '200px'}} component={Paper}>
+              <TableContainer style={{ maxHeight: '200px' }} component={Paper}>
                 <Table sx={{ minWidth: 1200 }} aria-label="caption table">
                   <TableHead>
                     <TableRow>
@@ -391,7 +453,7 @@ export default function BookingAdmin() {
                     return (
                       <TableBody key={index}>
                         <TableRow>
-                          <TableCell component="th" scope="row">
+                          <TableCell align="center">
                             <p>
                               {packageAll.find((pck) => pck.id === value.packageId)?.name || 'ไม่พบข้อมูล'}
                             </p>
@@ -399,9 +461,9 @@ export default function BookingAdmin() {
                           <TableCell align="center">
                             <p>
                               {itemDS?.toLocaleString('th-TH', {
-                                  year: 'numeric',
-                                  month: 'long',
-                                  day: 'numeric',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
                               })} ถึงวันที่ {itemDE?.toLocaleString('th-TH', {
                                 year: 'numeric',
                                 month: 'long',
@@ -412,62 +474,62 @@ export default function BookingAdmin() {
                           <TableCell align="center">
                             {params.row.status === 2 ?
                               <Switch
-                              color={value.checkInDate === 0 ? 'success' : 'danger'}
-                              checked={value.checkInDate === 0 ? false : true}
-                              onChange={async (event: React.ChangeEvent<HTMLInputElement>) => {
-                                setChecked(event.target.checked)
-                                const item = await dispatch(checkInUserPackage(value.id));
-                                if (item.payload !== "" && item.payload !== undefined) {
-                                  Swal.fire({
-                                    position: "center",
-                                    icon: value.checkInDate === 0 ? "success" : "error",
-                                    title: value.checkInDate === 0 ? "เช็คอินเสร็จสิน" : "ยกเลิกเช็คอินเสร็จสิน",
-                                    showConfirmButton: false,
-                                    timer: 1000
-                                  });
-                                } else {
-                                  Swal.fire({
-                                    position: "center",
-                                    icon: 'error',
-                                    title: 'เกิดข้อผิดพลาดกรุณาลองใหม่ !',
-                                    showConfirmButton: false,
-                                    timer: 1000
-                                  });
-                                }
-                                fetchData();
-                              }}
-                              sx={{
-                                '--Switch-thumbSize': '16px',
-                                '--Switch-trackWidth': '40px',
-                                '--Switch-trackHeight': '24px',
-                                '--Switch-trackBackground': '#EE5E52',
-                                '&:hover': {
+                                color={value.checkInDate === 0 ? 'success' : 'danger'}
+                                checked={value.checkInDate === 0 ? false : true}
+                                onChange={async (event: React.ChangeEvent<HTMLInputElement>) => {
+                                  setChecked(event.target.checked)
+                                  const item = await dispatch(checkInUserPackage(value.id));
+                                  if (item.payload !== "" && item.payload !== undefined) {
+                                    Swal.fire({
+                                      position: "center",
+                                      icon: value.checkInDate === 0 ? "success" : "error",
+                                      title: value.checkInDate === 0 ? "เช็คอินเสร็จสิน" : "ยกเลิกเช็คอินเสร็จสิน",
+                                      showConfirmButton: false,
+                                      timer: 1000
+                                    });
+                                  } else {
+                                    Swal.fire({
+                                      position: "center",
+                                      icon: 'error',
+                                      title: 'เกิดข้อผิดพลาดกรุณาลองใหม่ !',
+                                      showConfirmButton: false,
+                                      timer: 1000
+                                    });
+                                  }
+                                  fetchData();
+                                }}
+                                sx={{
+                                  '--Switch-thumbSize': '16px',
+                                  '--Switch-trackWidth': '40px',
+                                  '--Switch-trackHeight': '24px',
                                   '--Switch-trackBackground': '#EE5E52',
-                                },
-                                [`&.${switchClasses.checked}`]: {
-                                  '--Switch-trackBackground': '#5CB176',
                                   '&:hover': {
-                                    '--Switch-trackBackground': '#5CB176',
+                                    '--Switch-trackBackground': '#EE5E52',
                                   },
-                                },
-                              }}
-                              />:<p style={{color:"#DE2222"}}>ยังไม่ได้ชำระเงิน</p>
+                                  [`&.${switchClasses.checked}`]: {
+                                    '--Switch-trackBackground': '#5CB176',
+                                    '&:hover': {
+                                      '--Switch-trackBackground': '#5CB176',
+                                    },
+                                  },
+                                }}
+                              /> : <p style={{ color: "#DE2222" }}>ยังไม่ได้ชำระเงิน</p>
                             }
                           </TableCell>
                           <TableCell align="center">
                             {value.checkInDate === 1 ?
-                              <p style={{color:"#28DE22"}}> 
+                              <p style={{ color: "#28DE22" }}>
                                 เช็คอินวันที่ {" "}
                                 {itemDC?.toLocaleString('th-TH', {
                                   year: 'numeric',
                                   month: 'long',
                                   day: 'numeric',
                                   hour: 'numeric',
-                                  minute:'numeric',
-                                  second:'numeric'
+                                  minute: 'numeric',
+                                  second: 'numeric'
                                 })}
                               </p> :
-                              <p style={{color:"#DE2222"}}>ยังไม่ได้ทำการเช็คอิน</p>
+                              <p style={{ color: "#DE2222" }}>ยังไม่ได้ทำการเช็คอิน</p>
                             }
                           </TableCell>
                         </TableRow>
@@ -587,79 +649,89 @@ export default function BookingAdmin() {
     setSelectStatusP(newValue)
   };
 
+  const size0 = windowSize < 1183 ? 4 : 2;
+
   return (
-    <Box sx={{ marginTop: 9.5, marginLeft: 30 }}>
+    <Box sx={{ marginTop: 9.5, marginLeft: windowSize < 1183 ? 5 : 30, marginRight: windowSize < 1183 ? 5 : 0 }}>
       <div>
         <h2 style={{ marginTop: 100, marginBottom: -30 }}>ประวัติการจองห้องพัก</h2>
         <div style={{ marginTop: 50 }} />
 
         <Box sx={{ marginTop: 3 }}>
-          <Box sx={{ display: "flex" }}>
-            <FormControl sx={{ width: "auto" }}>
-              <h4>
-                ค้นหาเวลาการจอง
-              </h4>
-              <Input
-                placeholder="ค้นหา..."
-                startDecorator={
-                  <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
-                  </Button>
-                }
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                sx={{ borderRadius: 8, width: 600 }}
-              />
-            </FormControl>
-            <FormControl sx={{ width: 150, marginLeft: 3 }}>
-              <h4>
-                สถานะการจอง
-              </h4>
-              <JoySelect defaultValue={5} onChange={handleChange}>
-                <Option value={5}>
-                  รายการทั้งหมด
-                </Option>
-                <Option value={0}>
-                  รอดำเนินการ
-                </Option>
-                <Option value={1}>
-                  ชำระเงินมัดจำ
-                </Option>
-                <Option value={2}>
-                  ชำระเงินทั้งหมด
-                </Option>
-                <Option value={3}>
-                  ยกเลิกการจอง
-                </Option>
-              </JoySelect>
-            </FormControl>
-            <FormControl sx={{ width: 100, marginLeft: 3 }}>
-              <h4>
-                สร้างจอง
-              </h4>
-              <IconButton
-                color="success"
-                onClick={() => {
-                  setId(0)
-                  setOpen(true)
-                }}
-              >
-                <AddCircleOutlineIcon />
-              </IconButton>
-            </FormControl>
-            <FormControl sx={{ width: 120, marginLeft: 3 }}>
-              <h4>
-                ลบหลายการจอง
-              </h4>
-              <IconButton
-                color="danger"
-                onClick={handleDeleteSelectedRows}
-                disabled={selectionModel.length === 0 ? true : false}
-              >
-                <RemoveCircleOutlineIcon />
-              </IconButton>
-            </FormControl>
-          </Box>
-          <div style={{ height: 300, width: 1220, marginTop: 20 }}>
+          <Grid container spacing={1}>
+            <Grid item xs={windowSize < 1183 ? 12 : 6}>
+              <FormControl>
+                <h4>
+                  ค้นหาเวลาการจอง
+                </h4>
+                <Input
+                  placeholder="ค้นหา..."
+                  startDecorator={
+                    <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
+                    </Button>
+                  }
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  sx={{ borderRadius: 8 }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl sx={{ minWidth: 100 }}>
+                <h4>
+                  สถานะการจอง
+                </h4>
+                <JoySelect defaultValue={5} onChange={handleChange}>
+                  <Option value={5}>
+                    รายการทั้งหมด
+                  </Option>
+                  <Option value={0}>
+                    รอดำเนินการ
+                  </Option>
+                  <Option value={1}>
+                    ชำระเงินมัดจำ
+                  </Option>
+                  <Option value={2}>
+                    ชำระเงินทั้งหมด
+                  </Option>
+                  <Option value={3}>
+                    ยกเลิกการจอง
+                  </Option>
+                </JoySelect>
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl sx={{ minWidth: 100 }}>
+                <h4>
+                  สร้างจอง
+                </h4>
+                <IconButton
+                  color="success"
+                  onClick={() => {
+                    setId(0)
+                    setOpen(true)
+                  }}
+                >
+                  <AddCircleOutlineIcon />
+                </IconButton>
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl sx={{ minWidth: 120 }}>
+                <h4>
+                  ลบหลายการจอง
+                </h4>
+                <IconButton
+                  color="danger"
+                  onClick={handleDeleteSelectedRows}
+                  disabled={selectionModel.length === 0 ? true : false}
+                >
+                  <RemoveCircleOutlineIcon />
+                </IconButton>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <div style={{ height: 300, maxWidth: 1220, marginTop: 20 }}>
             <DataGrid
               rows={filteredBooking}
               columns={columnsBooking}
@@ -683,72 +755,80 @@ export default function BookingAdmin() {
         <div style={{ marginTop: 50 }} />
 
         <Box sx={{ marginTop: 3 }}>
-          <Box sx={{ display: "flex" }}>
-            <FormControl sx={{ width: "auto" }}>
-              <h4>
-                ค้นหาเวลาการจอง
-              </h4>
-              <Input
-                placeholder="ค้นหา..."
-                startDecorator={
-                  <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
-                  </Button>
-                }
-                value={searchQueryP}
-                onChange={(e) => setSearchQueryP(e.target.value)}
-                sx={{ borderRadius: 8, width: 600 }}
-              />
-            </FormControl>
-            <FormControl sx={{ width: 150, marginLeft: 3 }}>
-              <h4>
-                สถานะการจอง
-              </h4>
-              <JoySelect defaultValue={5} onChange={handleChange1}>
-                <Option value={5}>
-                  รายการทั้งหมด
-                </Option>
-                <Option value={0}>
-                  รอดำเนินการ
-                </Option>
-                <Option value={1}>
-                  ชำระเงินมัดจำ
-                </Option>
-                <Option value={2}>
-                  ชำระเงินทั้งหมด
-                </Option>
-                <Option value={3}>
-                  ยกเลิกการจอง
-                </Option>
-              </JoySelect>
-            </FormControl>
-            <FormControl sx={{ width: 100, marginLeft: 3 }}>
-              <h4>
-                สร้างจอง
-              </h4>
-              <IconButton
-                color="success"
-                onClick={() => {
-                  setIdP(0)
-                  setOpenP(true)
-                }}
-              >
-                <AddCircleOutlineIcon />
-              </IconButton>
-            </FormControl>
-            <FormControl sx={{ width: 120, marginLeft: 3 }}>
-              <h4>
-                ลบหลายการจอง
-              </h4>
-              <IconButton
-                color="danger"
-                onClick={handleDeleteSelectedRowsBookingPackage}
-                disabled={selectionModelP.length === 0 ? true : false}
-              >
-                <RemoveCircleOutlineIcon />
-              </IconButton>
-            </FormControl>
-          </Box>
-          <div style={{ height: 300, width: 1220, marginTop: 20, marginBottom: 50 }}>
+          <Grid container spacing={1}>
+            <Grid item xs={windowSize < 1183 ? 12 : 6}>
+              <FormControl>
+                <h4>
+                  ค้นหาเวลาการจอง
+                </h4>
+                <Input
+                  placeholder="ค้นหา..."
+                  startDecorator={
+                    <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
+                    </Button>
+                  }
+                  value={searchQueryP}
+                  onChange={(e) => setSearchQueryP(e.target.value)}
+                  sx={{ borderRadius: 8 }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl sx={{ minWidth: 100 }}>
+                <h4>
+                  สถานะการจอง
+                </h4>
+                <JoySelect defaultValue={5} onChange={handleChange1}>
+                  <Option value={5}>
+                    รายการทั้งหมด
+                  </Option>
+                  <Option value={0}>
+                    รอดำเนินการ
+                  </Option>
+                  <Option value={1}>
+                    ชำระเงินมัดจำ
+                  </Option>
+                  <Option value={2}>
+                    ชำระเงินทั้งหมด
+                  </Option>
+                  <Option value={3}>
+                    ยกเลิกการจอง
+                  </Option>
+                </JoySelect>
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl sx={{ minWidth: 100 }}>
+                <h4>
+                  สร้างจอง
+                </h4>
+                <IconButton
+                  color="success"
+                  onClick={() => {
+                    setIdP(0)
+                    setOpenP(true)
+                  }}
+                >
+                  <AddCircleOutlineIcon />
+                </IconButton>
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl sx={{ minWidth: 120 }}>
+                <h4>
+                  ลบหลายการจอง
+                </h4>
+                <IconButton
+                  color="danger"
+                  onClick={handleDeleteSelectedRowsBookingPackage}
+                  disabled={selectionModelP.length === 0 ? true : false}
+                >
+                  <RemoveCircleOutlineIcon />
+                </IconButton>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <div style={{ height: 300, maxWidth: 1220, marginTop: 20, marginBottom: 50 }}>
             <DataGrid
               rows={filteredBookingPacakge}
               columns={columnsBookingPackage}
@@ -852,6 +932,8 @@ const Model: React.FC<ModelProps> = ({ open, setOpen, id = 0, bookings, rooms, r
   ) => {
     setRoomList(newValue as number[]);
   };
+  const windowSize = windowSizes();
+  const size0 = windowSize < 1183 ? 12 : 6;
 
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
@@ -864,8 +946,8 @@ const Model: React.FC<ModelProps> = ({ open, setOpen, id = 0, bookings, rooms, r
             createAndUpdate()
           }}
         >
-          <Stack spacing={2}>
-            <FormControl>
+          <Grid container spacing={1} style={{ overflow: 'auto', maxHeight: 400 }}>
+            <Grid item xs={size0}>
               <FormControl>
                 <h4>ผู้ใช้</h4>
                 <JoySelect
@@ -873,7 +955,6 @@ const Model: React.FC<ModelProps> = ({ open, setOpen, id = 0, bookings, rooms, r
                   value={user}
                   onChange={handleUserChange}
                   required
-
                 >
                   {users.map((user) => (
                     <Option key={user.id} value={user.id}>
@@ -882,14 +963,18 @@ const Model: React.FC<ModelProps> = ({ open, setOpen, id = 0, bookings, rooms, r
                   ))}
                 </JoySelect>
               </FormControl>
-              <h4>เวลาเริ่มต้น</h4>
-              <Input type="date" slotProps={{
-                input: {
-                  min: new Date().toISOString().split('T')[0],
-                },
-              }} name="start" required value={start.toString().split('T')[0]} onChange={(e) => setStart(e.target.value)} />
-            </FormControl>
-            <FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl>
+                <h4>เวลาเริ่มต้น</h4>
+                <Input type="date" slotProps={{
+                  input: {
+                    min: new Date().toISOString().split('T')[0],
+                  },
+                }} name="start" required value={start.toString().split('T')[0]} onChange={(e) => setStart(e.target.value)} />
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}><FormControl>
               <h4>เวลาสิ้นสุด</h4>
               <Input type="date" slotProps={{
                 input: {
@@ -899,8 +984,8 @@ const Model: React.FC<ModelProps> = ({ open, setOpen, id = 0, bookings, rooms, r
                     : new Date().toISOString().split('T')[0],
                 },
               }} name="end" required disabled={!start} value={end.toString().split('T')[0]} onChange={(e) => setEnd(e.target.value)} />
-            </FormControl>
-            <FormControl>
+            </FormControl></Grid>
+            <Grid item xs={size0}><FormControl>
               <FormLabel>เลือกห้องพัก</FormLabel>
               <Select
                 multiple
@@ -944,9 +1029,10 @@ const Model: React.FC<ModelProps> = ({ open, setOpen, id = 0, bookings, rooms, r
                   </div>
                 ))}
               </Select>
-            </FormControl>
-            <Button type="submit">ยืนยัน</Button>
-          </Stack>
+            </FormControl></Grid>
+            <Grid item xs={12}><Button type="submit" fullWidth>ยืนยัน</Button></Grid>
+
+          </Grid>
         </form>
       </ModalDialog>
     </Modal>
@@ -1039,7 +1125,8 @@ const ModelP: React.FC<ModelPropsP> = ({ open, setOpen, id = 0, bookings, users,
     }
     return total;
   }, 0) : 0;
-
+  const windowSize = windowSizes();
+  const size0 = windowSize < 1183 ? 12 : 6;
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
       <ModalDialog>
@@ -1051,64 +1138,72 @@ const ModelP: React.FC<ModelPropsP> = ({ open, setOpen, id = 0, bookings, users,
             createAndUpdate()
           }}
         >
-          <Stack spacing={2}>
-            <FormControl>
-              <h4>ผู้ใช้</h4>
-              <JoySelect
-                sx={{ height: 40 }}
-                value={user}
-                onChange={handleUserChange}
-              >
-                {users.map((user) => (
-                  <Option key={user.id} value={user.id}>
-                    อีเมล: {user.email}
-                  </Option>
-                ))}
-              </JoySelect>
-            </FormControl>
-            <FormControl>
-              <FormLabel>เลือกแพ็กเกจ</FormLabel>
-              <Select
-                multiple
-                renderValue={(selected) => (
-                  <Box sx={{ display: 'flex', gap: '0.25rem' }}>
-                    {selected.map((selectedOption, index) => (
-                      <Chip key={index} variant="soft" color="primary">
-                        {selectedOption.label}
-                      </Chip>
-                    ))}
-                  </Box>
-                )}
-                sx={{
-                  minWidth: '15rem',
-                }}
-                slotProps={{
-                  listbox: {
-                    component: 'div',
-                    sx: {
-                      maxHeight: 240,
-                      overflow: 'auto',
-                      '--List-padding': '0px',
-                      '--ListItem-radius': '0px',
+          <Grid container spacing={1} style={{ overflow: 'auto', maxHeight: 400 }}>
+            <Grid item xs={size0}>
+              <FormControl>
+                <h4>ผู้ใช้</h4>
+                <JoySelect
+                  sx={{ height: 40 }}
+                  value={user}
+                  onChange={handleUserChange}
+                >
+                  {users.map((user) => (
+                    <Option key={user.id} value={user.id}>
+                      อีเมล: {user.email}
+                    </Option>
+                  ))}
+                </JoySelect>
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl>
+                <FormLabel>เลือกแพ็กเกจ</FormLabel>
+                <Select
+                  multiple
+                  renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', gap: '0.25rem' }}>
+                      {selected.map((selectedOption, index) => (
+                        <Chip key={index} variant="soft" color="primary">
+                          {selectedOption.label}
+                        </Chip>
+                      ))}
+                    </Box>
+                  )}
+                  sx={{
+                    minWidth: '15rem',
+                  }}
+                  slotProps={{
+                    listbox: {
+                      component: 'div',
+                      sx: {
+                        maxHeight: 240,
+                        overflow: 'auto',
+                        '--List-padding': '0px',
+                        '--ListItem-radius': '0px',
+                      },
                     },
-                  },
-                }}
-                onChange={handlePackagesListChange}
-                value={packageList}
-              >
-                {packageAll.map((pak) => (
-                  <Option key={pak.id} value={pak.id}>
-                    {pak.name}
-                  </Option>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl>
-              <h4>ราคารวม</h4>
-              <Input name="price" required disabled type="number" value={priceAll} onChange={(e) => setTotalPrice(Number(e.target.value))} />
-            </FormControl>
-            <Button type="submit">ยืนยัน</Button>
-          </Stack>
+                  }}
+                  onChange={handlePackagesListChange}
+                  value={packageList}
+                >
+                  {packageAll.map((pak) => (
+                    <Option key={pak.id} value={pak.id}>
+                      {pak.name}
+                    </Option>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl>
+                <h4>ราคารวม</h4>
+                <Input name="price" required disabled type="number" value={priceAll} onChange={(e) => setTotalPrice(Number(e.target.value))} />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Button type="submit" fullWidth>ยืนยัน</Button>
+            </Grid>
+          </Grid>
         </form>
       </ModalDialog>
     </Modal>

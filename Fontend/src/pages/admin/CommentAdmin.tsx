@@ -1,5 +1,5 @@
 import { Button, DialogTitle, FormControl, FormLabel, IconButton, Input, Modal, ModalDialog, Stack, Select, Option, Textarea } from '@mui/joy'
-import { Box } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -15,6 +15,8 @@ import { Comment, CommentPackage } from '../../components/models/comment';
 import StarIcon from '@mui/icons-material/Star';
 import { Rating } from "@mui/material";
 import { Booking, BookingPackage } from '../../components/models/booking';
+import { dropzonesStyles, previewsStyles } from '../../components/Reuse';
+import { windowSizes } from '../../components/Reuse';
 
 export default function CommentAdmin() {
   const dispatch = useAppDispatch();
@@ -22,6 +24,7 @@ export default function CommentAdmin() {
   const { bookings, bookingPackages } = useAppSelector((state) => state.booking);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchQueryP, setSearchQueryP] = useState("");
+  const windowSize = windowSizes();
 
   const [filteredComment, setFilteredComment] = useState<Comment[]>([]);
   const [filteredCommentPackage, setFilteredCommentPackage] = useState<CommentPackage[]>([]);
@@ -42,7 +45,7 @@ export default function CommentAdmin() {
       width: 150,
       renderCell: (params) => (
         <div style={{ display: 'flex' }}>
-          {params.value && params.value.map((value: { image: string; }, index:number) => (
+          {params.value && params.value.map((value: { image: string; }, index: number) => (
             <img
               key={index}
               src={folderImage + value.image}
@@ -53,26 +56,26 @@ export default function CommentAdmin() {
         </div>
       ),
     },
-    { 
-      field: 'Edit', 
-      headerName: '', 
-      width: 55, 
+    {
+      field: 'Edit',
+      headerName: '',
+      width: 55,
       renderCell: (params) => (
         <IconButton
           color="primary"
           onClick={() => {
             setId(params.row.id)
             setOpen(true)
-          }} 
+          }}
         >
           <AutoFixHighIcon />
         </IconButton>
       ),
     },
-    { 
-      field: 'Remove', 
-      headerName: '', 
-      width: 55, 
+    {
+      field: 'Remove',
+      headerName: '',
+      width: 55,
       renderCell: (params) => (
         <IconButton
           color="danger"
@@ -97,7 +100,7 @@ export default function CommentAdmin() {
               });
             }
             fetchData();
-          }} 
+          }}
         >
           <RemoveCircleOutlineIcon />
         </IconButton>
@@ -115,7 +118,7 @@ export default function CommentAdmin() {
       width: 150,
       renderCell: (params) => (
         <div style={{ display: 'flex' }}>
-          {params.value && params.value.map((value: { image: string; }, index:number) => (
+          {params.value && params.value.map((value: { image: string; }, index: number) => (
             <img
               key={index}
               src={folderImage + value.image}
@@ -126,26 +129,26 @@ export default function CommentAdmin() {
         </div>
       ),
     },
-    { 
-      field: 'Edit', 
-      headerName: '', 
-      width: 55, 
+    {
+      field: 'Edit',
+      headerName: '',
+      width: 55,
       renderCell: (params) => (
         <IconButton
           color="primary"
           onClick={() => {
             setId(params.row.id)
             setOpen(true)
-          }} 
+          }}
         >
           <AutoFixHighIcon />
         </IconButton>
       ),
     },
-    { 
-      field: 'Remove', 
-      headerName: '', 
-      width: 55, 
+    {
+      field: 'Remove',
+      headerName: '',
+      width: 55,
       renderCell: (params) => (
         <IconButton
           color="danger"
@@ -170,7 +173,7 @@ export default function CommentAdmin() {
               });
             }
             fetchData();
-          }} 
+          }}
         >
           <RemoveCircleOutlineIcon />
         </IconButton>
@@ -190,7 +193,7 @@ export default function CommentAdmin() {
     const filtered = comment && comment.filter((item) =>
       item && item.text && item.text.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    
+
     setFilteredComment(filtered);
   }, [searchQuery, comment]);
 
@@ -198,49 +201,53 @@ export default function CommentAdmin() {
     const filtered = commentPackage && commentPackage.filter((item) =>
       item && item.text && item.text.toLowerCase().includes(searchQueryP.toLowerCase())
     );
-    
+
     setFilteredCommentPackage(filtered);
   }, [searchQueryP, commentPackage]);
 
   return (
-    <Box sx={{ marginTop: 9.5, marginLeft: 30 }}>
+    <Box sx={{ marginTop: 9.5, marginLeft: windowSize < 1183 ? 5 : 30, marginRight: windowSize < 1183 ? 5 : 0 }}>
       <div>
-        <h2 style={{marginTop:100,marginBottom:-30}}>แสดงความคิดเห็น</h2>
-        <div style={{marginTop:50}}/>
+        <h2 style={{ marginTop: 100, marginBottom: -30 }}>แสดงความคิดเห็น</h2>
+        <div style={{ marginTop: 50 }} />
         <Box sx={{ marginTop: 3 }}>
-          <Box sx={{ display: "flex" }}>
-            <FormControl sx={{ width: "auto" }}>
-              <h4>
-                ค้นหาข้อความ
-              </h4>
-              <Input
-                placeholder="ค้นหา..."
-                startDecorator={
-                  <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
-                  </Button>
-                }
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                sx={{ borderRadius: 8, width: 600 }}
-              />
-            </FormControl>
-            <FormControl sx={{ width: 180, marginLeft: 3 }}>
-              <h4>
-                สร้างแสดงความคิดเห็น
-              </h4>
-              <IconButton
-                color="success"
-                onClick={() => {
-                  setId(0)
-                  setOpen(true)
-                }}
-              >
-                <AddCircleOutlineIcon />
-              </IconButton>
-            </FormControl>
-          </Box>
-          <div style={{ height: 300, width: 1220, marginTop: 20 }}>
-              <DataGrid
+          <Grid container spacing={1}>
+            <Grid item xs={windowSize < 1183 ? 12 : 6}>
+              <FormControl>
+                <h4>
+                  ค้นหาข้อความ
+                </h4>
+                <Input
+                  placeholder="ค้นหา..."
+                  startDecorator={
+                    <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
+                    </Button>
+                  }
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  sx={{ borderRadius: 8 }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl sx={{ width: 180, marginLeft: windowSize < 1183 ? 0 : 3 }}>
+                <h4>
+                  สร้างแสดงความคิดเห็น
+                </h4>
+                <IconButton
+                  color="success"
+                  onClick={() => {
+                    setId(0)
+                    setOpen(true)
+                  }}
+                >
+                  <AddCircleOutlineIcon />
+                </IconButton>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <div style={{ height: 300, maxWidth: 1220, marginTop: 20 }}>
+            <DataGrid
               rows={filteredComment}
               columns={columns}
               initialState={{
@@ -255,42 +262,46 @@ export default function CommentAdmin() {
         </Box>
       </div>
       <div>
-        <h2 style={{marginTop:20,marginBottom:-30}}>แสดงความคิดเห็นแพ็กเกจ</h2>
-        <div style={{marginTop:50}}/>
+        <h2 style={{ marginTop: 20, marginBottom: -30 }}>แสดงความคิดเห็นแพ็กเกจ</h2>
+        <div style={{ marginTop: 50 }} />
         <Box sx={{ marginTop: 3 }}>
-          <Box sx={{ display: "flex" }}>
-            <FormControl sx={{ width: "auto" }}>
-              <h4>
-                ค้นหาข้อความ
-              </h4>
-              <Input
-                placeholder="ค้นหา..."
-                startDecorator={
-                  <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
-                  </Button>
-                }
-                value={searchQueryP}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                sx={{ borderRadius: 8, width: 600 }}
-              />
-            </FormControl>
-            <FormControl sx={{ width: 180, marginLeft: 3 }}>
-              <h4>
-                สร้างแสดงความคิดเห็น
-              </h4>
-              <IconButton
-                color="success"
-                onClick={() => {
-                  setIdP(0)
-                  setOpenP(true)
-                }}
-              >
-                <AddCircleOutlineIcon />
-              </IconButton>
-            </FormControl>
-          </Box>
-          <div style={{ height: 300, width: 1220, marginTop: 20, marginBottom: 50  }}>
-              <DataGrid
+          <Grid container spacing={1}>
+            <Grid item xs={windowSize < 1183 ? 12 : 6}>
+              <FormControl>
+                <h4>
+                  ค้นหาข้อความ
+                </h4>
+                <Input
+                  placeholder="ค้นหา..."
+                  startDecorator={
+                    <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
+                    </Button>
+                  }
+                  value={searchQueryP}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  sx={{ borderRadius: 8 }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl sx={{ width: 180, marginLeft: windowSize < 1183 ? 0 : 3 }}>
+                <h4>
+                  สร้างแสดงความคิดเห็น
+                </h4>
+                <IconButton
+                  color="success"
+                  onClick={() => {
+                    setIdP(0)
+                    setOpenP(true)
+                  }}
+                >
+                  <AddCircleOutlineIcon />
+                </IconButton>
+              </FormControl>
+            </Grid>
+          </Grid>
+          <div style={{ height: 300, maxWidth: 1220, marginTop: 20, marginBottom: 50 }}>
+            <DataGrid
               rows={filteredCommentPackage}
               columns={columnsPackage}
               initialState={{
@@ -304,8 +315,8 @@ export default function CommentAdmin() {
           </div>
         </Box>
       </div>
-      <ModelComment open={open} setOpen={setOpen} id={id} comments={comment} bookings={bookings}/>
-      <ModelCommentPackage open={openP} setOpen={setOpenP} id={idP} comments={commentPackage} bookings={bookingPackages}/>
+      <ModelComment open={open} setOpen={setOpen} id={id} comments={comment} bookings={bookings} />
+      <ModelCommentPackage open={openP} setOpen={setOpenP} id={idP} comments={commentPackage} bookings={bookingPackages} />
     </Box>
   )
 }
@@ -314,11 +325,11 @@ interface ModelCommentProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   id?: number;
-  comments: Comment[]; 
-  bookings: Booking[]; 
+  comments: Comment[];
+  bookings: Booking[];
 }
 
-const ModelComment: React.FC<ModelCommentProps> = ({ open, setOpen, id = 0, comments, bookings}) => {
+const ModelComment: React.FC<ModelCommentProps> = ({ open, setOpen, id = 0, comments, bookings }) => {
   const dispatch = useAppDispatch();
   const [text, setText] = useState<string>("");
   const [star, setStar] = useState<number | null>(2.5);
@@ -334,8 +345,8 @@ const ModelComment: React.FC<ModelCommentProps> = ({ open, setOpen, id = 0, comm
         setStar(comment.star)
         setBookingId(comment.bookingId)
         if (comment && comment.commentImages) {
-          setImages(comment.commentImages.map((item)=> item.image));
-        }else setImages([])
+          setImages(comment.commentImages.map((item) => item.image));
+        } else setImages([])
       }
     }
     else {
@@ -392,7 +403,8 @@ const ModelComment: React.FC<ModelCommentProps> = ({ open, setOpen, id = 0, comm
   };
 
   const filterBooking = bookings && bookings.filter((booking) => booking.status === 2);
-
+  const windowSize = windowSizes();
+  const size0 = windowSize < 1183 ? 12 : 6;
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
       <ModalDialog>
@@ -404,66 +416,77 @@ const ModelComment: React.FC<ModelCommentProps> = ({ open, setOpen, id = 0, comm
             createAndUpdate()
           }}
         >
-          <Stack spacing={2}>
-            <FormControl>
-              <FormLabel>รหัสจอง</FormLabel>
-              <Select
-                sx={{height:40}}
-                value={bookingId}
-                onChange={handleCommentChange}
-                required
-              >
-                {filterBooking.length > 0 ?
-                  filterBooking.map((booking) => (
-                    <Option key={booking.id} value={booking.id}>
-                      {booking.id}
+          <Grid container spacing={1} style={{ overflow: 'auto', maxHeight: 400 }}>
+            <Grid item xs={size0}>
+              <FormControl>
+                <FormLabel>รหัสจอง</FormLabel>
+                <Select
+                  sx={{ height: 40 }}
+                  value={bookingId}
+                  onChange={handleCommentChange}
+                  required
+                >
+                  {filterBooking.length > 0 ?
+                    filterBooking.map((booking) => (
+                      <Option key={booking.id} value={booking.id}>
+                        {booking.id}
+                      </Option>
+                    ))
+                    :
+                    <Option value={0}>
+                      ยังไม่มีการจอง
                     </Option>
-                  ))
-                  :
-                  <Option value={0}>
-                    ยังไม่มีการจอง
-                  </Option>
-                }
-              </Select>
-            </FormControl>
-            <FormControl>
-              <FormLabel>แสดงความคิดเห็น</FormLabel>
-              <Textarea name="text" required value={text} onChange={(e) => setText(e.target.value)} placeholder="ข้อความ..." minRows={2} maxRows={3}/>
-            </FormControl>
-            <FormControl>
-              <FormLabel>คะแนน</FormLabel>
-              <div>
-                <Rating
-                  name="hover-feedback"
-                  value={star}
-                  precision={0.5}
-                  onChange={(event, newValue) => {
-                    setStar(newValue);
-                  }}
-                  emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                />
-                <FormLabel>{star ? star + " คะแนน":""} </FormLabel>
-              </div>
-            </FormControl>
-            <FormControl>
-              <FormLabel>หลายรูปภาพ</FormLabel>
-              <div {...getRootProps.getRootProps()} style={dropzonesStyles}>
-                <input {...getRootProps.getInputProps()} />
-                {images.length > 0 ? (
-                  images.map((image, index) => (
-                    <div key={index}>
-                      {image && (
-                        <img src={typeof image === 'string' ? folderImage + image : URL.createObjectURL(image)} alt="Preview" style={previewsStyles} />
-                      )}
-                    </div>
-                  ))
-                ) : (
-                  <p>ลากและวางรูปภาพที่นี่ หรือคลิกเพื่อเลือกหลายภาพ</p>
-                )}
-              </div>
-            </FormControl>
-            <Button type="submit" disabled={filterBooking.length > 0 ? false:true}>ยืนยัน</Button>
-          </Stack>
+                  }
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl>
+                <FormLabel>แสดงความคิดเห็น</FormLabel>
+                <Textarea name="text" required value={text} onChange={(e) => setText(e.target.value)} placeholder="ข้อความ..." minRows={2} maxRows={3} />
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl>
+                <FormLabel>คะแนน</FormLabel>
+                <div>
+                  <Rating
+                    name="hover-feedback"
+                    value={star}
+                    precision={0.5}
+                    onChange={(event, newValue) => {
+                      setStar(newValue);
+                    }}
+                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                  />
+                  <FormLabel>{star ? star + " คะแนน" : ""} </FormLabel>
+                </div>
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl>
+                <FormLabel>หลายรูปภาพ</FormLabel>
+                <div {...getRootProps.getRootProps()} style={dropzonesStyles}>
+                  <input {...getRootProps.getInputProps()} />
+                  {images.length > 0 ? (
+                    images.map((image, index) => (
+                      <div key={index}>
+                        {image && (
+                          <img src={typeof image === 'string' ? folderImage + image : URL.createObjectURL(image)} alt="Preview" style={previewsStyles} />
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <p>ลากและวางรูปภาพที่นี่ หรือคลิกเพื่อเลือกหลายภาพ</p>
+                  )}
+                </div>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Button type="submit" fullWidth disabled={filterBooking.length > 0 ? false : true}>ยืนยัน</Button>
+
+            </Grid>
+          </Grid>
         </form>
       </ModalDialog>
     </Modal>
@@ -474,11 +497,11 @@ interface ModelCommentPackageProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   id?: number;
-  comments: CommentPackage[]; 
-  bookings: BookingPackage[]; 
+  comments: CommentPackage[];
+  bookings: BookingPackage[];
 }
 
-const ModelCommentPackage: React.FC<ModelCommentPackageProps> = ({ open, setOpen, id = 0, comments, bookings}) => {
+const ModelCommentPackage: React.FC<ModelCommentPackageProps> = ({ open, setOpen, id = 0, comments, bookings }) => {
   const dispatch = useAppDispatch();
   const [text, setText] = useState<string>("");
   const [star, setStar] = useState<number | null>(2.5);
@@ -494,8 +517,8 @@ const ModelCommentPackage: React.FC<ModelCommentPackageProps> = ({ open, setOpen
         setStar(comment.star)
         setBookingPackageId(comment.bookingPackageId)
         if (comment && comment.commentPackageImages) {
-          setImages(comment.commentPackageImages.map((item)=> item.image));
-        }else setImages([])
+          setImages(comment.commentPackageImages.map((item) => item.image));
+        } else setImages([])
       }
     }
     else {
@@ -551,6 +574,8 @@ const ModelCommentPackage: React.FC<ModelCommentPackageProps> = ({ open, setOpen
     setBookingPackageId(newValue);
   };
   const filterBooking = bookings && bookings.filter((booking) => booking.status === 2);
+  const windowSize = windowSizes();
+  const size0 = windowSize < 1183 ? 12 : 6;
 
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
@@ -563,49 +588,54 @@ const ModelCommentPackage: React.FC<ModelCommentPackageProps> = ({ open, setOpen
             createAndUpdate()
           }}
         >
-          <Stack spacing={2}>
-            <FormControl>
-              <FormLabel>รหัสจอง</FormLabel>
-              <Select
-                sx={{height:40}}
-                value={bookingPackageId}
-                onChange={handleCommentChange}
-                required
-              >
-                {filterBooking.length > 0 ?
-                  filterBooking.map((booking) => (
-                    <Option key={booking.id} value={booking.id}>
-                      {booking.id}
+          <Grid container spacing={1} style={{ overflow: 'auto', maxHeight: 400 }}>
+            <Grid item xs={size0}>
+              <FormControl>
+                <FormLabel>รหัสจอง</FormLabel>
+                <Select
+                  sx={{ height: 40 }}
+                  value={bookingPackageId}
+                  onChange={handleCommentChange}
+                  required
+                >
+                  {filterBooking.length > 0 ?
+                    filterBooking.map((booking) => (
+                      <Option key={booking.id} value={booking.id}>
+                        {booking.id}
+                      </Option>
+                    ))
+                    :
+                    <Option value={0}>
+                      ยังไม่มีการจองแพ็กเกจ
                     </Option>
-                  ))
-                  :
-                  <Option value={0}>
-                    ยังไม่มีการจองแพ็กเกจ
-                  </Option>
-                }
-              </Select>
-            </FormControl>
-            
-            <FormControl>
-              <FormLabel>แสดงความคิดเห็น</FormLabel>
-              <Textarea name="text" required value={text} onChange={(e) => setText(e.target.value)} placeholder="ข้อความ..." minRows={2} maxRows={3}/>
-            </FormControl>
-            <FormControl>
-              <FormLabel>คะแนน</FormLabel>
-              <div>
-                <Rating
-                  name="hover-feedback"
-                  value={star}
-                  precision={0.5}
-                  onChange={(event, newValue) => {
-                    setStar(newValue);
-                  }}
-                  emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-                />
-                <FormLabel>{star ? star + " คะแนน":""} </FormLabel>
-              </div>
-            </FormControl>
-            <FormControl>
+                  }
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl>
+                <FormLabel>แสดงความคิดเห็น</FormLabel>
+                <Textarea name="text" required value={text} onChange={(e) => setText(e.target.value)} placeholder="ข้อความ..." minRows={2} maxRows={3} />
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}>
+              <FormControl>
+                <FormLabel>คะแนน</FormLabel>
+                <div>
+                  <Rating
+                    name="hover-feedback"
+                    value={star}
+                    precision={0.5}
+                    onChange={(event, newValue) => {
+                      setStar(newValue);
+                    }}
+                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                  />
+                  <FormLabel>{star ? star + " คะแนน" : ""} </FormLabel>
+                </div>
+              </FormControl>
+            </Grid>
+            <Grid item xs={size0}><FormControl>
               <FormLabel>หลายรูปภาพ</FormLabel>
               <div {...getRootProps.getRootProps()} style={dropzonesStyles}>
                 <input {...getRootProps.getInputProps()} />
@@ -621,28 +651,13 @@ const ModelCommentPackage: React.FC<ModelCommentPackageProps> = ({ open, setOpen
                   <p>ลากและวางรูปภาพที่นี่ หรือคลิกเพื่อเลือกหลายภาพ</p>
                 )}
               </div>
-            </FormControl>
-
-            <Button type="submit" disabled={filterBooking.length > 0 ? false : true}>ยืนยัน</Button>
-          </Stack>
+            </FormControl></Grid>
+            <Grid item xs={12}>
+              <Button type="submit" fullWidth disabled={filterBooking.length > 0 ? false : true}>ยืนยัน</Button>
+            </Grid>
+          </Grid>
         </form>
       </ModalDialog>
     </Modal>
   )
 }
-const dropzonesStyles: object = {
-  border: '2px dashed #ccc',
-  borderRadius: '4px',
-  padding: '20px',
-  textAlign: 'center',
-  cursor: 'pointer',
-  display: 'flex',
-  flexWrap: 'wrap',
-};
-
-const previewsStyles: object = {
-  maxWidth: '100px',
-  maxHeight: '100px',
-  objectFit: 'cover',
-  marginLeft: '5px',
-};

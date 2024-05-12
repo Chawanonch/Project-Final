@@ -119,7 +119,6 @@ namespace API.Services
             return true; // Token หมดอายุ
         }
 
-
         public async Task<object> GetUserDetail()
         {
             var id = 0;
@@ -172,6 +171,19 @@ namespace API.Services
             await _context.SaveChangesAsync();
             return "Change Success!";
         }
+        public async Task<object> ForgotPassword(ForgotPasswordDto dto)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == dto.Email);
+            if (user == null) return null;
+
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
+
+            user.PasswordHash = passwordHash;
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return passwordHash;
+        }
+
         public async Task<object> AddImageUser(AddImageUserDto dto)
         {
             (string errorMessage, string imageName) = await _uploadFileService.UploadImageAsync(dto.Image);

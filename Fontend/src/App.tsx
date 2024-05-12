@@ -36,7 +36,7 @@ import ErrorPage from './pages/ErrorPage'
 function App() {
   const { changePage, token, user } = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
-
+  
   const fetchNoToken = async () => {
     await dispatch(getBuildingAndRoom());
     await dispatch(getSoftpower());

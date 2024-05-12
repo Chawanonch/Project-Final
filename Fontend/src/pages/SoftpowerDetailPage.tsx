@@ -42,12 +42,11 @@ export default function SoftpowerDetailPage() {
   const navigateToSoftpowerDetailPage = (softpowerId: number) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate(`/softpower/${softpowerId}`)
-    
   };
 
   useEffect(() => {
     fetchData();
-  }, [id]);
+  }, [dispatch]);
   
   const borderBottom = () => {
     return <div style={{ borderBottom: "1px solid #BDBDBD", marginTop: 10, marginBottom: 10 }} />
@@ -70,7 +69,6 @@ export default function SoftpowerDetailPage() {
             {item?.softpowerImages.map((slideImage, index) => (
               <div key={index}>
                 <img style={{ width: '100%', maxHeight: 560 }} src={folderImage + slideImage.image} />
-                {/* <span style={spanStyle}>{slideImage.caption}</span> */}
               </div>
             ))}
           </Slide>
@@ -86,6 +84,18 @@ export default function SoftpowerDetailPage() {
         <div style={{ display: "flex", alignItems: "center" }}>
           <h3>ชื่ออื่น</h3>
           <p style={{ marginLeft: 10 }}>{item?.importantName && item.importantName}</p>
+        </div>
+
+        <br />
+        <div>
+          <h3>ในด้านซอฟต์พาวเวอร์ **</h3>
+          {borderBottom()}
+
+          <h4 style={{ textIndent: "20px" }}>ส่งเสริม</h4>
+          <p style={{ textIndent: "40px" }}>{item?.promoteSoftpower && item.promoteSoftpower}</p>
+
+          <h4 style={{ textIndent: "20px" }}>คุณค่า</h4>
+          <p style={{ textIndent: "40px" }}>{item?.valueSoftpower && item.valueSoftpower}</p>
         </div>
 
         <br />
@@ -113,7 +123,7 @@ export default function SoftpowerDetailPage() {
         <br />
         <br />
         <div>
-          <h3>ซอฟต์พาวเวอร์อื่นๆ ในประเภทเดียวกัน</h3>
+          <h3>ซอฟต์พาวเวอร์อื่น ๆ ในประเภทเดียวกัน</h3>
           {borderBottom()}
           {pageCount > 0 ?
             <div>

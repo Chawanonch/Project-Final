@@ -56,7 +56,7 @@ const LoginPage = () => {
   return (
     <Grid container justifyContent="center" alignItems="center">
       <Grid item xs={10} sm={6} md={4}>
-        <Paper elevation={3} style={{ padding: 50 }}>
+        <Paper elevation={3} style={{ padding: 50 ,borderRadius:20}}>
           <h1 style={{ margin: '20px 0', textAlign: "center" }}>
             ยินดีต้อนรับ
           </h1>
@@ -66,7 +66,7 @@ const LoginPage = () => {
               <h4>อีเมลหรือชื่อผู้ใช้งาน *</h4>
               <div style={{ marginTop: 15 }} />
 
-              <Input type="name" placeholder="" fullWidth value={emailOrUsername} onChange={(e) => setEmailOrUsername(e.target.value)} />
+              <Input type="name" required placeholder="" fullWidth value={emailOrUsername} onChange={(e) => setEmailOrUsername(e.target.value)} />
             </FormControl>
             <div style={{ marginTop: 15 }} />
 
@@ -74,7 +74,7 @@ const LoginPage = () => {
               <h4>รหัสผ่าน *</h4>
               <div style={{ marginTop: 15 }} />
 
-              <Input type="password" placeholder="" fullWidth value={password} onChange={(e) => setPassword(e.target.value)} />
+              <Input type="password" required placeholder="" fullWidth value={password} onChange={(e) => setPassword(e.target.value)} />
             </FormControl>
             <Grid container justifyContent="flex-end" alignItems="center" spacing={2}>
               <Grid item>

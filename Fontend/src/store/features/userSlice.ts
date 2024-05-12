@@ -41,6 +41,22 @@ export const loginUser = createAsyncThunk<User, FieldValues>(
   }
 );
 
+export const forgotPassword = createAsyncThunk<Users, FieldValues>(
+  'auth/fetchForgotPassword',
+  async (data) => {
+    try {
+      const response = await agent.User.forgotPassword({
+        Email: data.email,
+        NewPassword: data.newPassword,
+      });
+      
+      return response;
+    } catch (error) {
+      console.log("error token", error);
+    }
+  }
+);
+
 export const getByUser = createAsyncThunk(
   'auth/fetchByUser',
   async () => {
@@ -171,6 +187,25 @@ export const userSlice = createSlice({
         }
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message as string;
+      })
+      .addCase(forgotPassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        const updated = action.payload;
+        const index = state.users.findIndex(x => x.id === updated.id);
+        
+        if (index !== -1) {
+          state.users[index].password = String(updated);
+        } else {
+          state.users.push(updated);
+        }
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message as string;
       })

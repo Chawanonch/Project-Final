@@ -79,7 +79,7 @@ const RegisterPage = () => {
   return (
     <Grid container justifyContent="center" alignItems="center">
       <Grid item xs={10} sm={6} md={4}>
-        <Paper elevation={3} style={{ padding: 50 }}>
+        <Paper elevation={3} style={{ padding: 50 ,borderRadius:20}}>
           <h1 style={{ margin: '20px 0', textAlign: "center" }}>
             สมัครสมาชิก
           </h1>

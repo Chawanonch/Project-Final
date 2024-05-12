@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "thtXI+QfLmLtKVZx1acjset2EhyYJzqX6O6CPmZjPpo=",
+  "Hash": "TeLtoBbWc8AnoUs5ahSeFvdC1WNeywKApim5TZHaznE=",
   "Source": "API",
   "BasePath": "_content/API",
   "Mode": "Default",
@@ -167,6 +167,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\0688d260-79c0-4c94-9575-4bae0b4e1288.jpg"
+    },
+    {
+      "Identity": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\08cff8d5-ab92-444a-a60a-56cfeef83d12.jpg",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\",
+      "BasePath": "_content/API",
+      "RelativePath": "images/08cff8d5-ab92-444a-a60a-56cfeef83d12.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\08cff8d5-ab92-444a-a60a-56cfeef83d12.jpg"
     },
     {
       "Identity": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\09a4d4fa-95e6-4e96-9b43-2815e707ce4b.jpg",
@@ -509,6 +528,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\2aa075d4-1ad0-49cd-bd3b-101145bed871.jpg"
+    },
+    {
+      "Identity": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\2b84b405-2353-4cb4-8ccb-06bbcf0de7a9.jpg",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\",
+      "BasePath": "_content/API",
+      "RelativePath": "images/2b84b405-2353-4cb4-8ccb-06bbcf0de7a9.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\2b84b405-2353-4cb4-8ccb-06bbcf0de7a9.jpg"
     },
     {
       "Identity": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\2d09d8e2-6a3f-43ea-9b08-80dbc05fd349.jpg",
@@ -1974,6 +2012,25 @@
       "OriginalItemSpec": "wwwroot\\images\\a743ee13-4dd3-451a-9083-e9935ae61f9b.jpg"
     },
     {
+      "Identity": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\aab488e4-2327-43d1-b402-9f6b7f7731d7.jpg",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\",
+      "BasePath": "_content/API",
+      "RelativePath": "images/aab488e4-2327-43d1-b402-9f6b7f7731d7.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\aab488e4-2327-43d1-b402-9f6b7f7731d7.jpg"
+    },
+    {
       "Identity": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\acf0b699-c15e-444e-852b-14d1cdf0ec92.jpg",
       "SourceId": "API",
       "SourceType": "Discovered",
@@ -2221,6 +2278,25 @@
       "OriginalItemSpec": "wwwroot\\images\\c64d6350-3fd5-434e-bc01-5467693b8381.jpg"
     },
     {
+      "Identity": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\c930e39a-a980-45c3-9a79-7aff51acb97f.jpg",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\",
+      "BasePath": "_content/API",
+      "RelativePath": "images/c930e39a-a980-45c3-9a79-7aff51acb97f.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\c930e39a-a980-45c3-9a79-7aff51acb97f.jpg"
+    },
+    {
       "Identity": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\ca7b2253-ed26-4611-9377-8171ebd22866.jpg",
       "SourceId": "API",
       "SourceType": "Discovered",
@@ -2354,6 +2430,25 @@
       "OriginalItemSpec": "wwwroot\\images\\e254a4fb-4688-43d5-95a0-71fdcb79bd31.jpg"
     },
     {
+      "Identity": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\e2922bf5-ce0b-4ba0-88e4-30b30c7a01a6.jpg",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\",
+      "BasePath": "_content/API",
+      "RelativePath": "images/e2922bf5-ce0b-4ba0-88e4-30b30c7a01a6.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\e2922bf5-ce0b-4ba0-88e4-30b30c7a01a6.jpg"
+    },
+    {
       "Identity": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\e4e0c8c0-deb1-449e-b2f3-cdfa3ad4809e.jpg",
       "SourceId": "API",
       "SourceType": "Discovered",
@@ -2390,6 +2485,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\e619a973-ca9f-42aa-8b95-0b568c21d189.jpg"
+    },
+    {
+      "Identity": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\e7e2d7f5-0b21-4368-99c7-5f1b28d9889b.jpg",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\",
+      "BasePath": "_content/API",
+      "RelativePath": "images/e7e2d7f5-0b21-4368-99c7-5f1b28d9889b.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\e7e2d7f5-0b21-4368-99c7-5f1b28d9889b.jpg"
     },
     {
       "Identity": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\ead88858-5286-41f5-a0d4-c249add27698.jpg",
