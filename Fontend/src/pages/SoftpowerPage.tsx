@@ -1,17 +1,18 @@
 import { Select, Option, Card, CardContent, Stack, AspectRatio, Button, FormControl, Input } from "@mui/joy";
 import { Container, Grid, Pagination } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../store/store";
-import { getSoftpower } from "../store/features/softpowerSlice";
+import { useState } from "react";
+import { useAppSelector } from "../store/store";
 import { folderImage } from "../components/api/agent";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { windowSizes } from "../components/Reuse";
+import { routes } from "../components/Path";
+import Lottie from "lottie-react";
+import loadingMain from "../components/Animation/LoadingMain.json";
 
 export default function SoftpowerPage() {
-  const dispatch = useAppDispatch();
-  const { softpower, softpowerType } = useAppSelector((state) => state.softpower);
+  const { softpower, softpowerType, loading } = useAppSelector((state) => state.softpower);
   const [selectType, setSelectType] = useState<number | null>(0);
   const [searchName, setSearchName] = useState<string>("");
   const navigate = useNavigate()
@@ -19,18 +20,14 @@ export default function SoftpowerPage() {
 
   const navigateToDetailPage = (softpowerId: number) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    navigate(`/softpower/${softpowerId}`)
+    navigate(`${routes.softpower}/${softpowerId}`)
   };
 
   const handleChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setSelectType(newValue)
-  };
-
-  const fetchData = async () => {
-    await dispatch(getSoftpower());
   };
 
   const filterResult = softpower && softpower.filter(x => 
@@ -47,10 +44,6 @@ export default function SoftpowerPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setCurrentPage(value);
   };
-
-  useEffect(() => {
-    fetchData();
-  }, [dispatch]);
 
   return (
     <Container>
@@ -75,7 +68,7 @@ export default function SoftpowerPage() {
                   />
                 </FormControl>
               </Grid>
-              <Grid item xs={windowSize < 768 ? 4:2} sx={{marginLeft:windowSize < 768 ? 0:1}}>
+              <Grid item xs={windowSize < 1183 ? 4:1.85} sx={{marginLeft:windowSize < 1183 ? 0:1}}>
                 <FormControl>
                   <h4>ประเภทซอฟต์พาวเวอร์</h4>
                   <Select defaultValue={0} onChange={handleChange}> 
@@ -93,9 +86,9 @@ export default function SoftpowerPage() {
             </Grid>
           </Stack>
         </Grid>
-        {paginatedSp && paginatedSp.map((item, index) => (
+        {!loading ? paginatedSp.map((item, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card>
+            <Card size="md" variant="outlined">
                 <AspectRatio minHeight="120px" maxHeight="200px">
                   <img
                     src={folderImage + item.image}
@@ -124,8 +117,9 @@ export default function SoftpowerPage() {
                 </CardContent>
               </Card>
           </Grid>
-        ))}
+        )):<Lottie animationData={loadingMain}></Lottie>}
       </Grid>
+      {paginatedSp.length <= 0 && <h4 style={{marginBottom:140,marginTop:10}}>ไม่พบข้อมูล</h4>}
       <Grid container justifyContent="center">
         {filterResult && filterResult.length > 0 &&
           <Pagination

@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { Roles, User, Users } from '../../components/models/user';
 import agent from '../../components/api/agent';
 import { FieldValues } from 'react-hook-form';
+import { clearPackageInBasket } from './packageSlice';
+import { clearRoomInBasket } from './room&BuildingSlice';
 
 interface UserState {
   user: User | null;
@@ -148,6 +150,13 @@ export const removeUser = createAsyncThunk(
     }
   }
 );
+
+export const logoutUser = createAsyncThunk('user/logoutUser', async (_, { dispatch }) => {
+  dispatch(logout());
+  dispatch(clearPackageInBasket());
+  dispatch(clearRoomInBasket());
+});
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -165,7 +174,13 @@ export const userSlice = createSlice({
           state.changePage = !state.changePage;
         }
       }
+      if (storedToken) {
+        localStorage.removeItem(`basketPackage_${storedToken}`);
+        localStorage.removeItem(`basketRoom_${storedToken}`);
+      }
       localStorage.removeItem('token');
+    
+      state.loading = false;
     },
     changePage: (state) => {
       state.changePage = !state.changePage;
@@ -179,7 +194,7 @@ export const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-
+        console.log(action.payload)
         if (action.payload != null || action.payload != undefined) {
           const token = String(action.payload);
           state.token = token;

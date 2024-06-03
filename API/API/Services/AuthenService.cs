@@ -46,7 +46,6 @@ namespace API.Services
         }
         public async Task<User> Register(RegisterDto dto)
         {
-            if(dto.Username == "" || dto.Password == "" || dto.Email == "") return null;
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == dto.Email || x.Username == dto.Username);
             if (user != null) return null;
 
@@ -161,7 +160,7 @@ namespace API.Services
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
-            if (user == null) return "User not found.";
+            if (user == null) return null;
             #endregion
 
             user.Email = dto?.Email;

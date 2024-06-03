@@ -6,6 +6,7 @@ import { getByUser, loginUser } from '../store/features/userSlice';
 import { FormControl, Input } from '@mui/joy';
 import Swal from 'sweetalert2';
 import { getBookingByUser, getBookingPackageByUser } from '../store/features/bookingSlice';
+import { routes } from '../components/Path';
 
 const LoginPage = () => {
   const [emailOrUsername, setEmailOrUsername] = useState('');
@@ -31,12 +32,12 @@ const LoginPage = () => {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "เข้าสู่ระบบเสร็จสิน !",
+        title: "เข้าสู่ระบบเสร็จสิ้น !",
         showConfirmButton: false,
         timer: 1000
       });
       setTimeout(async () => {
-        navigate('/');
+        navigate(routes.home);
         await dispatch(getByUser());
         await dispatch(getBookingByUser());
         await dispatch(getBookingPackageByUser());
@@ -45,8 +46,8 @@ const LoginPage = () => {
     else {
       Swal.fire({
         position: "center",
-        icon: 'info',
-        title: 'กรุณาป้อนให้ถูกต้อง !',
+        icon: 'error',
+        title: 'ผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง !',
         showConfirmButton: false,
         timer: 1000
       });
@@ -80,7 +81,7 @@ const LoginPage = () => {
               <Grid item>
                 <div style={{ marginTop: 15 }} />
 
-                <Link to="/forgotPassword" >
+                <Link to={routes.forgotPassword} >
                   <h4>
                     ลืมรหัสผ่าน?
                   </h4>
@@ -106,7 +107,7 @@ const LoginPage = () => {
 
               <h4 style={{ marginTop: 2 }}>
                 ยังไม่มีบัญชี?{' '}
-                <Link to="/register" color="#756F5E">
+                <Link to={routes.register} color="#756F5E">
                   สร้างบัญชีใหม่
                 </Link>
               </h4>

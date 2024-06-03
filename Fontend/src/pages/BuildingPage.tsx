@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react';
-import { Box, Container, Grid, Pagination } from '@mui/material';
+import { useState } from 'react';
+import { Container, Grid, Pagination } from '@mui/material';
 import { folderImage } from '../components/api/agent';
-import { useAppDispatch, useAppSelector } from '../store/store';
-import { getBuildingAndRoom } from '../store/features/room&BuildingSlice';
+import { useAppSelector } from '../store/store';
 import { AspectRatio, Button, Card, CardContent, Input, Stack } from '@mui/joy'
 import { useNavigate } from 'react-router-dom';
-import { getBookingByUser } from '../store/features/bookingSlice';
 import NavigationIcon from '@mui/icons-material/Navigation';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import { routes } from '../components/Path';
+import Lottie from "lottie-react";
+import loadingMain from "../components/Animation/LoadingMain.json";
+import { convertToBuddhistYear, convertToGregorianYear, windowSizes } from '../components/Reuse';
 
 const BuildingPage = () => {
-  const dispatch = useAppDispatch();
-  const { building, room } = useAppSelector((state) => state.room);
+  const { building, room, loading} = useAppSelector((state) => state.room);
   const { bookings } = useAppSelector((state) => state.booking);
-  const { token } = useAppSelector((state) => state.user);
   const [start, setStart] = useState<string>(new Date().toISOString().split('T')[0]);
   const [end, setEnd] = useState<string>(
     new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
@@ -23,17 +23,12 @@ const BuildingPage = () => {
   const daysDiff = Math.floor((new Date(end).getTime() - new Date(start).getTime()) / (24 * 60 * 60 * 1000));
 
   const navigate = useNavigate()
-  const fetchData = async () => {
-    await dispatch(getBuildingAndRoom());
-    if (token !== "") await dispatch(getBookingByUser());
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const navigateToRoomPage = (buildingId: number) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    navigate(`/rooms/${buildingId}?start=${start}&end=${end}`)
+    navigate(`${routes.rooms}/${buildingId}`, {
+      state: { start, end }
+    });
   };
 
   const getRoomCount = (buildingId: number) => {
@@ -55,8 +50,8 @@ const BuildingPage = () => {
     });
 
     const sumRoom = roomsForBuilding.reduce((total, room) => total + room.quantityRoom, 0);
-    const bookedRoomCount = bookingsForBuilding.reduce((total, booking) => total + booking.listRooms.reduce((acc, listRoom) => acc + listRoom.quantityRoom, 0), 0);
-    const allCount = sumRoom + bookedRoomCount;
+    const bookedRoomCount = bookingsForBuilding.reduce((total, booking) => total + booking.listRooms.reduce((acc, listRoom) => acc + listRoom.quantityRoom - listRoom.quantityRoomExcess, 0), 0);
+    const allCount = sumRoom + bookedRoomCount ;
     const checkCount = bookedRoomCount;
     return { allCount, checkCount };
   };
@@ -65,50 +60,75 @@ const BuildingPage = () => {
   const itemsPerPage = 6;
   const filterBuilding = building && building;
 
-  const paginatedBuilding = building && filterBuilding.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedBuilding = filterBuilding && filterBuilding.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setCurrentPage(value);
   };
+  const windowSize = windowSizes();
 
   return (
     <Container>
       <Grid container spacing={2} justifyContent="center" alignItems="center">
         <Grid item xs={12}>
           <Stack spacing={2} direction="row" sx={{ alignItems: "center" }}>
-            <h4>เลือกวันที่</h4>
-            <Input type="date" slotProps={{
-              input: {
-                min: new Date().toISOString().split('T')[0],
-              },
-            }} name="start" value={start.toString().split('T')} onChange={
-              (e) => {
-                setStart(e.target.value)
-                if (new Date(e.target.value) >= new Date(end)) {
-                  setEnd(new Date(new Date(e.target.value).getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
+            <Grid container alignItems="center" >
+              <Grid item xs={windowSize < 1183 ? 12 : 2}>
+                <h4>เลือกวันที่</h4>
+                <Input type="date" slotProps={{
+                  input: {
+                    min: convertToBuddhistYear(new Date().toISOString().split('T')[0]),
+                  },
+                }} name="start" value={convertToBuddhistYear(start)} onChange={
+                  (e) => {
+                    const value = e.target.value;
+                    if (value === '') {
+                      setStart('');
+                      return;
+                    }
+                    const newYear = convertToGregorianYear(e.target.value)
+                    setStart(newYear)
+                    if (new Date(newYear) >= new Date(end)) {
+                      setEnd(new Date(new Date(newYear).getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
+                    }
+                  }} />
+              </Grid>
+              <Grid item xs={windowSize < 1183 ? 12 : 2} sx={{marginLeft:windowSize < 1183 ? 0:1}}>
+                <h4>ถึง</h4>
+                <Input type="date" slotProps={{
+                  input: {
+                    min: start
+                      ? convertToBuddhistYear(new Date(new Date(start).getTime() + 24 * 60 * 60 * 1000)
+                        .toISOString()
+                        .split('T')[0])
+                      : convertToBuddhistYear(new Date().toISOString().split('T')[0]),
+                  },
+                }} name="end" value={convertToBuddhistYear(end)} onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '') {
+                    setEnd('');
+                    return;
+                  }
+                  const newYear = convertToGregorianYear(e.target.value)
+                  setEnd(newYear)
                 }
-              }} />
-            <h4>ถึง</h4>
-            <Input type="date" slotProps={{
-              input: {
-                min: start
-                  ? new Date(new Date(start).getTime() + 24 * 60 * 60 * 1000)
-                    .toISOString()
-                    .split('T')[0]
-                  : new Date().toISOString().split('T')[0],
-              },
-            }} name="end" value={end.toString().split('T')} onChange={(e) => setEnd(e.target.value)} />
-            {start && end && <h4>
-              {new Date(start).toLocaleDateString()} ถึง {new Date(end).toLocaleDateString()} จอง {daysDiff} คืน
-            </h4>
-            }
+                } />
+              </Grid>
+              <Grid item xs={windowSize < 1183 ? 12 : 3} sx={{marginLeft:windowSize < 1183 ? 0:1, marginTop:windowSize < 1183 ? 0:2}}>
+                {start && end && <h4>
+                  {new Date(start).toLocaleDateString()} ถึง {new Date(end).toLocaleDateString()} จอง {daysDiff} คืน
+                </h4>
+                }
+              </Grid>
+            </Grid>
           </Stack>
         </Grid>
-        {paginatedBuilding.map((item, index) => {
+        {!loading && paginatedBuilding ? paginatedBuilding.map((item, index) => {
           const countRoom = getRoomCount(item.id)
           return (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card size="lg" variant="outlined" >
+              <Card size="md" variant="outlined">
                 <AspectRatio minHeight="120px" maxHeight="200px">
                   <img
                     src={folderImage + item.image}
@@ -148,7 +168,7 @@ const BuildingPage = () => {
               </Card>
             </Grid>
           );
-        })}
+        }):<Lottie animationData={loadingMain}></Lottie>}
       </Grid>
       <Grid container justifyContent="center">
         {building && building.length > 0 &&

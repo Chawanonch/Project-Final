@@ -8,6 +8,17 @@ interface BasketRoom extends Room {
   quantityRoomBuy: number;
   quantityRoomExcessBuy: number;
 }
+const tokenId = localStorage.getItem('token');
+
+const saveBasketRoomToLocalStorage = (token: string | null, basketRoom: BasketRoom[]) => {
+  localStorage.setItem(`basketRoom${token}`, JSON.stringify(basketRoom));
+};
+
+const loadBasketRoomFromLocalStorage = (token: string | null): BasketRoom[] => {
+  if (token === "") return [];
+  const basketRoom = localStorage.getItem(`basketRoom${token}`);
+  return basketRoom ? JSON.parse(basketRoom) : [];
+}
 
 interface RoomState {
   building: Building[];
@@ -22,7 +33,7 @@ const initialState: RoomState = {
   building: [],
   room: [],
   roomType: [],
-  basketRoom: [],
+  basketRoom: loadBasketRoomFromLocalStorage(tokenId || null),
   loading: false,
   error: null,
 };
@@ -125,7 +136,7 @@ export const createAndUpdateRoomType  = createAsyncThunk<RoomType, FieldValues>(
 );
 export const removeroomType  = createAsyncThunk(
   "auth/fetchRemoveRoomType",
-  async (id:number) => {
+  async (id:number | null) => {
     try {
       const roomType = await agent.Room.removeRoomType(id);
       return roomType;
@@ -140,29 +151,38 @@ export const roomSlice = createSlice({
   name: "room",
   initialState,
   reducers: {
-    createRoomInBasket: (state, action: PayloadAction<BasketRoom>) => {
-      const existingRoomIndex = state.basketRoom.findIndex(
-        (pkg) => pkg.id === action.payload.id
-      );
-      if (existingRoomIndex === -1) {
-        state.basketRoom.push(action.payload);
-      } else {
-        // หากพบแพ็คเกจที่มี id เดียวกันในตะกร้า ให้เพิ่มจำนวนแพ็คเกจเข้าไป
-        if(state.basketRoom[existingRoomIndex].quantityRoomBuy < state.basketRoom[existingRoomIndex].quantityRoom)
-        {
-          state.basketRoom[existingRoomIndex].quantityRoomBuy += action.payload.quantityRoomBuy;
+    createRoomInBasket: (state, action: PayloadAction<{ token: string, basketRoom: BasketRoom }>) => {
+      const { token, basketRoom } = action.payload;
+      if (!token) {
+        state.basketRoom = [];
+      } else{
+        const existingRoomIndex = state.basketRoom.findIndex(
+          (pkg) => pkg.id === basketRoom.id
+        );
+        if (existingRoomIndex === -1) {
+          state.basketRoom.push(basketRoom);
+        } else {
+          state.basketRoom[existingRoomIndex].quantityRoomBuy = basketRoom.quantityRoomBuy;
         }
+        saveBasketRoomToLocalStorage(token, state.basketRoom);
       }
       state.loading = false;
       state.error = null;
     },
-    removeRoomFromBasket: (state, action: PayloadAction<number>) => {
-      state.basketRoom = state.basketRoom.filter(pkg => pkg.id !== action.payload);
+    removeRoomFromBasket: (state, action: PayloadAction<{ token: string, id: number }>) => {
+      const { token, id } = action.payload;
+
+      state.basketRoom = state.basketRoom.filter(pkg => pkg.id !== id);
+      saveBasketRoomToLocalStorage(token, state.basketRoom);
+
       state.loading = false;
       state.error = null;
     },
     clearRoomInBasket: (state) => {
       state.basketRoom = [];
+      const token = tokenId;
+      saveBasketRoomToLocalStorage(token, state.basketRoom);
+
       state.loading = false;
       state.error = null;
     },

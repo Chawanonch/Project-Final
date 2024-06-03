@@ -1,11 +1,12 @@
 {
+  
   "name": "fontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -17,20 +18,31 @@
     "@mui/joy": "^5.0.0-beta.20",
     "@mui/material": "^5.14.19",
     "@mui/x-charts": "^7.3.2",
-    "@mui/x-data-grid": "^6.18.6",
+    "@mui/x-data-grid": "^6.19.11",
     "@mui/x-date-pickers": "^6.19.0",
     "@mui/x-date-pickers-pro": "^6.19.0",
+    "@react-pdf/renderer": "^3.4.4",
     "@reduxjs/toolkit": "^2.0.1",
     "@stripe/react-stripe-js": "^2.4.0",
     "@stripe/stripe-js": "^2.3.0",
+    "@types/aos": "^3.0.7",
+    "@types/payment": "^2.1.7",
+    "@types/pdfmake": "^0.2.9",
     "@types/react-lottie": "^1.2.10",
     "@types/react-redux": "^7.1.32",
+    "aos": "^3.0.0-beta.6",
     "axios": "^1.6.2",
+    "chart.js": "^4.4.2",
     "dayjs": "^1.11.10",
     "framer-motion": "^11.0.3",
+    "gh-pages": "^6.1.1",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
     "lottie-react": "^2.4.0",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-credit-cards-2": "^1.0.2",
+    "react-data-export": "^0.6.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.49.2",
@@ -43,7 +55,9 @@
     "recharts": "^2.10.3",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.10.1",
-    "ts-react-google-login-component": "^1.1.9"
+    "ts-react-google-login-component": "^1.1.9",
+    "xlsx": "^0.18.5",
+    "yet-another-react-lightbox": "^3.18.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
@@ -55,6 +69,7 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "rollup-plugin-visualizer": "^5.12.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   }

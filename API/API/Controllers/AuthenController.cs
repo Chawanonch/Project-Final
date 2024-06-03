@@ -27,7 +27,6 @@ namespace API.Controllers
         public async Task<IActionResult> Register(RegisterDto dto)
         {
             var user = await _authenService.Register(dto);
-            if (user == null) return BadRequest("user or role or email already exists");
             return Ok(user);
         }
 
@@ -35,7 +34,6 @@ namespace API.Controllers
         public async Task<IActionResult> Login(LoginDto dto)
         {
             var result = await _authenService.Login(dto);
-            if (result == null) return BadRequest("Email or password not found.");
             return Ok(result);
         }
 
@@ -59,11 +57,10 @@ namespace API.Controllers
         public async Task<IActionResult> RemoveUser(int id)
         {
             var result = await _authenService.RemoveUser(id);
-            if (result == null) return BadRequest("id not found.");
-            return Ok("Success");
+            return Ok(result);
         }
 
-        [HttpDelete("IsTokenExpired")]
+        [HttpGet("IsTokenExpired")]
         public async Task<IActionResult> IsTokenExpired(string token)
         {
             var result = await _authenService.IsTokenExpired(token);

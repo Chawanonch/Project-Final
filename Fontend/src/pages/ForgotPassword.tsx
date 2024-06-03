@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { forgotPassword, getUserAdmin } from '../store/features/userSlice';
 import { useAppSelector, useAppDispatch } from '../store/store';
+import { routes } from '../components/Path';
 
 const ForgotPasswordPage = () => {
   const { users } = useAppSelector((state) => state.user);
@@ -75,13 +76,13 @@ const ForgotPasswordPage = () => {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "เปลี่ยนรหัสเสร็จสิน !",
+        title: "เปลี่ยนรหัสเสร็จสิ้น !",
         showConfirmButton: false,
         timer: 1000
       });
       setTimeout(() => {
         setShowPassword(false)
-        navigate('/login');
+        navigate(routes.login);
       }, 900);
     }
     else {
@@ -132,7 +133,7 @@ const ForgotPasswordPage = () => {
               {showPassword ? "ยืนยันการเปลี่ยนรหัส" : "ลืมรหัสผ่าน"}
             </Button>
             <h4><div style={{ marginTop: 15 }} />
-              <Link to="/login">
+              <Link to={routes.login}>
                 กลับไปหน้าเข้าสู่ระบบ
               </Link>
             </h4>

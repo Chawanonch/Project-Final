@@ -31,7 +31,7 @@ export default function SoftpowerAdmin() {
 
   const [selectType, setSelectType] = useState<number | null>(0);
   const handleChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setSelectType(newValue)
@@ -84,7 +84,7 @@ export default function SoftpowerAdmin() {
       ),
     },
     {
-      field: 'softpowerImages', headerName: 'หลายรูปภาพ', width: 130,
+      field: 'softpowerImages', headerName: 'หลายรูปภาพ', width: 150,
       renderCell: (params) => (
         <div style={{ display: 'flex' }}>
           {params.value && params.value.map((value: { image: string; }, index: number) => (
@@ -127,7 +127,7 @@ export default function SoftpowerAdmin() {
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "ลบข้อมูลเสร็จสิน !",
+                title: "ลบข้อมูลเสร็จสิ้น !",
                 showConfirmButton: false,
                 timer: 1000
               });
@@ -171,7 +171,7 @@ export default function SoftpowerAdmin() {
 
     setFilteredSoftpower(filtered);
   }, [searchQuery, softpower, selectType]);
-  const size0 = windowSize < 1183 ? 4 : 2;
+  const size0 = windowSize < 1183 ? 6 : 1.5;
 
   return (
     <Box sx={{ marginTop: 9.5, marginLeft: windowSize < 1183 ? 5 : 30, marginRight: windowSize < 1183 ? 5 : 0 }}>
@@ -345,7 +345,7 @@ const Model: React.FC<ModelBuildingProps> = ({ open, setOpen, id = 0, softpowers
       Swal.fire({
         position: "center",
         icon: "success",
-        title: id === 0 ? "สร้างข้อมูลเสร็จสิน !" : "เปลี่ยนแปลงข้อมูลเสร็จสิน !",
+        title: id === 0 ? "สร้างข้อมูลเสร็จสิ้น !" : "เปลี่ยนแปลงข้อมูลเสร็จสิ้น !",
         showConfirmButton: false,
         timer: 1000
       });
@@ -380,7 +380,7 @@ const Model: React.FC<ModelBuildingProps> = ({ open, setOpen, id = 0, softpowers
     multiple: true,
   });
   const handleSoftpowerChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setSoftpowerTypeId(newValue);
@@ -527,7 +527,7 @@ const Model1: React.FC<ModelTypeProps> = ({ open, setOpen, id = 0, setId, softpo
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "สร้างข้อมูลเสร็จสิน !",
+          title: "สร้างข้อมูลเสร็จสิ้น !",
           showConfirmButton: false,
           timer: 1000
         });
@@ -547,7 +547,7 @@ const Model1: React.FC<ModelTypeProps> = ({ open, setOpen, id = 0, setId, softpo
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "ลบข้อมูลเสร็จสิน !",
+          title: "ลบข้อมูลเสร็จสิ้น !",
           showConfirmButton: false,
           timer: 1000
         });
@@ -565,7 +565,7 @@ const Model1: React.FC<ModelTypeProps> = ({ open, setOpen, id = 0, setId, softpo
     fetchData()
   };
   const handleSoftpowerTypeChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setId(newValue);

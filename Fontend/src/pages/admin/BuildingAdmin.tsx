@@ -1,4 +1,4 @@
-import { Button, FormControl, IconButton, Input, Modal, ModalDialog, Stack } from '@mui/joy'
+import { Button, FormControl, IconButton, Input, Modal, ModalDialog } from '@mui/joy'
 import { Box, Grid } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import SearchIcon from '@mui/icons-material/Search';
@@ -69,7 +69,7 @@ export default function BuildingAdmin() {
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "ลบข้อมูลเสร็จสิน !",
+                title: "ลบข้อมูลเสร็จสิ้น !",
                 showConfirmButton: false,
                 timer: 1000
               });
@@ -208,7 +208,7 @@ const ModelBuilding: React.FC<ModelBuildingProps> = ({ open, setOpen, id = 0, bu
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "สร้างข้อมูลเสร็จสิน !",
+        title: "สร้างข้อมูลเสร็จสิ้น !",
         showConfirmButton: false,
         timer: 1000
       });

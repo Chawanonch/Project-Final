@@ -20,6 +20,7 @@ import { getBookingByUser, getBookingPackageByUser } from '../../store/features/
 import { windowSizes } from '../../components/Reuse';
 import MenuIcon from '@mui/icons-material/Menu';
 import Swal from 'sweetalert2';
+import { routes, routesAdmin } from '../../components/Path';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -47,13 +48,13 @@ export default function NavbarTopAndLeftAdmin() {
     Swal.fire({
       position: "center",
       icon: "success",
-      title: "ออกจากระบบเสร็จสิน !",
+      title: "ออกจากระบบเสร็จสิ้น !",
       showConfirmButton: false,
       timer: 1000
     });
     setTimeout(async () => {
       await dispatch(logout());
-      navigate("/login");
+      navigate(routes.login);
     }, 900);
   };
   const drawerWidth = 220;
@@ -61,28 +62,28 @@ export default function NavbarTopAndLeftAdmin() {
   useEffect(() => {
     // Update index based on the current location pathname
     switch (location.pathname) {
-      case '/':
+      case routesAdmin.home:
         setIndex(0);
         break;
-      case '/buildingSetting':
+      case routesAdmin.buildingSetting:
         setIndex(1);
         break;
-      case '/roomSetting':
+      case routesAdmin.roomSetting:
         setIndex(2);
         break;
-      case '/softpowerSetting':
+      case routesAdmin.softpowerSetting:
         setIndex(3);
         break;
-      case '/packageSetting':
+      case routesAdmin.packageSetting:
         setIndex(4);
         break;
-      case '/bookingSetting':
+      case routesAdmin.bookingSetting:
         setIndex(5);
         break;
-      case '/commentSetting':
+      case routesAdmin.commentSetting:
         setIndex(6);
         break;
-      case '/userSetting':
+      case routesAdmin.userSetting:
         setIndex(7);
         break;
       default:
@@ -92,7 +93,7 @@ export default function NavbarTopAndLeftAdmin() {
 
   const changePageUser = () => {
     dispatch(changePage())
-    navigate("/")
+    navigate(routes.home)
   }
   function listNavAdmin() {
     return(
@@ -119,7 +120,7 @@ export default function NavbarTopAndLeftAdmin() {
         color={index === 0 ? 'neutral' : undefined}
         onClick={() => {
           setIndex(0);
-          navigate("/");
+          navigate(routesAdmin.home);
           setOpenMenu(false)
         }}
       >
@@ -135,7 +136,7 @@ export default function NavbarTopAndLeftAdmin() {
         color={index === 1 ? 'neutral' : undefined}
         onClick={() => {
           setIndex(1);
-          navigate("/buildingSetting");
+          navigate(routesAdmin.buildingSetting);
           setOpenMenu(false)
         }}
       >
@@ -152,7 +153,7 @@ export default function NavbarTopAndLeftAdmin() {
         onClick={() => {
           setIndex(2);
           setOpenMenu(false)
-          navigate("/roomSetting");
+          navigate(routesAdmin.roomSetting);
         }}
       >
         <ListItemDecorator>
@@ -168,7 +169,7 @@ export default function NavbarTopAndLeftAdmin() {
         onClick={() => {
           setIndex(3);
           setOpenMenu(false)
-          navigate("/softpowerSetting");
+          navigate(routesAdmin.softpowerSetting);
         }}
       >
         <ListItemDecorator>
@@ -184,7 +185,7 @@ export default function NavbarTopAndLeftAdmin() {
         onClick={() => {
           setIndex(4);
           setOpenMenu(false)
-          navigate("/packageSetting");
+          navigate(routesAdmin.packageSetting);
         }}
       >
         <ListItemDecorator>
@@ -200,7 +201,7 @@ export default function NavbarTopAndLeftAdmin() {
         onClick={() => {
           setIndex(5);
           setOpenMenu(false)
-          navigate("/bookingSetting");
+          navigate(routesAdmin.bookingSetting);
         }}
       >
         <ListItemDecorator>
@@ -216,7 +217,7 @@ export default function NavbarTopAndLeftAdmin() {
         onClick={() => {
           setIndex(6);
           setOpenMenu(false)
-          navigate("/commentSetting");
+          navigate(routesAdmin.commentSetting);
         }}
       >
         <ListItemDecorator>
@@ -232,7 +233,7 @@ export default function NavbarTopAndLeftAdmin() {
         onClick={() => {
           setIndex(7);
           setOpenMenu(false)
-          navigate("/userSetting");
+          navigate(routesAdmin.userSetting);
         }}
       >
         <ListItemDecorator>
@@ -304,7 +305,7 @@ export default function NavbarTopAndLeftAdmin() {
             <IconButton edge="end" aria-label="account">
               <AccountCircleIcon />
               <Box>
-                <h4 color="#000" style={{ marginLeft: 1, fontSize: 10 }}>
+                <h4 color="#000" style={{ marginLeft: 1, fontSize: 16 }}>
                   {user?.username}
                 </h4>
               </Box>

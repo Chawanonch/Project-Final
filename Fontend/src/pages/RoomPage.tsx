@@ -1,24 +1,31 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { clearRoomInBasket, createRoomInBasket, getBuildingAndRoom, removeRoomFromBasket } from '../store/features/room&BuildingSlice';
+import { clearRoomInBasket, createRoomInBasket, removeRoomFromBasket } from '../store/features/room&BuildingSlice';
 import { useEffect, useRef, useState } from 'react';
-import { Container, Grid, Pagination } from '@mui/material';
-import { AspectRatio, Breadcrumbs, Button, Card, CardContent, CardOverflow, IconButton, Input, Link, Modal, ModalClose, Sheet, Stack, Typography } from '@mui/joy';
+import { Box, Container, Grid, Pagination } from '@mui/material';
+import { Breadcrumbs, Button, Card, CardContent, CardOverflow, IconButton, Input, Link, Modal, ModalClose, ModalDialog, ModalDialogProps, Stack, Typography } from '@mui/joy';
 import { folderImage } from '../components/api/agent';
 import BoyIcon from '@mui/icons-material/Boy';
 import { Room } from '../components/models/room';
 import { bookingRoomUser, getBookingByUser } from '../store/features/bookingSlice';
 import Swal from 'sweetalert2';
 import { motion } from 'framer-motion';
-import { formatNumberWithCommas } from '../components/Reuse';
+import { convertToBuddhistYear, convertToGregorianYear, formatNumberWithCommas } from '../components/Reuse';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import Close from "@mui/icons-material/Close";
 import NavigationIcon from '@mui/icons-material/Navigation';
 import { windowSizes } from '../components/Reuse';
+import { routes } from '../components/Path';
+import Lottie from "lottie-react";
+import loadingMain from "../components/Animation/LoadingMain.json";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Slide } from 'react-slideshow-image';
+import WeekendIcon from '@mui/icons-material/Weekend';
 
 const RoomPage = () => {
   const { id } = useParams();
-  const { room, roomType, building, basketRoom } = useAppSelector((state) => state.room);
+  
+  const { room, roomType, building, basketRoom, loading } = useAppSelector((state) => state.room);
   const { bookings } = useAppSelector((state) => state.booking);
   const { token } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -39,14 +46,15 @@ const RoomPage = () => {
   );
   const daysDiff = Math.floor((new Date(end).getTime() - new Date(start).getTime()) / (24 * 60 * 60 * 1000));
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const getStart = searchParams.get('start');
-  const getEnd = searchParams.get('end');
+  const { start:startSend, end:endSend } = location.state || {};
+
   const [open, setOpen] = useState<boolean>(false);
   const [detailRoom, setDetailRoom] = useState<Room | null>(null);
   const [totalQuantity, setTotalQuantity] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-
+  const [layout, setLayout] = useState<ModalDialogProps['layout'] | undefined>(
+    undefined,
+  );
 
   const openModel = (item: Room, totalQuantity: number) => {
     if (start && end) {
@@ -62,70 +70,11 @@ const RoomPage = () => {
     setOpen(false)
   };
   useEffect(() => {
-    if (getStart || getEnd) {
-      setStart(getStart || "")
-      setEnd(getEnd || "")
+    if (startSend || endSend) {
+      setStart(startSend || "")
+      setEnd(endSend || "")
     }
   }, [])
-
-  // const bookingRoomByUser = async () => {
-  //   fetchData()
-
-  //   let totalQuantityExcess = 0;
-
-  //   if (detailRoom) {
-  //     const item1 = room.find((x) => x.id === detailRoom.id)
-  //     if (item1 !== undefined) {
-  //       if (countRoom > item1.quantityRoom)
-  //         totalQuantityExcess = countRoom - item1.quantityRoom;
-
-  //       console.log(countRoom)
-  //       console.log(item1.quantityRoom)
-  //     }
-  //   }
-  //   if (user[0]?.phone === "") {
-  //     navigate('/settings');
-  //   }
-  //   if (start && end && countRoom && detailRoom?.id) {
-  //     const item = await dispatch(bookingRoomUser({ start, end, quantityRoom: countRoom, quantityRoomExcess: totalQuantityExcess, roomId: detailRoom?.id }));
-  //     if (item.payload !== "" && item.payload !== undefined) {
-  //       setOpen(false)
-  //       Swal.fire({
-  //         position: "center",
-  //         icon: 'success',
-  //         title: 'ทำการจองเสร็จสิน ไปหน้าชำระเงิน !',
-  //         showConfirmButton: false,
-  //         timer: 1500
-  //       });
-  //     }
-  //     else {
-  //       Swal.fire({
-  //         position: "center",
-  //         icon: 'info',
-  //         title: 'กรุณาป้อนให้ถูกต้อง !',
-  //         showConfirmButton: false,
-  //         timer: 1000
-  //       });
-  //     }
-  //   } else {
-  //     Swal.fire({
-  //       position: "center",
-  //       icon: 'info',
-  //       title: 'กรุณาป้อนให้ถูกต้อง !',
-  //       showConfirmButton: false,
-  //       timer: 1000
-  //     });
-  //   }
-  // };
-
-  const fetchData = async () => {
-    await dispatch(getBuildingAndRoom());
-    if (token !== "") await dispatch(getBookingByUser());
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const toggleShowAll = (index: number) => {
     setShowAll(!showAll)
@@ -137,7 +86,7 @@ const RoomPage = () => {
   };
 
   const navigateToBuildingPage = () => {
-    navigate("/building")
+    navigate(routes.building)
   };
 
   const rooms = room.filter((x) => x.buildingId === Number(id))
@@ -165,11 +114,11 @@ const RoomPage = () => {
     const matchingBookings = bookingsForBuilding.filter((booking) =>
       booking.listRooms.some((listRoom) => listRoom.roomId === room.id)
     );
-  
+
     const bookedRoomCountForRoom = matchingBookings.reduce((total, booking) =>
       total + booking.listRooms.reduce((quantityTotal, listRoom) =>
-        listRoom.roomId === room.id ? quantityTotal + listRoom.quantityRoom : quantityTotal, 0), 0);
-  
+        listRoom.roomId === room.id ? quantityTotal + listRoom.quantityRoom - listRoom.quantityRoomExcess : quantityTotal, 0), 0);
+
     return {
       ...room,
       totalQuantity: room.quantityRoom + bookedRoomCountForRoom,
@@ -183,40 +132,70 @@ const RoomPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setCurrentPage(value);
   };
-  
+
   const allSelectRoom = () => {
     let totalQuantityExcess = 0;
     if (token !== "") {
       if (detailRoom) {
         const item1 = room.find((x) => x.id === detailRoom.id)
-        if (item1 !== undefined) {
-          if (countRoom > item1.quantityRoom)
+        
+        if (item1 !== undefined && item1 !== null) {
+          const matchingBookings = bookingsForBuilding.filter((booking) =>
+            booking.listRooms.some((listRoom) => listRoom.roomId === item1.id)
+          );
+      
+          const bookedRoomCountForRoom = matchingBookings.reduce((total, booking) =>
+            total + booking.listRooms.reduce((quantityTotal, listRoom) =>
+              listRoom.roomId === item1.id ? quantityTotal + listRoom.quantityRoom : quantityTotal, 0), 0);
+      
+          const checkRoom = item1.quantityRoom + bookedRoomCountForRoom
+
+          if(countRoom > checkRoom){
+            Swal.fire({
+              position: "center",
+              icon: 'info',
+              title: 'คุณป้อนห้องพักเกินจำนวน !',
+              showConfirmButton: false,
+              timer: 1000
+            });
+            return;
+          }
+
+          if (countRoom > item1.quantityRoom){
             totalQuantityExcess = countRoom - item1.quantityRoom;
+          }
+          
+          const basketRoom = {
+            ...detailRoom,
+            quantityRoomBuy: countRoom,
+            quantityRoomExcessBuy: totalQuantityExcess,
+          };
+          dispatch(createRoomInBasket({ token, basketRoom }));
+          closeModel()
         }
-        dispatch(createRoomInBasket({ ...detailRoom, quantityRoomBuy:countRoom,  quantityRoomExcessBuy:totalQuantityExcess}));
-        closeModel()
       }
     }
     else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      navigate("/login")
+      navigate(routes.login)
     }
   };
 
   const removeRoom = (id: number) => {
-    dispatch(removeRoomFromBasket(id))
+    dispatch(removeRoomFromBasket({token, id}))
   };
 
   const bookingRoomList = async () => {
     if (start && end && countRoom && basketRoom) {
       const item = await dispatch(bookingRoomUser({ start, end, basketRoom }));
       if (item.payload !== "" && item.payload !== undefined) {
+        await dispatch(getBookingByUser());
         closeModel()
         await dispatch(clearRoomInBasket())
         Swal.fire({
           position: "center",
           icon: 'success',
-          title: 'ทำการจองเสร็จสิน โปรดไปหน้าชำระเงิน !',
+          title: 'เสร็จสิ้น โปรดไปหน้าชำระเงิน !',
           showConfirmButton: false,
           timer: 1500
         });
@@ -257,34 +236,54 @@ const RoomPage = () => {
               </Breadcrumbs>
 
               <Grid container spacing={2} sx={{ alignItems: "center" }}>
-                <Grid item xs={1.5}>
+                <Grid item xs={windowSize < 1183 ? 12 : 1.5}>
                   <h2>{building.find((bui) => bui.id === Number(id))?.name || 'ไม่พบข้อมูล'}</h2>
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={windowSize < 1183 ? 12 : 9}>
                   <Stack spacing={2} direction="row" sx={{ alignItems: "center" }}>
-                    <h4>เลือกวันที่</h4>
-                    <Input type="date" slotProps={{
-                      input: {
-                        min: new Date().toISOString().split('T')[0],
-                      },
-                    }} name="start" value={start.toString().split('T')} onChange={
-                      (e) => {
-                        setStart(e.target.value)
-                        if (new Date(e.target.value) >= new Date(end)) {
-                          setEnd(new Date(new Date(e.target.value).getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
-                        }
-                      }} />
-                    <h4>ถึง</h4>
-                    <Input type="date" slotProps={{
-                      input: {
-                        min: start
-                          ? new Date(new Date(start).getTime() + 24 * 60 * 60 * 1000)
-                            .toISOString()
-                            .split('T')[0]
-                          : new Date().toISOString().split('T')[0],
-                      },
-                    }} name="end" value={end.toString().split('T')} onChange={(e) => setEnd(e.target.value)} />
-
+                    <Grid container alignItems="center" >
+                      <Grid item xs={windowSize < 1183 ? 12 : 2}>
+                        <h4>เลือกวันที่</h4>
+                        <Input type="date" slotProps={{
+                          input: {
+                            min: convertToBuddhistYear(new Date().toISOString().split('T')[0]),
+                          },
+                        }} name="start" value={convertToBuddhistYear(start)} onChange={
+                          (e) => {
+                            const value = e.target.value;
+                            if (value === '') {
+                              setStart('');
+                              return;
+                            }
+                            const newYear = convertToGregorianYear(e.target.value)
+                            setStart(newYear)
+                            if (new Date(newYear) >= new Date(end)) {
+                              setEnd(new Date(new Date(newYear).getTime() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
+                            }
+                          }} />
+                      </Grid>
+                      <Grid item xs={windowSize < 1183 ? 12 : 2} sx={{ marginLeft: windowSize < 1183 ? 0 : 1 }}>
+                        <h4>ถึง</h4>
+                        <Input type="date" slotProps={{
+                          input: {
+                            min: start
+                              ? convertToBuddhistYear(new Date(new Date(start).getTime() + 24 * 60 * 60 * 1000)
+                                .toISOString()
+                                .split('T')[0])
+                              : convertToBuddhistYear(new Date().toISOString().split('T')[0]),
+                          },
+                        }} name="end" value={convertToBuddhistYear(end)} onChange={(e) => 
+                        {
+                          const value = e.target.value;
+                          if (value === '') {
+                            setEnd('');
+                            return;
+                          }
+                          const newYear = convertToGregorianYear(e.target.value)
+                          setEnd(newYear)
+                        }} />
+                      </Grid>
+                    </Grid>
                   </Stack>
                 </Grid>
               </Grid>
@@ -294,261 +293,402 @@ const RoomPage = () => {
           </div>
 
           <Grid container spacing={2} justifyContent="center" sx={{ marginTop: 0 }}>
-            <Grid item xs={8}>
-              {paginatedRoom.map((item, index) => {
+            <Grid item xs={windowSize < 1183 ? 12 : 8}>
+              {!loading ? paginatedRoom.map((item, index) => {
                 return (
-                  <Card sx={{ marginBottom: 3, minWidth:100 }} orientation="horizontal" size="lg" variant="outlined" key={index} >
-                    <CardOverflow>
-                      <AspectRatio ratio="1" sx={{ minWidth: 250 }}>
-                        <img
-                          src={folderImage + item.image}
-                          loading="lazy"
-                          alt="error image"
-                        />
-                      </AspectRatio>
-                    </CardOverflow>
-                    <CardContent orientation="horizontal">
-                      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <div>
-                          <h2>
-                            {roomType.find((type) => type.id === item.roomTypeId)?.name || 'ไม่พบข้อมูล'}
-                          </h2>
-                          <p style={{ display: 'flex', alignItems: 'center' }}>
-                            <BoyIcon style={{ marginRight: '8px' }} />
-                            นอนได้ {item.quantityPeople} คน
-
-                          </p>
-                          <p>
-                            จำนวนห้องที่ว่าง {item.totalQuantity}{item.bookedRoomCountForRoom > 0 &&
-                              <NavigationIcon color='success' sx={{fontSize:15}} />
-                            }
-                            {" "}
-                          </p>
-                          {expandedRooms[index] ? (
+                  <Card sx={{ marginBottom: 3, minWidth: 100 }} orientation="horizontal" size="md" variant="outlined" key={index}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={windowSize < 1183 ? 12 : 6}>
+                        <CardOverflow>
+                          <img
+                            src={folderImage + item.image}
+                            loading="lazy"
+                            alt="error image"
+                            style={{ minWidth: 150, borderRadius: 5 }}
+                          />
+                        </CardOverflow>
+                      </Grid>
+                      <Grid item xs={windowSize < 1183 ? 12 : 6}>
+                        <CardContent orientation="horizontal">
+                          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                             <div>
-                              <p>
-                                รายละเอียด {item.detail}
+                              <h2>
+                                {roomType.find((type) => type.id === item.roomTypeId)?.name || 'ไม่พบข้อมูล'}
+                              </h2>
+                              <p style={{ display: 'flex', alignItems: 'center' }}>
+                                <BoyIcon style={{ marginRight: '8px' }} />
+                                นอนได้ {item.quantityPeople} คน
+
                               </p>
-                              <Button variant="outlined" onClick={() => toggleShowAll(index)}>
-                                รายละเอียดน้อยลง
-                              </Button>
-                            </div>
-                          ) : (
-                            <p>
-                              {item.detail && item.detail.length > 300 ? (
-                                <>
-                                  รายละเอียด {item.detail.substring(0, 300)}
+                              <p style={{ display: 'flex', alignItems: 'center' }}>
+                                <WeekendIcon style={{ marginRight: '8px' }} />
+                                จำนวนห้องที่ว่าง {item.totalQuantity}{item.bookedRoomCountForRoom > 0 &&
+                                  <NavigationIcon color='success' sx={{ fontSize: 15 }} />
+                                }
+                                {" "}
+                              </p>
+                              {expandedRooms[index] ? (
+                                <div>
+                                  <p>
+                                    รายละเอียด {item.detail}
+                                  </p>
                                   <Button variant="outlined" onClick={() => toggleShowAll(index)}>
-                                    รายละเอียดเพิ่มเติม
+                                    รายละเอียดน้อยลง
                                   </Button>
-                                </>
+                                </div>
                               ) : (
-                                item.detail
+                                <p>
+                                  {item.detail && item.detail.length > 300 ? (
+                                    <>
+                                      รายละเอียด {item.detail.substring(0, 300)}
+                                      <Button variant="outlined" onClick={() => toggleShowAll(index)}>
+                                        รายละเอียดเพิ่มเติม
+                                      </Button>
+                                    </>
+                                  ) : (
+                                    item.detail
+                                  )}
+                                </p>
                               )}
-                            </p>
-                          )}
-                        </div>
-                        <div style={{ marginTop: 10, display: 'flex', flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
-                          <div>
-                          </div>
-                          <div style={{ display: 'flex', alignItems: "center" }}>
-                            <div style={{ textAlign: 'right' }}>
-                              <h4>
-                                THB {formatNumberWithCommas(item.price)}
-                              </h4>
-                              <h4>
-                                ราคาต่อคืน
-                              </h4>
                             </div>
-                            <div style={{ marginLeft: 10 }}>
-                              <Button
-                                variant="soft"
-                                color="primary"
-                                endDecorator={<KeyboardArrowRight />}
-                                sx={{ fontWeight: 600, height: 50, width: 150, fontFamily: 'Sarabun' }}
-                                onClick={() => openModel(item, item.totalQuantity)}
-                                disabled={item.totalQuantity === 0 ? true : false}
-                              >
-                                จองห้องพัก
-                              </Button>
+                            <div style={{ marginTop: 10, display: 'flex', flexDirection: 'row', justifyContent: "space-between", alignItems: "center" }}>
+                              <div>
+                              </div>
+                              <div style={{ display: 'flex', alignItems: "center" }}>
+                                <div style={{ textAlign: 'right' }}>
+                                  <h4>
+                                    THB {formatNumberWithCommas(item.price)}
+                                  </h4>
+                                  <h4>
+                                    ราคาต่อคืน
+                                  </h4>
+                                </div>
+                                <div style={{ marginLeft: 10 }}>
+                                  <Button
+                                    variant="soft"
+                                    color="primary"
+                                    endDecorator={<KeyboardArrowRight />}
+                                    sx={{ fontWeight: 600, height: 50, width: 150, fontFamily: 'Sarabun' }}
+                                    onClick={() => openModel(item, item.totalQuantity)}
+                                    disabled={item.totalQuantity === 0 ? true : false}
+                                  >
+                                    จองห้องพัก
+                                  </Button>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </CardContent>
+                        </CardContent>
+                      </Grid>
+                    </Grid>
                   </Card>
                 )
-              })}
-             <Grid container justifyContent="center">
+              }) : <Lottie animationData={loadingMain}></Lottie>}
+              <Grid container justifyContent="center">
                 {updatedRooms && updatedRooms.length > 0 &&
                   <Pagination
                     count={Math.ceil(updatedRooms.length / itemsPerPage)}
                     page={currentPage}
                     onChange={handlePageChange}
-                    sx={{marginTop:2}}
+                    sx={{ marginTop: 2 }}
                   />
                 }
               </Grid>
             </Grid>
-            <Grid item xs={4}>
-              <Card size="lg" variant="outlined">
-                <h3>ตะกร้าห้องพัก</h3>
-                {start && end && <h4>
-                  {new Date(start).toLocaleDateString()} ถึง {new Date(end).toLocaleDateString()} จอง {daysDiff} คืน
-                </h4>
-                }
-                {basketRoom.length > 0 &&
-                  basketRoom.map((selectRoom, index) => (
-                    <Grid container alignItems="center" key={index}>
-                      <Grid item xs={10}>
-                        <h4>{roomType.find((type) => type.id === selectRoom.roomTypeId)?.name || 'ไม่พบข้อมูล'}</h4>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <IconButton onClick={() => removeRoom(selectRoom.id)}>
-                          <Close color="error" />
-                        </IconButton>
-                      </Grid>
-                      <Grid item xs={8}>
-                        <p>จำนวน</p>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <p>{selectRoom.quantityRoomBuy} ห้อง</p>
-                      </Grid>
-                      <Grid item xs={8}>
-                        <p>ราคา</p>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <p>{formatNumberWithCommas(selectRoom.price)} บาท</p>
-                      </Grid>
+            {windowSize > 1183 &&
+              <Grid item xs={4}>
+                <Card size="lg" variant="outlined" sx={{ minWidth: 100, position: "sticky", top: 100 }}>
+                  <h3>ตะกร้าห้องพัก</h3>
+                  {start && end && <h4>
+                    {new Date(start).toLocaleDateString()} ถึง {new Date(end).toLocaleDateString()} จอง {daysDiff} คืน
+                  </h4>
+                  }
+                  <Box sx={{ overflow: 'auto', maxHeight: 380 }}>
+                    {basketRoom.length > 0 &&
+                      basketRoom.map((selectRoom, index) => (
+                        <Grid container alignItems="center" key={index}>
+                          <Grid item xs={10}>
+                            <h4>{roomType.find((type) => type.id === selectRoom.roomTypeId)?.name || 'ไม่พบข้อมูล'}</h4>
+                          </Grid>
+                          <Grid item xs={2}>
+                            <IconButton onClick={() => removeRoom(selectRoom.id)}>
+                              <Close color="error" />
+                            </IconButton>
+                          </Grid>
+                          <Grid item xs={8}>
+                            <p>จำนวน</p>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <p>{selectRoom.quantityRoomBuy} ห้อง</p>
+                          </Grid>
+                          <Grid item xs={8}>
+                            <p>ราคา</p>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <p>{formatNumberWithCommas(selectRoom.price)} บาท</p>
+                          </Grid>
+                        </Grid>
+                      ))}
+                  </Box>
+                  <div style={{ borderTop: '1px solid #7F8C8D' }}></div>
+                  {basketRoom.length > 0 ?
+                    <Grid container alignItems="center">
+                      <Grid item xs={8}><h4>ราคารวม</h4></Grid>
+                      <Grid item xs={4}><h4> {formatNumberWithCommas(
+                        basketRoom.reduce((total: number, pkg) => total + pkg.price * pkg.quantityRoomBuy, 0) * daysDiff
+                      )} บาท</h4></Grid>
+                      <Grid item xs={8}><h4>จำนวนทั้งหมด</h4></Grid>
+                      <Grid item xs={4}> <h4> {formatNumberWithCommas(
+                        basketRoom.reduce((total: number, pkg) => total + pkg.quantityRoomBuy, 0)
+                      )} ห้อง</h4></Grid>
                     </Grid>
-                  ))}
-                <div style={{ borderTop: '1px solid #7F8C8D' }}></div>
-                {basketRoom.length > 0 ?
-                  <Grid container alignItems="center">
-                    <Grid item xs={8}><h4>ราคารวม</h4></Grid>
-                    <Grid item xs={4}><h4> {formatNumberWithCommas(
-                      basketRoom.reduce((total: number, pkg) => total + pkg.price * pkg.quantityRoomBuy, 0) * daysDiff
-                    )} บาท</h4></Grid>
-                    <Grid item xs={8}><h4>จำนวนทั้งหมด</h4></Grid>
-                    <Grid item xs={4}> <h4> {formatNumberWithCommas(
-                      basketRoom.reduce((total: number, pkg) => total + pkg.quantityRoomBuy, 0)
-                    )} ห้อง</h4></Grid>
-                  </Grid>
-                  : <h4>ยังไม่มีรายการ</h4>}
+                    : <h4>ยังไม่มีรายการ</h4>}
 
-                <Button
-                  variant="soft"
-                  color="primary"
-                  endDecorator={<KeyboardArrowRight />}
-                  sx={{ fontFamily: 'Sarabun' }}
-                  disabled={basketRoom.length > 0 ? false : true}
-                  onClick={bookingRoomList}
-                >
-                  จองทั้งหมด
-                </Button>
-              </Card>
-            </Grid>
+                  <Button
+                    variant="soft"
+                    color="primary"
+                    endDecorator={<KeyboardArrowRight />}
+                    sx={{ fontFamily: 'Sarabun' }}
+                    disabled={basketRoom.length > 0 ? false : true}
+                    onClick={bookingRoomList}
+                  >
+                    จองทั้งหมด
+                  </Button>
+                </Card>
+              </Grid>
+            }
           </Grid>
         </Container>
       </motion.div>
-
-      <Modal
-        aria-labelledby="modal-title"
-        aria-describedby="modal-desc"
-        open={open}
-        onClose={closeModel}
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-      >
-        <Sheet
-          variant="outlined"
-          sx={{
-            maxWidth: 1300,
-            maxHeight: 600,
-            borderRadius: 'md',
-            p: 3,
-            boxShadow: 'lg'
-          }}
-        >
-          <ModalClose variant="plain" sx={{ m: 1 }} />
-          <Grid container spacing={2} sx={{ maxHeight: '600px', overflowY: 'auto' }}>
+      {windowSize < 1183 && basketRoom.length > 0 &&
+        <Card size="lg" variant="outlined" sx={{ minWidth: "100%", position: "fixed", zIndex: 999, bottom: 0, borderRadius: 0 }}>
+          <Grid container>
             <Grid item xs={6}>
-              <img
-                src={folderImage + detailRoom?.image}
-                alt="error image"
-                width={620}
-              />
-              <Grid container spacing={2}>
-                {detailRoom && detailRoom?.roomImages?.slice(0, 3).map((value, index) => (
-                  <Grid item xs={2} key={index}>
-                    <img src={folderImage + value.image} alt="Preview" width={100} />
+              <Box sx={{ display: "flex" }}>
+                <h4 onClick={() => {
+                  setLayout('fullscreen');
+                }}>  {formatNumberWithCommas(
+                  basketRoom.reduce((total: number, pkg) => total + pkg.price * pkg.quantityRoomBuy, 0) * daysDiff
+                )} บาท</h4>
+                <Box><KeyboardArrowDownIcon onClick={() => {
+                  setLayout('fullscreen');
+                }} /></Box>
+              </Box>
+              <p style={{ marginTop: -10 }} onClick={() => {
+                setLayout('fullscreen');
+              }}>
+                ดูรายละเอียด
+              </p>
+            </Grid>
+            <Grid item xs={6} display="flex" justifyContent="flex-end" alignItems="center">
+              <Button
+                variant="soft"
+                color="primary"
+                endDecorator={<KeyboardArrowRight />}
+                sx={{ fontFamily: 'Sarabun' , marginRight:5}}
+                disabled={basketRoom.length > 0 ? false : true}
+                onClick={bookingRoomList}
+              >
+                จองทั้งหมด
+              </Button>
+            </Grid>
+          </Grid>
+        </Card>
+      }
+      <Modal open={!!layout} data-aos="fade-up" onClose={() => setLayout(undefined)} >
+        <ModalDialog layout={layout}>
+          <ModalClose />
+          <Box
+            sx={{ overflow: 'auto', maxHeight: 400, padding: 2, marginTop: 10 }}>
+            <h3>ตะกร้าห้องพัก</h3>
+            {start && end && <h4>
+              {new Date(start).toLocaleDateString()} ถึง {new Date(end).toLocaleDateString()} จอง {daysDiff} คืน
+            </h4>
+            }
+            <Box sx={{ overflow: 'auto', maxHeight: 380 }}>
+              {basketRoom.length > 0 &&
+                basketRoom.map((selectRoom, index) => (
+                  <Grid container alignItems="center" key={index}>
+                    <Grid item xs={10} sx={{ marginTop: 2 }}>
+                      <h4>{roomType.find((type) => type.id === selectRoom.roomTypeId)?.name || 'ไม่พบข้อมูล'}</h4>
+                    </Grid>
+                    <Grid item xs={2}>
+                      <IconButton onClick={() => removeRoom(selectRoom.id)}>
+                        <Close color="error" />
+                      </IconButton>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <p>จำนวน</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <p>{selectRoom.quantityRoomBuy} ห้อง</p>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <p>ราคา</p>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <p>{formatNumberWithCommas(selectRoom.price)} บาท</p>
+                    </Grid>
                   </Grid>
                 ))}
+            </Box>
+            <div style={{ borderTop: '1px solid #7F8C8D', marginTop: 12 }}></div>
+            {basketRoom.length > 0 ?
+              <Grid container alignItems="center" sx={{ marginTop: 1 }}>
+                <Grid item xs={8}><h4>ราคารวม</h4></Grid>
+                <Grid item xs={4}><h4> {formatNumberWithCommas(
+                  basketRoom.reduce((total: number, pkg) => total + pkg.price * pkg.quantityRoomBuy, 0) * daysDiff
+                )} บาท</h4></Grid>
+                <Grid item xs={8}><h4>จำนวนทั้งหมด</h4></Grid>
+                <Grid item xs={4}> <h4> {formatNumberWithCommas(
+                  basketRoom.reduce((total: number, pkg) => total + pkg.quantityRoomBuy, 0)
+                )} ห้อง</h4></Grid>
               </Grid>
-              <div style={{ marginTop: 20 }} />
+              : <h4>ยังไม่มีรายการ</h4>}
+          </Box>
+        </ModalDialog>
+      </Modal>
+      <Modal
+        open={open}
+        onClose={closeModel}
+        data-aos="fade-up"
+      >
+        <ModalDialog layout={windowSize < 1183 ? "fullscreen" : "center"}>
+          <ModalClose variant="plain" sx={{ m: 1 }} />
+          <Grid container spacing={2} sx={{ maxHeight: 600, overflowY: 'auto' }}>
+            <Grid item xs={12}>
               <h2>
                 {roomType.find((type) => type.id === detailRoom?.roomTypeId)?.name || 'ไม่พบข้อมูล'}
               </h2>
+            </Grid>
+            <Grid item xs={windowSize < 1183 ? 12 : 6}>
+              <div className="slide-container">
+                <Slide>
+                  {detailRoom && detailRoom.roomImages.map((slideImage, index) => (
+                    <div key={index}>
+                      <img
+                        style={{
+                          width: "100%",
+                          height: "250vh",
+                          maxWidth: "100%",
+                          maxHeight: "350px", // กำหนดขนาดสูงสุดที่เหมาะสม
+                          borderRadius: 5,
+                          objectFit: 'cover'
+                        }}
+                        src={folderImage + slideImage.image}
+                      />
+                    </div>
+                  ))}
+                </Slide>
+              </div>
+              <div style={{ marginTop: 20 }} />
               <p>
                 {detailRoom?.detail}
               </p>
             </Grid>
-            <Grid item xs={3}>
-              <h3>จำนวนเข้าพักสูงสุด</h3><div style={{ marginTop: 20 }} />
-
-              <h3>จำนวนห้องพักที่พักได้</h3><div style={{ marginTop: 20 }} />
-              <h3>ราคา</h3> <div style={{ marginTop: 20 }}></div>
-              <h3>รายละเอียดการจอง</h3> <div style={{ marginTop: 20 }} />
-              <h3>จองวันที่</h3> <div style={{ marginTop: 20 }} />
-              <h3>ราคารวม</h3> <div style={{ marginTop: 20 }} />
-              <h3>จำนวนห้องที่ต้องการ</h3> <div style={{ marginTop: 20 }} />
+            <Grid container alignItems="center" gap={1} item xs={windowSize < 1183 ? 12 : 6} sx={{maxHeight:100}}>
+              <Grid item xs={5} >
+                <h3>จำนวนเข้าพักสูงสุด</h3>
+              </Grid>
+              <Grid item xs={5}>
+                <h4>{detailRoom?.quantityPeople} คน</h4>
+              </Grid>
+              <Grid item xs={5}>
+                <h3>ห้องพักที่พักได้</h3>
+              </Grid>
+              <Grid item xs={5}>
+                <h4>{totalQuantity} ห้อง</h4>
+              </Grid>
+              <Grid item xs={5}>
+                <h3>ราคา</h3>
+              </Grid>
+              <Grid item xs={5}>
+                <h4>{formatNumberWithCommas(Number(detailRoom?.price))} บาท/ต่อคืน</h4>
+              </Grid>
+              <Grid item xs={5}>
+                <h3>รายละเอียดการจอง</h3>
+              </Grid>
+              <Grid item xs={5}>
+                <h4>จอง  {countRoom} ห้อง / {daysDiff} คืน</h4>
+              </Grid>
+              <Grid item xs={5}>
+                <h3>จองวันที่</h3>
+              </Grid>
+              <Grid item xs={5}>
+                <h4> {new Date(start).toLocaleDateString()} 12.30 ถึง {new Date(end).toLocaleDateString()} 10.30</h4>
+              </Grid>
+              <Grid item xs={5}>
+                <h3>ราคารวม</h3>
+              </Grid>
+              <Grid item xs={5}>
+                <h4>{formatNumberWithCommas(Number(detailRoom?.price) * countRoom * daysDiff)} บาท</h4>
+              </Grid>
+              {token !== "" &&
+                <Grid item xs={5}>
+                  <h3>จำนวนห้องที่ต้องการ</h3>
+                </Grid>
+              }
+              {token !== "" &&
+                <Grid item xs={5}>
+                  <Input
+                    type="number"
+                    name="countRoom"
+                    sx={{ width: 100 }}
+                    defaultValue={1}
+                    slotProps={{
+                      input: {
+                        ref: inputRef,
+                        min: 1,
+                        max: Number(totalQuantity),
+                        step: 1,
+                      },
+                    }}
+                    onChange={(e) => setCountRoom(Number(e.target.value))}
+                  />
+                </Grid>
+              }
+              {windowSize > 1183 &&
+                <Grid item xs={12}>
+                  <Button
+                    variant="soft"
+                    color="primary"
+                    endDecorator={<KeyboardArrowRight />}
+                    sx={{ fontFamily: 'Sarabun'}}
+                    onClick={allSelectRoom}
+                    fullWidth
+                  >
+                    เลือก
+                  </Button>
+                </Grid>
+              }
             </Grid>
-            <Grid item xs={3} sx={{ marginLeft: -10 }}>
-              <div style={{ marginTop: 5 }} />
-              <h4>{detailRoom?.quantityPeople} คน</h4><div style={{ marginTop: 22 }} />
-              <h4>{totalQuantity} ห้อง</h4><div style={{ marginTop: 22 }} />
-              <h4>{formatNumberWithCommas(Number(detailRoom?.price))} บาท/ต่อคืน</h4><div style={{ marginTop: 24 }} />
-
-              <h4>จอง  {countRoom} ห้อง / {daysDiff} คืน</h4><div style={{ marginTop: 23 }} />
-              <h4> {new Date(start).toLocaleDateString()} 12.30 ถึง {new Date(end).toLocaleDateString()} 10.30</h4><div style={{ marginTop: 26 }} />
-              <h4>{formatNumberWithCommas(Number(detailRoom?.price) * countRoom * daysDiff)} บาท</h4><div style={{ marginTop: 20 }} />
-              <Input
-                type="number"
-                name="countRoom"
-                sx={{ width: 100 }}
-                defaultValue={1}
-                slotProps={{
-                  input: {
-                    ref: inputRef,
-                    min: 1,
-                    max: Number(totalQuantity),
-                    step: 1,
-                  },
-                }}
-                onChange={(e) => setCountRoom(Number(e.target.value))}
-              />
+            <Box sx={{mt:40}}></Box>
+          </Grid>
+        </ModalDialog>
+      </Modal>
+      {open && windowSize < 1183 &&
+        <Card size="lg" variant="outlined" sx={{ minWidth:"100%", position: "fixed", zIndex: 9999, bottom: 0, borderRadius: 0 }}>
+          <Grid container>
+            <Grid item xs={6}>
+              <h4> {formatNumberWithCommas(Number(detailRoom?.price) * countRoom * daysDiff)} บาท</h4>
+              <p>
+                ดูรายละเอียด
+              </p>
+            </Grid>
+            <Grid item xs={6} display="flex" justifyContent="flex-end" alignItems="center">
+              <Button
+                variant="soft"
+                color="primary"
+                endDecorator={<KeyboardArrowRight />}
+                sx={{ fontFamily: 'Sarabun', marginRight:5 }}
+                onClick={allSelectRoom}
+              >
+                เลือก
+              </Button>
             </Grid>
           </Grid>
-          <div>
-            <Button
-              variant="soft"
-              color="primary"
-              endDecorator={<KeyboardArrowRight />}
-              sx={{
-                fontWeight: 600,
-                height: 20,
-                width: 500, // Make the button take the full width of the modal
-                position: 'absolute',
-                right: 100, // Align it to the left
-                bottom: 0,
-                fontFamily: 'Sarabun'
-              }}
-              onClick={allSelectRoom}
-            >
-              จองห้องพัก
-            </Button>
-          </div>
-        </Sheet>
-      </Modal>
+        </Card>
+      }
     </div>
 
   );

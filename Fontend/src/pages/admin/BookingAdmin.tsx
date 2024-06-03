@@ -11,13 +11,13 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Booking, BookingPackage } from '../../components/models/booking';
-import { bookingRoom, checkInUser, getBookingAdmin, cancelBooking, removeManyBookingAdmin, checkInUserPackage, removeManyBookingPackageAdmin, getBookingPackageAdmin, bookingPackageAdmin, cancelBookingPackage } from '../../store/features/bookingSlice';
-import { getUserAdmin } from '../../store/features/userSlice';
+import { bookingRoom, checkInUser, getBookingAdmin, cancelBooking, removeManyBookingAdmin, checkInUserPackage, removeManyBookingPackageAdmin, getBookingPackageAdmin, bookingPackageAdmin, cancelBookingPackage, getBookingByUser, getBookingPackageByUser, getPaymentBooking } from '../../store/features/bookingSlice';
+import { getByUser, getUserAdmin } from '../../store/features/userSlice';
 import { Room, RoomType } from '../../components/models/room';
 import { Building } from '../../components/models/building';
 import { Users } from '../../components/models/user';
 import Swal from 'sweetalert2';
-import { formatNumberWithCommas } from '../../components/Reuse';
+import { convertToBuddhistYear, convertToGregorianYear, formatNumberWithCommas } from '../../components/Reuse';
 import { Package } from '../../components/models/package';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { windowSizes } from '../../components/Reuse';
@@ -54,7 +54,7 @@ export default function BookingAdmin() {
   const [selectStatus, setSelectStatus] = useState<number | null>(5);
   const [selectStatusP, setSelectStatusP] = useState<number | null>(5);
 
-  const [checked, setChecked] = useState<boolean>(false);
+  const [, setChecked] = useState<boolean>(false);
   const windowSize = windowSizes();
 
   const getStatusLabel = (status: number) => {
@@ -62,9 +62,9 @@ export default function BookingAdmin() {
       case 0:
         return 'รอดำเนินการ';
       case 1:
-        return 'มัดจำเสร็จสิน';
+        return 'มัดจำเสร็จสิ้น';
       case 2:
-        return 'ชำระเสร็จสิน';
+        return 'ชำระเสร็จสิ้น';
       case 3:
         return 'ยกเลิกการจอง';
       default:
@@ -72,10 +72,10 @@ export default function BookingAdmin() {
     }
   };
 
-  const handleSelectionModelChange = (newSelectionModel) => {
+  const handleSelectionModelChange = (newSelectionModel:any) => {
     setSelectionModel(newSelectionModel);
   };
-  const handleSelectionBookingPackageModelChange = (newSelectionModelP) => {
+  const handleSelectionBookingPackageModelChange = (newSelectionModelP:any) => {
     setSelectionModelP(newSelectionModelP);
   };
   const handleDeleteSelectedRows = async () => {
@@ -204,7 +204,7 @@ export default function BookingAdmin() {
                       <TableCell align="center"><h3>ราคาต่อห้อง</h3></TableCell>
                     </TableRow>
                   </TableHead>
-                  {params.value && params.value.map((value, index: number) => {
+                  {params.value && params.value.map((value:any, index: number) => {
                     const idRoom = room && room.find((room) => room.id === value.roomId)
 
                     return (
@@ -226,7 +226,7 @@ export default function BookingAdmin() {
                             ))}
                           </TableCell>
                           <TableCell align="center">
-                            <p>{value.quantityRoom + value.quantityRoomExcess}</p>
+                            <p>{value.quantityRoom}</p>
                           </TableCell>
                           <TableCell align="center">
                             <p>
@@ -260,8 +260,8 @@ export default function BookingAdmin() {
                 if (item.payload !== "" && item.payload !== undefined) {
                   Swal.fire({
                     position: "center",
-                    icon: params.row.statusCheckIn === 0 ? "success" : "error",
-                    title: params.row.statusCheckIn === 0 ? "เช็คอินเสร็จสิน" : "ยกเลิกเช็คอินเสร็จสิน",
+                    icon: "success",
+                    title: params.row.statusCheckIn === 0 ? "เช็คอินเสร็จสิ้น" : "ยกเลิกเช็คอินเสร็จสิ้น",
                     showConfirmButton: false,
                     timer: 1000
                   });
@@ -350,7 +350,7 @@ export default function BookingAdmin() {
                   Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "ยกเลิกการจองเสร็จสิน !",
+                    title: "ยกเลิกการจองเสร็จสิ้น !",
                     showConfirmButton: false,
                     timer: 1000
                   });
@@ -437,7 +437,7 @@ export default function BookingAdmin() {
                       <TableCell align="center"><h3>วันที่เช็คอิน</h3></TableCell>
                     </TableRow>
                   </TableHead>
-                  {params.value && params.value.map((value, index: number) => {
+                  {params.value && params.value.map((value:any, index: number) => {
                     let itemDS;
                     let itemDE;
                     let itemDC;
@@ -482,8 +482,8 @@ export default function BookingAdmin() {
                                   if (item.payload !== "" && item.payload !== undefined) {
                                     Swal.fire({
                                       position: "center",
-                                      icon: value.checkInDate === 0 ? "success" : "error",
-                                      title: value.checkInDate === 0 ? "เช็คอินเสร็จสิน" : "ยกเลิกเช็คอินเสร็จสิน",
+                                      icon: "success",
+                                      title: value.checkInDate === 0 ? "เช็คอินเสร็จสิ้น" : "ยกเลิกเช็คอินเสร็จสิ้น",
                                       showConfirmButton: false,
                                       timer: 1000
                                     });
@@ -572,6 +572,8 @@ export default function BookingAdmin() {
       width: 80,
       renderCell: (params) => {
         if (params.row.status !== 3) {
+          const hasCheckInDateOne = params.row.listPackages.some((p:any) => p.checkInDate === 1);
+          if(hasCheckInDateOne) return <></>
           return (
             <IconButton
               color="danger"
@@ -581,7 +583,7 @@ export default function BookingAdmin() {
                   Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "ยกเลิกการจองเสร็จสิน !",
+                    title: "ยกเลิกการจองเสร็จสิ้น !",
                     showConfirmButton: false,
                     timer: 1000
                   });
@@ -611,6 +613,10 @@ export default function BookingAdmin() {
     await dispatch(getBookingPackageAdmin());
     await dispatch(getUserAdmin());
     await dispatch(getBuildingAndRoom());
+    await dispatch(getByUser());
+    await dispatch(getBookingByUser());
+    await dispatch(getBookingPackageByUser());
+    await dispatch(getPaymentBooking());
   };
 
   useEffect(() => {
@@ -636,20 +642,20 @@ export default function BookingAdmin() {
   }, [searchQueryP, bookingPackages, setSelectStatusP, selectStatusP]);
 
   const handleChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setSelectStatus(newValue)
   };
 
   const handleChange1 = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setSelectStatusP(newValue)
   };
 
-  const size0 = windowSize < 1183 ? 4 : 2;
+  const size0 = windowSize < 1183 ? 4 : 1.5;
 
   return (
     <Box sx={{ marginTop: 9.5, marginLeft: windowSize < 1183 ? 5 : 30, marginRight: windowSize < 1183 ? 5 : 0 }}>
@@ -717,7 +723,7 @@ export default function BookingAdmin() {
               </FormControl>
             </Grid>
             <Grid item xs={size0}>
-              <FormControl sx={{ minWidth: 120 }}>
+              <FormControl sx={{ minWidth: 100 }}>
                 <h4>
                   ลบหลายการจอง
                 </h4>
@@ -903,7 +909,7 @@ const Model: React.FC<ModelProps> = ({ open, setOpen, id = 0, bookings, rooms, r
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "สร้างข้อมูลเสร็จสิน !",
+        title: "สร้างข้อมูลเสร็จสิ้น !",
         showConfirmButton: false,
         timer: 1000
       });
@@ -920,14 +926,14 @@ const Model: React.FC<ModelProps> = ({ open, setOpen, id = 0, bookings, rooms, r
     fetchData()
   };
   const handleUserChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setUser(newValue);
   };
 
   const handleRoomListChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | number[] | null,
   ) => {
     setRoomList(newValue as number[]);
@@ -969,21 +975,38 @@ const Model: React.FC<ModelProps> = ({ open, setOpen, id = 0, bookings, rooms, r
                 <h4>เวลาเริ่มต้น</h4>
                 <Input type="date" slotProps={{
                   input: {
-                    min: new Date().toISOString().split('T')[0],
+                    min: convertToBuddhistYear(new Date().toISOString().split('T')[0]),
                   },
-                }} name="start" required value={start.toString().split('T')[0]} onChange={(e) => setStart(e.target.value)} />
+                }} name="start" required value={convertToBuddhistYear(start)} onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === '') {
+                      setStart('');
+                      return;
+                    }
+                    const newYear = convertToGregorianYear(e.target.value)
+                    setStart(newYear)
+                  }} />
               </FormControl>
             </Grid>
             <Grid item xs={size0}><FormControl>
               <h4>เวลาสิ้นสุด</h4>
               <Input type="date" slotProps={{
                 input: {
-                  min: start ? new Date(new Date(start).getTime() + 24 * 60 * 60 * 1000)
+                  min: start ? convertToBuddhistYear(new Date(new Date(start).getTime() + 24 * 60 * 60 * 1000)
                     .toISOString()
-                    .split('T')[0]
-                    : new Date().toISOString().split('T')[0],
+                    .split('T')[0])
+                    : convertToBuddhistYear(new Date().toISOString().split('T')[0]),
                 },
-              }} name="end" required disabled={!start} value={end.toString().split('T')[0]} onChange={(e) => setEnd(e.target.value)} />
+              }} name="end" required disabled={!start} value={convertToBuddhistYear(end)} onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '') {
+                    setEnd('');
+                    return;
+                  }
+                  const newYear = convertToGregorianYear(e.target.value)
+
+                  setEnd(newYear)
+                }} />
             </FormControl></Grid>
             <Grid item xs={size0}><FormControl>
               <FormLabel>เลือกห้องพัก</FormLabel>
@@ -1089,7 +1112,7 @@ const ModelP: React.FC<ModelPropsP> = ({ open, setOpen, id = 0, bookings, users,
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "สร้างข้อมูลเสร็จสิน !",
+        title: "สร้างข้อมูลเสร็จสิ้น !",
         showConfirmButton: false,
         timer: 1000
       });
@@ -1106,14 +1129,14 @@ const ModelP: React.FC<ModelPropsP> = ({ open, setOpen, id = 0, bookings, users,
     fetchData()
   };
   const handleUserChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setUser(newValue);
   };
 
   const handlePackagesListChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | number[] | null,
   ) => {
     setPackageList(newValue as number[]);

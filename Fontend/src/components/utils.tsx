@@ -28,7 +28,7 @@ export function formatCreditCardNumber(value: string): string {
   return nextValue.trim();
 }
 
-export function formatCVC(value: string, prevValue?: string, allValues: Record<string, string> = {}): string {
+export function formatCVC(value: string, allValues: Record<string, string> = {}): string {
   const clearValue = clearNumber(value);
   let maxLength = 4;
 
@@ -42,11 +42,23 @@ export function formatCVC(value: string, prevValue?: string, allValues: Record<s
 
 export function formatExpirationDate(value: string): string {
   const clearValue = clearNumber(value);
-
+  
   if (clearValue.length >= 3) {
-    return `${clearValue.slice(0, 2)}/${clearValue.slice(2, 4)}`;
-  }
+    let month = clearValue.slice(0, 2);
+    let day = clearValue.slice(2, 4);
 
+    // Validate month
+    const monthNumber = parseInt(month, 10);
+    if (monthNumber < 1) month = '01';
+    if (monthNumber > 12) month = '12';
+
+    // Validate day
+    const dayNumber = parseInt(day, 10);
+    if (dayNumber < 1) day = '01';
+    if (dayNumber > 31) day = '31';
+
+    return `${month}/${day}`;
+  }
   return clearValue;
 }
 

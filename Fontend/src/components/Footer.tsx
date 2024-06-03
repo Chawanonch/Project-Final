@@ -1,5 +1,6 @@
 import { styled, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { routes } from "./Path";
 
 const StyledH2 = styled('h2')({
   color: '#fff',
@@ -40,15 +41,13 @@ export default function Footer() {
               <StyledH2>ศรีวัฒนธรรมรีสอร์ท</StyledH2>
               <div style={{marginTop: 10}}></div>
 
-              <StyledP onClick={() => goPath("/building")}>ห้องพัก</StyledP>
+              <StyledP onClick={() => goPath(routes.building)}>ห้องพัก</StyledP>
               <div style={{marginTop: 10}}></div>
 
-              <StyledP onClick={() => goPath("/softpower")}>ซอฟต์พาวเวอร์</StyledP>
+              <StyledP onClick={() => goPath(routes.softpower)}>ซอฟต์พาวเวอร์</StyledP>
               <div style={{marginTop: 10}}></div>
 
-              <StyledP onClick={() => goPath("/package")}>แพ็กเกจ</StyledP>
-              <div style={{marginTop: 10}}></div>
-              <StyledP onClick={() => goPath("/settings")}>ตั้งค่าบัญชี</StyledP>
+              <StyledP onClick={() => goPath(routes.package)}>แพ็กเกจ</StyledP>
           </Grid>
           <Grid item xs={4} style={{ flex: 1, textAlign: "left", alignItems: "center" ,minWidth: 250 }}>
               <StyledH2>ช่องทางการติดต่อ</StyledH2>

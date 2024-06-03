@@ -1,61 +1,79 @@
-import { Select, Option, Card, Stack, Button, Chip, Divider, List, ListItem, ListItemDecorator, CardActions, IconButton, FormControl, Input, Modal, ModalDialog } from "@mui/joy";
+import { Select, Option, Card, Stack, Button, Chip, Divider, List, ListItem, ListItemDecorator, CardActions, IconButton, FormControl, Input, Modal, ModalDialog, ModalClose, ModalDialogProps } from "@mui/joy";
 import { Box, Container, Grid, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { useEffect, useState } from "react";
-import { clearPackageInBasket, createPackageInBasket, getPackage, removePackageFromBasket } from "../store/features/packageSlice";
+import { useState } from "react";
+import { clearPackageInBasket, createPackageInBasket, removePackageFromBasket } from "../store/features/packageSlice";
 import { useAppDispatch, useAppSelector } from "../store/store";
-import { formatNumberWithCommas } from "../components/Reuse";
+import { convertToBuddhistYear, convertToGregorianYear, formatNumberWithCommas } from "../components/Reuse";
 import Check from '@mui/icons-material/Check';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import Close from "@mui/icons-material/Close";
 import { Package } from "../components/models/package";
 import InfoIcon from '@mui/icons-material/Info';
 import SearchIcon from '@mui/icons-material/Search';
-import { bookingPackage } from "../store/features/bookingSlice";
+import { bookingPackage, getBookingPackageByUser } from "../store/features/bookingSlice";
 import Swal from "sweetalert2";
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { folderImage } from "../components/api/agent";
 import { windowSizes } from '../components/Reuse';
+import Lottie from "lottie-react";
+import loadingMain from "../components/Animation/LoadingMain.json";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useNavigate } from "react-router-dom";
+import { routes } from "../components/Path";
 
 export default function PackagePage() {
   const dispatch = useAppDispatch();
-  const { packageAll, basketPackage } = useAppSelector((state) => state.package);
+  const { packageAll, basketPackage, loading } = useAppSelector((state) => state.package);
   const { room, roomType } = useAppSelector((state) => state.room);
   const { softpower, softpowerType } = useAppSelector((state) => state.softpower);
+  const { token } = useAppSelector((state) => state.user);
   const [selectType, setSelectType] = useState<number | null>(0);
   const [searchName, setSearchName] = useState<string>("");
   const [quantityBuy] = useState<number>(1);
   const [startTime, setStart] = useState<string>(new Date().toISOString().split('T')[0]);
   const windowSize = windowSizes();
-
+  const [layout, setLayout] = useState<ModalDialogProps['layout'] | undefined>(
+    undefined,
+  );
   const [openR, setOpenR] = useState<boolean>(false);
   const [openS, setOpenS] = useState<boolean>(false);
+  const navigate = useNavigate()
 
   const handleChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setSelectType(newValue)
   };
 
-  const fetchData = async () => {
-    await dispatch(getPackage());
-  };
-
-  const allSelectPackage = (item: Package) => {
-    dispatch(createPackageInBasket({ ...item, quantityBuy, startTime }));
-  };
+const allSelectPackage = (item: Package) => {
+  if (token !== "") {
+    const basketPackage = {
+      ...item,
+      quantityBuy,
+      startTime,
+    };
+  dispatch(createPackageInBasket({ token, basketPackage }));
+  }
+  else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate(routes.login)
+  }
+};
 
   const removePackage = (id: number) => {
-    dispatch(removePackageFromBasket(id))
+    dispatch(removePackageFromBasket({token, id}))
   };
 
   const bookingPackageList = async () => {
+    setLayout(undefined)
     const item = await dispatch(bookingPackage({ basketPackage }));
     if (item.payload !== "" && item.payload !== undefined) {
+      await dispatch(getBookingPackageByUser());
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "ทำการบันทึกการจองแพ็กเกจเสร็จสิน",
+        title: "เสร็จสิ้น โปรดไปหน้าชำระเงิน !",
         showConfirmButton: false,
         timer: 1000
       });
@@ -71,10 +89,6 @@ export default function PackagePage() {
       });
     }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, [dispatch]);
 
   const filteredPackages = packageAll && packageAll.filter(item => {
     let selectTypeFilter = false;
@@ -101,257 +115,265 @@ export default function PackagePage() {
     setCurrentPage(value);
   };
   return (
-    <Container>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Stack spacing={2} direction="row" sx={{ alignItems: "center" }}>
-              <Grid container>
-                <Grid item xs={windowSize < 1183 ? 12 : 6}>
-                  <FormControl>
-                    <h4 >
-                      ค้นหาชื่อแพ็กเกจ
-                    </h4>
-                    <Input
-                      placeholder="ค้นหา..."
-                      startDecorator={
-                        <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
-                        </Button>
-                      }
-                      value={searchName}
-                      onChange={(e) => setSearchName(e.target.value)}
-                      sx={{ borderRadius: 8 }}
-                    />
-                  </FormControl>
+    <>
+      <Container>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Stack spacing={2} direction="row" sx={{ alignItems: "center" }}>
+                <Grid container>
+                  <Grid item xs={windowSize < 1183 ? 12 : 6}>
+                    <FormControl>
+                      <h4 >
+                        ค้นหาชื่อแพ็กเกจ
+                      </h4>
+                      <Input
+                        placeholder="ค้นหา..."
+                        startDecorator={
+                          <Button sx={{ width: 40 }} variant="soft" color="neutral" disabled startDecorator={<SearchIcon />}>
+                          </Button>
+                        }
+                        value={searchName}
+                        onChange={(e) => setSearchName(e.target.value)}
+                        sx={{ borderRadius: 8 }}
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={windowSize < 1183 ? 4 : 1.85} sx={{ marginLeft: windowSize < 1183 ? 0 : 1 }}>
+                    <FormControl>
+                      <h4>ประเภทแพ็กเกจ</h4>
+                      <Select defaultValue={0} onChange={handleChange}>
+                        <Option value={0}>
+                          ทั้งหมด
+                        </Option>
+                        <Option value={1}>
+                          ห้องพัก
+                        </Option>
+                        <Option value={2}>
+                          บริการ
+                        </Option>
+                      </Select>
+                    </FormControl>
+                  </Grid>
                 </Grid>
-                <Grid item xs={windowSize < 1183 ? 4 : 2} sx={{ marginLeft: windowSize < 1183 ? 0 : 1 }}>
-                  <FormControl>
-                    <h4>ประเภทแพ็กเกจ</h4>
-                    <Select defaultValue={0} onChange={handleChange}>
-                      <Option value={0}>
-                        ทั้งหมด
-                      </Option>
-                      <Option value={1}>
-                        ห้องพัก
-                      </Option>
-                      <Option value={2}>
-                        บริการ
-                      </Option>
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Stack>
-          </Grid>
-          <Grid item xs={windowSize < 1183 ? 12 : 8}>
-            {paginatedPackage.map((item, index) => (
-              <Card size="lg" variant="outlined" sx={{ marginBottom: 3 }} key={index}>
-                <Chip size="sm" variant="outlined" color="neutral">
-                  {item.roomPackages.length > 0 && item.softpowerPackages.length > 0 ? "ทั้งหมด" : item.roomPackages.length > 0 ? "ห้องพัก" : "บริการ"}
-                </Chip>
-                <h2>{item.name}</h2>
-                <Divider inset="none" />
-                <List size="sm" sx={{ mx: 'calc(-1 * var(--ListItem-paddingX))' }}>
-                  <ListItem>
-                    <ListItemDecorator>
-                      {item.roomPackages.length > 0 ?
-                        <Check /> : <Close />
-                      }
-                    </ListItemDecorator>
-                    <span>ห้องพัก</span>
-                    {item.roomPackages.length > 0 &&
-                      <div>
-                        <IconButton
-                          color="neutral"
-                          onClick={() => {
-                            setOpenR(true)
-                          }}
-                        >
-                          <ManageSearchIcon />
-                        </IconButton>
-                        <Modal open={openR} onClose={() => setOpenR(false)}>
-                          <ModalDialog>
-                            <h2>ข้อมูลห้องพัก</h2>
-                            <TableContainer style={{ maxHeight: '200px' }} component={Paper}>
-                              <Table sx={{ minWidth: 600 }} aria-label="caption table">
-                                <TableHead>
-                                  <TableRow>
-                                    <TableCell align="left"><h3>ชื่อ</h3></TableCell>
-                                    <TableCell align="left"><h3>นอนได้</h3></TableCell>
-                                    <TableCell align="left"><h3>รูปภาพ</h3></TableCell>
-                                  </TableRow>
-                                </TableHead>
-                                {item.roomPackages.map((value, index: number) => {
-                                  return (
-                                    <TableBody key={index}>
-                                      <TableRow>
-                                        <TableCell component="th" scope="row">
-                                          <p>
-                                            {roomType.find((spt) => spt.id === softpower.find((sp) => sp.id === value.roomId)?.softpowerTypeId)?.name || 'ไม่พบข้อมูล'}
-                                          </p>
-                                        </TableCell>
-                                        <TableCell align="left">
-                                          <p>
-                                            {room.find((sp) => sp.id === value.roomId)?.quantityPeople || 'ไม่พบข้อมูล'}
-                                          </p>
-                                        </TableCell>
-                                        <TableCell align="left">
-                                          <div style={{ display: 'flex' }}>
-                                            {room.find((sp) => sp.id === value.roomId)?.roomImages.map((value: { image: string; }, index: number) => (
-                                              <img
-                                                key={index}
-                                                src={folderImage + value.image}
-                                                alt={`Image ${index}`}
-                                                style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '5px' }}
-                                              />
-                                            ))}
-                                          </div>
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableBody>
-                                  )
-                                })}
-                              </Table>
-                            </TableContainer>
-                          </ModalDialog>
-                        </Modal>
-                      </div>
-                    }
-                  </ListItem>
-                  <ListItem>
-                    <ListItemDecorator>
-                      {item.softpowerPackages.length > 0 ?
-                        <Check /> : <Close />
-                      }
-                    </ListItemDecorator>
-                    <span>บริการซอฟต์พาวเวอร์</span>
-                    {item.softpowerPackages.length > 0 &&
-                      <div>
-                        <IconButton
-                          color="neutral"
-                          onClick={() => {
-                            setOpenS(true)
-                          }}
-                        >
-                          <ManageSearchIcon />
-                        </IconButton>
-                        <Modal open={openS} onClose={() => setOpenS(false)}>
-                          <ModalDialog>
-                            <h2>ข้อมูลซอฟต์พาวเวอร์</h2>
-                            <TableContainer style={{ maxHeight: '200px' }} component={Paper}>
-                              <Table sx={{ minWidth: 600 }} aria-label="caption table">
-                                <TableHead>
-                                  <TableRow>
-                                    <TableCell align="left"><h3>ชื่อ</h3></TableCell>
-                                    <TableCell align="left"><h3>ประเภท</h3></TableCell>
-                                    <TableCell align="left"><h3>รูปภาพ</h3></TableCell>
-                                  </TableRow>
-                                </TableHead>
-                                {item.softpowerPackages.map((value, index: number) => {
-                                  return (
-                                    <TableBody key={index}>
-                                      <TableRow>
-                                        <TableCell component="th" scope="row">
-                                          <p>
-                                            {softpower.find((sp) => sp.id === value.softpowerId)?.name || 'ไม่พบข้อมูล'}
-                                          </p>
-                                        </TableCell>
-                                        <TableCell align="left">
-                                          <p>
-                                            {softpowerType.find((spt) => spt.id === softpower.find((sp) => sp.id === value.softpowerId)?.softpowerTypeId)?.name || 'ไม่พบข้อมูล'}
-                                          </p>
-                                        </TableCell>
-                                        <TableCell align="left">
-                                          <div style={{ display: 'flex' }}>
-                                            {softpower.find((sp) => sp.id === value.softpowerId)?.softpowerImages.map((value: { image: string; }, index: number) => (
-                                              <img
-                                                key={index}
-                                                src={folderImage + value.image}
-                                                alt={`Image ${index}`}
-                                                style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '5px' }}
-                                              />
-                                            ))}
-                                          </div>
-                                        </TableCell>
-                                      </TableRow>
-                                    </TableBody>
-                                  )
-                                })}
-                              </Table>
-                            </TableContainer>
-                          </ModalDialog>
-                        </Modal>
-                      </div>
-                    }
-                  </ListItem>
-                  <ListItem>
-                    <ListItemDecorator>
-                      <Check />
-                    </ListItemDecorator>
-                    <span>เหมาะสำหรับ {item.quantityPeople} คน</span>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemDecorator>
-                      <InfoIcon color="error" />
-                    </ListItemDecorator>
-                    <span>{item.precautions}</span>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemDecorator>
-                      {item.quantity !== 0 ?
-                        <Check /> : <Close />
-                      }
-                    </ListItemDecorator>
-                    <span>เหลือแพ็กเกจ {item.quantity} จำนวน</span>
-                  </ListItem>
-                </List>
-                <Divider inset="none" />
-                <CardActions>
-                  <h4 style={{ marginRight: 'auto' }}>
-                    {formatNumberWithCommas(item.totalPrice)}฿{' '}
-                    <span>
-                      / 1 แพ็กเกจ
-                    </span>
-                  </h4>
-                  <Input type="date" slotProps={{
-                    input: {
-                      min: new Date().toISOString().split('T')[0],
-                    },
-                  }} name="start" value={startTime.toString().split('T')} onChange={
-                    (e) => {
-                      setStart(e.target.value)
-                    }} />
-                  <Button
-                    variant="soft"
-                    color="primary"
-                    endDecorator={<KeyboardArrowRight />}
-                    onClick={() => allSelectPackage(item)}
-                    sx={{ fontFamily: 'Sarabun' }}
-                  >
-                    จองเลย
-                  </Button>
-                </CardActions>
-              </Card>
-            ))}
-            <Grid container justifyContent="center">
-              {paginatedPackage && paginatedPackage.length > 0 &&
-                <Pagination
-                  count={Math.ceil(paginatedPackage.length / itemsPerPage)}
-                  page={currentPage}
-                  onChange={handlePageChange}
-                  sx={{ marginTop: 2 }}
-                />
-              }
+              </Stack>
             </Grid>
-          </Grid>
-          <Grid item xs={windowSize < 1183 ? 12 : 4} position={windowSize < 1183 ? "fixed" : "unset"} sx={{ bottom: 0, zIndex: 999 }}>
-            <Card size="lg" variant="outlined">
-              {windowSize > 1183 ?
-                <>
+            <Grid item xs={windowSize < 1183 ? 12 : 8}>
+              {!loading && paginatedPackage ? paginatedPackage.map((item, index) => (
+                <Card size="lg" variant="outlined" sx={{ marginBottom: 3 }} key={index}>
+                  <Chip size="sm" variant="outlined" color="neutral" >
+                    {item.roomPackages.length > 0 && item.softpowerPackages.length > 0 ? "ทั้งหมด" : item.roomPackages.length > 0 ? "ห้องพัก" : "บริการ"}
+                  </Chip>
+                  <h2>{item.name}</h2>
+                  <Divider inset="none" />
+                  <List size="sm" sx={{ mx: 'calc(-1 * var(--ListItem-paddingX))' }}>
+                    <ListItem>
+                      <ListItemDecorator>
+                        {item.roomPackages.length > 0 ?
+                          <Check /> : <Close />
+                        }
+                      </ListItemDecorator>
+                      <span>ห้องพัก</span>
+                      {item.roomPackages.length > 0 &&
+                        <div>
+                          <IconButton
+                            color="neutral"
+                            onClick={() => {
+                              setOpenR(true)
+                            }}
+                          >
+                            <ManageSearchIcon />
+                          </IconButton>
+                          <Modal open={openR} onClose={() => setOpenR(false)}>
+                            <ModalDialog>
+                              <h2>ข้อมูลห้องพัก</h2>
+                              <TableContainer style={{ maxHeight: '200px' }} component={Paper}>
+                                <Table sx={{ minWidth: 600 }} aria-label="caption table">
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell align="left"><h3>ประเภทห้องพัก</h3></TableCell>
+                                      <TableCell align="left"><h3>นอนได้</h3></TableCell>
+                                      <TableCell align="left"><h3>รูปภาพ</h3></TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  {item.roomPackages.map((value, index: number) => {
+                                    return (
+                                      <TableBody key={index}>
+                                        <TableRow>
+                                          <TableCell component="th" scope="row">
+                                            <p>
+                                              {roomType.find((spt) => spt.id === softpower.find((sp) => sp.id === value.roomId)?.softpowerTypeId)?.name || 'ไม่พบข้อมูล'}
+                                            </p>
+                                          </TableCell>
+                                          <TableCell align="left">
+                                            <p>
+                                              {room.find((sp) => sp.id === value.roomId)?.quantityPeople || 'ไม่พบข้อมูล'}
+                                            </p>
+                                          </TableCell>
+                                          <TableCell align="left">
+                                            <div style={{ display: 'flex' }}>
+                                              {room.find((sp) => sp.id === value.roomId)?.roomImages.map((value: { image: string; }, index: number) => (
+                                                <img
+                                                  key={index}
+                                                  src={folderImage + value.image}
+                                                  alt={`Image ${index}`}
+                                                  style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '5px' }}
+                                                />
+                                              ))}
+                                            </div>
+                                          </TableCell>
+                                        </TableRow>
+                                      </TableBody>
+                                    )
+                                  })}
+                                </Table>
+                              </TableContainer>
+                            </ModalDialog>
+                          </Modal>
+                        </div>
+                      }
+                    </ListItem>
+                    <ListItem>
+                      <ListItemDecorator>
+                        {item.softpowerPackages.length > 0 ?
+                          <Check /> : <Close />
+                        }
+                      </ListItemDecorator>
+                      <span>บริการซอฟต์พาวเวอร์</span>
+                      {item.softpowerPackages.length > 0 &&
+                        <div>
+                          <IconButton
+                            color="neutral"
+                            onClick={() => {
+                              setOpenS(true)
+                            }}
+                          >
+                            <ManageSearchIcon />
+                          </IconButton>
+                          <Modal open={openS} onClose={() => setOpenS(false)}>
+                            <ModalDialog>
+                              <h2>ข้อมูลซอฟต์พาวเวอร์</h2>
+                              <TableContainer style={{ maxHeight: '200px' }} component={Paper}>
+                                <Table sx={{ minWidth: 600 }} aria-label="caption table">
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell align="left"><h3>ชื่อ</h3></TableCell>
+                                      <TableCell align="left"><h3>ประเภท</h3></TableCell>
+                                      <TableCell align="left"><h3>รูปภาพ</h3></TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  {item.softpowerPackages.map((value, index: number) => {
+                                    return (
+                                      <TableBody key={index}>
+                                        <TableRow>
+                                          <TableCell component="th" scope="row">
+                                            <p>
+                                              {softpower.find((sp) => sp.id === value.softpowerId)?.name || 'ไม่พบข้อมูล'}
+                                            </p>
+                                          </TableCell>
+                                          <TableCell align="left">
+                                            <p>
+                                              {softpowerType.find((spt) => spt.id === softpower.find((sp) => sp.id === value.softpowerId)?.softpowerTypeId)?.name || 'ไม่พบข้อมูล'}
+                                            </p>
+                                          </TableCell>
+                                          <TableCell align="left">
+                                            <div style={{ display: 'flex' }}>
+                                              {softpower.find((sp) => sp.id === value.softpowerId)?.softpowerImages.map((value: { image: string; }, index: number) => (
+                                                <img
+                                                  key={index}
+                                                  src={folderImage + value.image}
+                                                  alt={`Image ${index}`}
+                                                  style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '5px' }}
+                                                />
+                                              ))}
+                                            </div>
+                                          </TableCell>
+                                        </TableRow>
+                                      </TableBody>
+                                    )
+                                  })}
+                                </Table>
+                              </TableContainer>
+                            </ModalDialog>
+                          </Modal>
+                        </div>
+                      }
+                    </ListItem>
+                    <ListItem>
+                      <ListItemDecorator>
+                        <Check />
+                      </ListItemDecorator>
+                      <span>เหมาะสำหรับ {item.quantityPeople} คน</span>
+                    </ListItem>
+                    <ListItem>
+                      <ListItemDecorator>
+                        <InfoIcon color="error" />
+                      </ListItemDecorator>
+                      <span>{item.precautions}</span>
+                    </ListItem>
+                    <ListItem>
+                      <ListItemDecorator>
+                        {item.quantity !== 0 ?
+                          <Check /> : <Close />
+                        }
+                      </ListItemDecorator>
+                      <span>เหลือแพ็กเกจ {item.quantity} จำนวน</span>
+                    </ListItem>
+                  </List>
+                  <Divider inset="none" />
+                  <CardActions>
+                    <h4 style={{ marginRight: 'auto' }}>
+                      {formatNumberWithCommas(item.totalPrice)}฿{' '}
+                      <span>
+                        / 1 แพ็กเกจ
+                      </span>
+                    </h4>
+                    <Input type="date" slotProps={{
+                      input: {
+                        min: convertToBuddhistYear(new Date().toISOString().split('T')[0]),
+                      },
+                    }} name="start" value={convertToBuddhistYear(startTime)} onChange={
+                      (e) => {
+                        const value = e.target.value;
+                        if (value === '') {
+                          setStart('');
+                          return;
+                        }
+                        const newYear = convertToGregorianYear(e.target.value)
+                        setStart(newYear)
+                      }} />
+                    <Button
+                      variant="soft"
+                      color="primary"
+                      endDecorator={<KeyboardArrowRight />}
+                      onClick={() => allSelectPackage(item)}
+                      sx={{ fontFamily: 'Sarabun' }}
+                    >
+                      จองเลย
+                    </Button>
+                  </CardActions>
+                </Card>
+              )) : <Lottie animationData={loadingMain}></Lottie>}
+              {paginatedPackage.length <= 0 && <h4>ไม่พบข้อมูล</h4>}
+              <Grid container justifyContent="center">
+                {paginatedPackage && paginatedPackage.length > 0 &&
+                  <Pagination
+                    count={Math.ceil(paginatedPackage.length / itemsPerPage)}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    sx={{ marginTop: 2 }}
+                  />
+                }
+              </Grid>
+Z            </Grid>
+            {windowSize > 1183 &&
+              <Grid item xs={4}>
+                <Card size="lg" variant="outlined" sx={{ minWidth: 100, position:"sticky", top:100 }}>
                   <h3>ตะกร้าแพ็กเกจ</h3>
+                  <Box sx={{overflow: 'auto', maxHeight: 380 }}>
                   {basketPackage.length > 0 &&
                     basketPackage.map((selectPackage, index) => (
-                      <Grid container alignItems="center" key={index}>
+                      <Grid container alignItems="center" key={index} >
                         <Grid item xs={10}>
                           <h4>{selectPackage.name}</h4>
                         </Grid>
@@ -376,10 +398,11 @@ export default function PackagePage() {
                           <p>วันที่ไป</p>
                         </Grid>
                         <Grid item xs={4}>
-                          <p>{selectPackage.startTime}</p>
+                          <p>{convertToBuddhistYear(selectPackage.startTime)}</p>
                         </Grid>
                       </Grid>
                     ))}
+                  </Box>
                   <div style={{ borderTop: '1px solid #7F8C8D' }}></div>
                   {basketPackage.length > 0 ?
                     <Grid container alignItems="center">
@@ -393,24 +416,109 @@ export default function PackagePage() {
                       )} จำนวน</h4></Grid>
                     </Grid>
                     : <h4>ยังไม่มีรายการ</h4>}
-                    </> : 
-                    <>9999</>
-              }
+                  <Button
+                    variant="soft"
+                    color="primary"
+                    endDecorator={<KeyboardArrowRight />}
+                    sx={{ fontFamily: 'Sarabun' }}
+                    disabled={basketPackage.length > 0 ? false : true}
+                    onClick={bookingPackageList}
+                    fullWidth
+                  >
+                    จองทั้งหมด
+                  </Button>
+                </Card>
+              </Grid>
+            }
+          </Grid>
+        </Box>
+      </Container>
+      {windowSize < 1183 && basketPackage.length > 0 &&
+        <Card size="lg" variant="outlined" sx={{ minWidth: "100%", position: "fixed", zIndex: 999, bottom: 0, borderRadius: 0}}>
+          <Grid container>
+            <Grid item xs={6}>
+              <Box sx={{ display: "flex" }}>
+                <h4 onClick={() => {
+                  setLayout('fullscreen');
+                }}>
+                  {formatNumberWithCommas(
+                    basketPackage.reduce((total: number, pkg) => total + pkg.totalPrice * pkg.quantityBuy, 0)
+                  )} บาท
+                </h4>
+                <Box><KeyboardArrowDownIcon onClick={() => {
+                  setLayout('fullscreen');
+                }} /></Box>
+              </Box>
+              <p style={{ marginTop: -10 }} onClick={() => {
+                setLayout('fullscreen');
+              }}>
+                ดูรายละเอียด
+              </p>
+            </Grid>
+            <Grid item xs={6}  display="flex" justifyContent="flex-end" alignItems="center">
               <Button
                 variant="soft"
                 color="primary"
                 endDecorator={<KeyboardArrowRight />}
-                sx={{ fontFamily: 'Sarabun' }}
+                sx={{ fontFamily: 'Sarabun', marginRight:5}}
                 disabled={basketPackage.length > 0 ? false : true}
                 onClick={bookingPackageList}
-                fullWidth
               >
                 จองทั้งหมด
               </Button>
-            </Card>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
-    </Container>
+        </Card>
+      }
+      <Modal open={!!layout} data-aos="fade-up" onClose={() => setLayout(undefined)} >
+        <ModalDialog layout={layout}>
+          <ModalClose />
+          <Box
+            sx={{ overflow: 'auto', maxHeight: 400,padding:2,marginTop:10 }}>
+            <h3>ตะกร้าแพ็กเกจ</h3>
+            {basketPackage.length > 0 &&
+              basketPackage.map((selectPackage, index) => (
+                <Grid container alignItems="center" key={index}>
+                  <Grid item xs={10} sx={{marginTop:2}}>
+                    <h4>{selectPackage.name}</h4>
+                  </Grid>
+                  <Grid item xs={8}>
+                    <p>จำนวน</p>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <p>{selectPackage.quantityBuy} จำนวน</p>
+                  </Grid>
+                  <Grid item xs={8}>
+                    <p>ราคา</p>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <p>{formatNumberWithCommas(selectPackage.totalPrice)} บาท</p>
+                  </Grid>
+                  <Grid item xs={8}>
+                    <p>วันที่ไป</p>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <p>{selectPackage.startTime}</p>
+                  </Grid>
+                </Grid>
+              ))}
+            <div style={{ borderTop: '1px solid #7F8C8D',marginTop:12 }}></div>
+            {basketPackage.length > 0 ?
+              <Grid container alignItems="center" sx={{ marginTop:1 }}>
+                <Grid item xs={8}><h4>ราคารวม + ค่าบริการ</h4></Grid>
+                <Grid item xs={4}><h4> {formatNumberWithCommas(
+                  basketPackage.reduce((total: number, pkg) => total + pkg.totalPrice * pkg.quantityBuy, 0)
+                )} บาท</h4></Grid>
+                <Grid item xs={8}><h4>จำนวนทั้งหมด</h4></Grid>
+                <Grid item xs={4}> <h4> {formatNumberWithCommas(
+                  basketPackage.reduce((total: number, pkg) => total + pkg.quantityBuy, 0)
+                )} จำนวน</h4></Grid>
+              </Grid>
+              : <h4>ยังไม่มีรายการ</h4>}
+
+          </Box>
+        </ModalDialog>
+      </Modal>
+    </>
   )
 }

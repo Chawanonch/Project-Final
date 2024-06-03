@@ -58,7 +58,7 @@ namespace API.Controllers
             var result = await _bookingService.BookingPayment(request);
             return Ok(result);
         }
-        [HttpDelete("CheckInUser")]
+        [HttpGet("CheckInUser")]
         public async Task<IActionResult> CheckInUser(int id)
         {
             var result = await _bookingService.CheckInUser(id);

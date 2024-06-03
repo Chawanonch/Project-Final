@@ -24,6 +24,7 @@ namespace API.Services
         {
             return await _context.Comments
                 .Include(x => x.CommentImages)
+                .OrderBy(x => x.Star)
                 .ToListAsync();
         }
         public async Task<Comment> GetByIdComment(int? id)

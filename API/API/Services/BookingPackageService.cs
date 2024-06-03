@@ -143,6 +143,23 @@ namespace API.Services
             {
                 if (bookingPackage.ListPackages.Count() > 0)
                 {
+                    if (bookingPackage.Status == StatusBooking.PaymentCompleted)
+                    {
+                        var payment = await _context.BookingPackagePayments.FirstOrDefaultAsync(x => x.BookingPackageId == bookingPackage.Id);
+                        if (payment == null) return null;
+
+                        if (payment.PaymentIntentId1 != "" || payment.PaymentIntentId2 != "")
+                        {
+                            long price = (long)bookingPackage.TotalPriceBookingPackage;
+                            var intentRefund = payment.PaymentIntentId1 != "" ? payment.PaymentIntentId1 : payment.PaymentIntentId2;
+                            if (intentRefund != "")
+                            {
+                                var refund = await CreateRefund(intentRefund, price);
+
+                                if (refund == null) return null;
+                            }
+                        }
+                    }
                     foreach (var packageDto in bookingPackage.ListPackages)
                     {
                         var packageEntity = await _context.Packages.FindAsync(packageDto.PackageId);
@@ -157,7 +174,22 @@ namespace API.Services
             await _context.SaveChangesAsync();
             return "Change Status Success";
         }
+        public async Task<Refund> CreateRefund(string paymentIntentId, long originalAmount)
+        {
+            StripeConfiguration.ApiKey = _configuration["StripeSettings:SecretKey"];
+            var refundService = new RefundService();
 
+            var newPrice = originalAmount * 65 / 100;
+
+            var refundOptions = new RefundCreateOptions
+            {
+                PaymentIntent = paymentIntentId,
+                Amount = newPrice * 100,
+            };
+
+            var refund = await refundService.CreateAsync(refundOptions);
+            return refund;
+        }
         public async Task<object> RemoveManyBookingPackage(List<int> ids)
         {
             var bookingPackagesToRemove = await _context.BookingPackages

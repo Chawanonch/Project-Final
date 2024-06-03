@@ -1,6 +1,42 @@
 {
   "Files": [
     {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\THSarabunNew-b248f824.ttf",
+      "PackagePath": "staticwebassets\\assets\\THSarabunNew-b248f824.ttf"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\ajax-loader-e7b44c86.gif",
+      "PackagePath": "staticwebassets\\assets\\ajax-loader-e7b44c86.gif"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\html2canvas.esm-e0a7d97b.js",
+      "PackagePath": "staticwebassets\\assets\\html2canvas.esm-e0a7d97b.js"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\index-c758f436.css",
+      "PackagePath": "staticwebassets\\assets\\index-c758f436.css"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\index-d3575f21.js",
+      "PackagePath": "staticwebassets\\assets\\index-d3575f21.js"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\index.es-c31d932f.js",
+      "PackagePath": "staticwebassets\\assets\\index.es-c31d932f.js"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\purify.es-5d2bfac5.js",
+      "PackagePath": "staticwebassets\\assets\\purify.es-5d2bfac5.js"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\slick-12459f22.svg",
+      "PackagePath": "staticwebassets\\assets\\slick-12459f22.svg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\home1.png",
+      "PackagePath": "staticwebassets\\home1.png"
+    },
+    {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\005c13bd-74eb-494d-940b-f27f9f044a62.jpg",
       "PackagePath": "staticwebassets\\images\\005c13bd-74eb-494d-940b-f27f9f044a62.jpg"
     },
@@ -29,8 +65,16 @@
       "PackagePath": "staticwebassets\\images\\0537c0e0-efea-4f3b-8f67-8c5bfc8da453.jpg"
     },
     {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\05b362e1-ad64-4f6f-b27e-b8a0864945d7.jpg",
+      "PackagePath": "staticwebassets\\images\\05b362e1-ad64-4f6f-b27e-b8a0864945d7.jpg"
+    },
+    {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\0688d260-79c0-4c94-9575-4bae0b4e1288.jpg",
       "PackagePath": "staticwebassets\\images\\0688d260-79c0-4c94-9575-4bae0b4e1288.jpg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\07ae1d80-a436-4c71-98fc-8679864ed026.png",
+      "PackagePath": "staticwebassets\\images\\07ae1d80-a436-4c71-98fc-8679864ed026.png"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\08cff8d5-ab92-444a-a60a-56cfeef83d12.jpg",
@@ -81,10 +125,6 @@
       "PackagePath": "staticwebassets\\images\\22fedd8b-289b-4c2a-a796-e482cc753c44.jpg"
     },
     {
-      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\232d090e-fa8a-4a18-99d8-6b93614a350f.jpg",
-      "PackagePath": "staticwebassets\\images\\232d090e-fa8a-4a18-99d8-6b93614a350f.jpg"
-    },
-    {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\269837c5-d3df-47ee-b174-fabde55900ae.jpg",
       "PackagePath": "staticwebassets\\images\\269837c5-d3df-47ee-b174-fabde55900ae.jpg"
     },
@@ -95,6 +135,10 @@
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\2932fb09-1e9b-4ca3-aab1-35c69d678606.jpg",
       "PackagePath": "staticwebassets\\images\\2932fb09-1e9b-4ca3-aab1-35c69d678606.jpg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\299750d7-9f6a-4b92-837f-53f395a4da96.jpg",
+      "PackagePath": "staticwebassets\\images\\299750d7-9f6a-4b92-837f-53f395a4da96.jpg"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\2a191323-727b-4a29-ad48-ca77b15fb2b1.jpg",
@@ -117,10 +161,6 @@
       "PackagePath": "staticwebassets\\images\\2d09d8e2-6a3f-43ea-9b08-80dbc05fd349.jpg"
     },
     {
-      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\2da65eeb-d17e-4fa1-9f01-d0358b5c2cf8.jpg",
-      "PackagePath": "staticwebassets\\images\\2da65eeb-d17e-4fa1-9f01-d0358b5c2cf8.jpg"
-    },
-    {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\30191ab4-ffb1-4aa5-9159-95a6c33c751a.jpg",
       "PackagePath": "staticwebassets\\images\\30191ab4-ffb1-4aa5-9159-95a6c33c751a.jpg"
     },
@@ -133,12 +173,20 @@
       "PackagePath": "staticwebassets\\images\\32874cc8-059a-4cd4-a58c-7e6c01c8a77f.jpg"
     },
     {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\378130fa-6555-4509-a30d-9d46db53151f.jpg",
+      "PackagePath": "staticwebassets\\images\\378130fa-6555-4509-a30d-9d46db53151f.jpg"
+    },
+    {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\37ae83d1-f172-43ef-a160-1c336ac529d0.jpg",
       "PackagePath": "staticwebassets\\images\\37ae83d1-f172-43ef-a160-1c336ac529d0.jpg"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\37eae932-de17-4207-b7a9-b86d0bf13465.jpg",
       "PackagePath": "staticwebassets\\images\\37eae932-de17-4207-b7a9-b86d0bf13465.jpg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\38e17b3b-087e-48d1-87b7-56a5c95b2fba.jpg",
+      "PackagePath": "staticwebassets\\images\\38e17b3b-087e-48d1-87b7-56a5c95b2fba.jpg"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\3afb23ad-4193-4721-befe-e4246335dc94.jpg",
@@ -155,10 +203,6 @@
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\40b9dfed-7904-4e3b-86d5-65c1c4410c56.jpg",
       "PackagePath": "staticwebassets\\images\\40b9dfed-7904-4e3b-86d5-65c1c4410c56.jpg"
-    },
-    {
-      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\40d1ec45-ebc4-40ad-b609-a86c00eb20c2.jpg",
-      "PackagePath": "staticwebassets\\images\\40d1ec45-ebc4-40ad-b609-a86c00eb20c2.jpg"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\40e8693a-d9f9-4292-b2c8-08924dfad368.jpg",
@@ -187,6 +231,14 @@
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\44f7793e-3de7-4c08-873c-659a9195d9be.jpg",
       "PackagePath": "staticwebassets\\images\\44f7793e-3de7-4c08-873c-659a9195d9be.jpg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\4cc372bb-406e-4bff-a760-e8e4e6a014bc.jpg",
+      "PackagePath": "staticwebassets\\images\\4cc372bb-406e-4bff-a760-e8e4e6a014bc.jpg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\50f6ad5e-f9a9-4fbe-947a-1ce825116e70.jpg",
+      "PackagePath": "staticwebassets\\images\\50f6ad5e-f9a9-4fbe-947a-1ce825116e70.jpg"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\5150cfeb-953b-4852-b0ad-63dc9aa61249.jpg",
@@ -221,10 +273,6 @@
       "PackagePath": "staticwebassets\\images\\5c5376c4-20ae-4cd6-822c-414fc15e8041.jpg"
     },
     {
-      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\5c9c1dd0-bc71-4437-951d-a3bdc0b977e9.jpg",
-      "PackagePath": "staticwebassets\\images\\5c9c1dd0-bc71-4437-951d-a3bdc0b977e9.jpg"
-    },
-    {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\5d299ce6-1987-4fdd-b0f0-272154cf949f.jpg",
       "PackagePath": "staticwebassets\\images\\5d299ce6-1987-4fdd-b0f0-272154cf949f.jpg"
     },
@@ -247,6 +295,10 @@
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\60c84f86-1736-430e-aff6-800899072707.jpg",
       "PackagePath": "staticwebassets\\images\\60c84f86-1736-430e-aff6-800899072707.jpg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\615f8447-f4f7-4e02-9627-c86583d7a193.jpg",
+      "PackagePath": "staticwebassets\\images\\615f8447-f4f7-4e02-9627-c86583d7a193.jpg"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\61640b7d-f5f5-4958-bedd-22a8e7461121.jpg",
@@ -285,10 +337,6 @@
       "PackagePath": "staticwebassets\\images\\72bf77b9-67e3-429a-85ca-80d4551e878c.jpg"
     },
     {
-      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\72f7a52f-9016-4492-9b87-cf6f996923ba.jpg",
-      "PackagePath": "staticwebassets\\images\\72f7a52f-9016-4492-9b87-cf6f996923ba.jpg"
-    },
-    {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\736b3bf9-9a77-45c0-b9ad-4f7e18e8db27.jpg",
       "PackagePath": "staticwebassets\\images\\736b3bf9-9a77-45c0-b9ad-4f7e18e8db27.jpg"
     },
@@ -301,6 +349,10 @@
       "PackagePath": "staticwebassets\\images\\77b897e1-87b2-410f-90ad-846ecf128701.jpg"
     },
     {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\77efa590-3046-4776-89c6-920243ea99ba.jpg",
+      "PackagePath": "staticwebassets\\images\\77efa590-3046-4776-89c6-920243ea99ba.jpg"
+    },
+    {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\7829614e-9497-4ee5-b384-441facec1df5.jpg",
       "PackagePath": "staticwebassets\\images\\7829614e-9497-4ee5-b384-441facec1df5.jpg"
     },
@@ -311,10 +363,6 @@
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\78d66b09-b191-406f-aa98-a84df74cf407.jpg",
       "PackagePath": "staticwebassets\\images\\78d66b09-b191-406f-aa98-a84df74cf407.jpg"
-    },
-    {
-      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\78e2794c-9463-480b-b623-5b79a9b5d7b8.jpg",
-      "PackagePath": "staticwebassets\\images\\78e2794c-9463-480b-b623-5b79a9b5d7b8.jpg"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\7b730d33-93df-4697-9ede-eddfaa2f6825.jpg",
@@ -347,6 +395,10 @@
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\860d944b-b3c2-4b6b-bf81-9b2e0681a858.jpg",
       "PackagePath": "staticwebassets\\images\\860d944b-b3c2-4b6b-bf81-9b2e0681a858.jpg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\88f4f03c-b922-4cce-9ac2-3e88a7be1c22.jpg",
+      "PackagePath": "staticwebassets\\images\\88f4f03c-b922-4cce-9ac2-3e88a7be1c22.jpg"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\8d9f2758-533b-4275-a2c1-8e480ecc34ad.jpg",
@@ -401,12 +453,16 @@
       "PackagePath": "staticwebassets\\images\\9e788628-f2c0-4f9c-b4ba-c6e6da938f0d.jpg"
     },
     {
-      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\a1654a81-0b16-429e-a8a8-1e6a5178b1e0.jpg",
-      "PackagePath": "staticwebassets\\images\\a1654a81-0b16-429e-a8a8-1e6a5178b1e0.jpg"
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\a2c558bc-952c-4cf9-bfc5-21dadeae4de7.jpg",
+      "PackagePath": "staticwebassets\\images\\a2c558bc-952c-4cf9-bfc5-21dadeae4de7.jpg"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\a3890176-cfd3-4ba5-af77-e41a05656606.jpg",
       "PackagePath": "staticwebassets\\images\\a3890176-cfd3-4ba5-af77-e41a05656606.jpg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\a4a0bca5-9331-4b47-b1b5-1c3b63793605.jpg",
+      "PackagePath": "staticwebassets\\images\\a4a0bca5-9331-4b47-b1b5-1c3b63793605.jpg"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\a503807d-3aed-4b00-99e7-f317db5ff3c1.jpg",
@@ -493,6 +549,10 @@
       "PackagePath": "staticwebassets\\images\\cbd832f9-0a58-4802-923c-99d1c5ce361e.jpg"
     },
     {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\ce472d07-0bf9-4dab-a79e-fe7f953479b3.jpg",
+      "PackagePath": "staticwebassets\\images\\ce472d07-0bf9-4dab-a79e-fe7f953479b3.jpg"
+    },
+    {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\d133bd6e-8b7f-4830-bbc2-1bbf0f3ae01f.jpg",
       "PackagePath": "staticwebassets\\images\\d133bd6e-8b7f-4830-bbc2-1bbf0f3ae01f.jpg"
     },
@@ -517,8 +577,16 @@
       "PackagePath": "staticwebassets\\images\\e4e0c8c0-deb1-449e-b2f3-cdfa3ad4809e.jpg"
     },
     {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\e6090276-47d0-404e-85bc-216820c9f9ec.jpg",
+      "PackagePath": "staticwebassets\\images\\e6090276-47d0-404e-85bc-216820c9f9ec.jpg"
+    },
+    {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\e619a973-ca9f-42aa-8b95-0b568c21d189.jpg",
       "PackagePath": "staticwebassets\\images\\e619a973-ca9f-42aa-8b95-0b568c21d189.jpg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\e6f4d5bf-230e-4a2c-8d84-bcb27f84bc28.jpg",
+      "PackagePath": "staticwebassets\\images\\e6f4d5bf-230e-4a2c-8d84-bcb27f84bc28.jpg"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\e7e2d7f5-0b21-4368-99c7-5f1b28d9889b.jpg",
@@ -545,6 +613,14 @@
       "PackagePath": "staticwebassets\\images\\f4be1907-008a-4333-971b-e337cb6fd0fb.jpg"
     },
     {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\f4eee5c9-cfcb-4b2e-9596-c6c68bb9a1aa.jpg",
+      "PackagePath": "staticwebassets\\images\\f4eee5c9-cfcb-4b2e-9596-c6c68bb9a1aa.jpg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\f540e713-e759-4ba7-bc63-e96db99afb95.jpg",
+      "PackagePath": "staticwebassets\\images\\f540e713-e759-4ba7-bc63-e96db99afb95.jpg"
+    },
+    {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\f820d24f-904c-4d9f-8415-a92b15a439cb.jpg",
       "PackagePath": "staticwebassets\\images\\f820d24f-904c-4d9f-8415-a92b15a439cb.jpg"
     },
@@ -557,12 +633,32 @@
       "PackagePath": "staticwebassets\\images\\fa28e9b5-7d35-4cba-a1fd-205b97189901.jpg"
     },
     {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\fad1589a-05e6-4cf7-8df6-1a71cf2764ee.jpg",
+      "PackagePath": "staticwebassets\\images\\fad1589a-05e6-4cf7-8df6-1a71cf2764ee.jpg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\faeae101-1bec-4b72-b4d7-85b9eecadb64.jpg",
+      "PackagePath": "staticwebassets\\images\\faeae101-1bec-4b72-b4d7-85b9eecadb64.jpg"
+    },
+    {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\fc1f7a05-51a9-480b-87d2-2c837194b18e.jpg",
       "PackagePath": "staticwebassets\\images\\fc1f7a05-51a9-480b-87d2-2c837194b18e.jpg"
     },
     {
       "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\images\\fd821f70-5104-467e-b7fe-c55a804fec63.jpg",
       "PackagePath": "staticwebassets\\images\\fd821f70-5104-467e-b7fe-c55a804fec63.jpg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\logo2.png",
+      "PackagePath": "staticwebassets\\logo2.png"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\qest5mt3oKu9msEegqi-o.jpg",
+      "PackagePath": "staticwebassets\\qest5mt3oKu9msEegqi-o.jpg"
     },
     {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.API.Microsoft.AspNetCore.StaticWebAssets.props",

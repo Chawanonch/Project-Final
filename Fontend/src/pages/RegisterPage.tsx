@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { getUserAdmin, registerUser } from '../store/features/userSlice';
 import Swal from 'sweetalert2';
+import { routes } from '../components/Path';
+import { isValidEmail } from '../components/Reuse';
 
 const RegisterPage = () => {
   const { users } = useAppSelector((state) => state.user);
@@ -16,44 +18,57 @@ const RegisterPage = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  useEffect(()=>{
-    dispatch(getUserAdmin());
-  },[])
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(getUserAdmin());
+    };
 
-  const isValidEmail = (email:string) => {
-    // ใช้ Regex เพื่อตรวจสอบรูปแบบของอีเมล
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+    fetchData();
+  }, [dispatch]);
 
   const funRegister = async () => {
-    if (!username || !password) {
-      
+    if (!username) {
       Swal.fire({
         position: "center",
         icon: 'info',
-        title: 'กรุณาป้อนให้ถูกต้อง !',
+        title: 'กรุณาป้อนชื่อผู้ใช้ !',
         showConfirmButton: false,
         timer: 1000
       });
       return;
     }
+
+    if (password.length < 6) {
+      Swal.fire({
+        position: "center",
+        icon: 'info',
+        title: 'กรุณาป้อนรหัสไม่ต่ำกว่า 6 ตัว !',
+        showConfirmButton: false,
+        timer: 1000
+      });
+      return;
+    }
+
     if (!isValidEmail(email)) {
       Swal.fire({
         position: "center",
         icon: 'info',
-        title: 'กรุณาป้อนอีเมลให้ถูกต้อง !',
+        title: 'กรุณาป้อนรูปแบบอีเมลให้ถูกต้อง !',
         showConfirmButton: false,
         timer: 1000
       });
       return;
     }
-    const isAdmin = users.some((user) => user.roleId === 1);
+
+    const isAdmin = users.some((user:any) => user.roleId === 1);
     if (!isAdmin) setRoleId(1); //Admin
     else setRoleId(2); //User
+
+    console.log(roleId)
+    
     const item = await dispatch(registerUser({ username, email, password, roleId }))
     
-    if (item.payload !== "" && item.payload !== undefined) {
+    if (item.payload !== "" && item.payload !== undefined && item.payload !== null) {
       Swal.fire({
         position: "center",
         icon: "success",
@@ -62,14 +77,14 @@ const RegisterPage = () => {
         timer: 1000
       });
       setTimeout(() => {
-        navigate('/login');
+        navigate(routes.login);
       }, 900);
     }
     else {
       Swal.fire({
         position: "center",
-        icon: 'info',
-        title: 'กรุณาป้อนให้ถูกต้อง !',
+        icon: 'error',
+        title: 'อีเมลหรือชื่อมีผู้ใช้งานแล้ว กรุณาเปลี่ยนใหม่ !',
         showConfirmButton: false,
         timer: 1000
       });
@@ -86,19 +101,30 @@ const RegisterPage = () => {
           <form>
             <FormControl>
               <h4>ชื่อผู้ใช้งาน *</h4>
-            <div style={{marginTop:15}}/>
-
+              <div style={{marginTop:15}}/>
               <Input type="name" placeholder="" fullWidth value={username} onChange={(e) => setUsername(e.target.value)} />
             </FormControl>
+
             <div style={{marginTop:15}}/>
 
             <FormControl>
               <h4>อีเมล *</h4><div style={{marginTop:15}}/>
               <Input type="email" placeholder="" fullWidth value={email} onChange={(e) => setEmail(e.target.value)} />
+              {email && !isValidEmail(email) &&
+                <p style={{ marginTop:5,color:"#F35959" }}>
+                  กรุณาป้อนรูปแบบอีเมลให้ถูกต้อง
+                </p>
+              }
             </FormControl><div style={{marginTop:15}}/>
+
             <FormControl>
               <h4>รหัสผ่าน *</h4><div style={{marginTop:15}}/>
               <Input type="password" placeholder="" fullWidth value={password} onChange={(e) => setPassword(e.target.value)} />
+              {password && password.length < 6 &&
+                <p style={{ marginTop:5, color:"#F35959" }}>
+                  กรุณาป้อนรหัสไม่ต่ำกว่า 6 ตัว
+                </p>
+              }
             </FormControl>
           </form>
           <div style={{ textAlign: "center" }}>
@@ -112,7 +138,7 @@ const RegisterPage = () => {
               สมัครสมาชิก
             </Button>
             <h4><div style={{marginTop:15}}/>
-              <Link to="/login">
+              <Link to={routes.login}>
                 กลับไปหน้าเข้าสู่ระบบ
               </Link>
             </h4>

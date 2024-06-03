@@ -11,6 +11,8 @@ interface BookingState {
     payments: BookingPayment[];
     paymentPackages: BookingPackagePayment[];
     loading: boolean;
+    loadingBooking: boolean;
+    loadingBookingPackage: boolean;
     error: string | null;
 }
 
@@ -22,6 +24,8 @@ const initialState: BookingState = {
     payments: [],
     paymentPackages: [],
     loading: false,
+    loadingBooking: false,
+    loadingBookingPackage: false,
     error: null,
 }
 
@@ -64,7 +68,7 @@ export const bookingRoomUser = createAsyncThunk<Booking, FieldValues>(
   async (data) => {
     try {
       const formattedlistRooms =
-        data.basketRoom && data.basketRoom.map((item) => ({
+        data.basketRoom && data.basketRoom.map((item: { id: number; quantityRoomBuy: number; quantityRoomExcessBuy: number; }) => ({
           id: 0,
           RoomId: item.id,
           quantityRoom: item.quantityRoomBuy,
@@ -88,7 +92,7 @@ export const bookingRoom = createAsyncThunk<Booking, FieldValues>(
   async (data) => {
     try {
       const formattedlistRooms =
-        data.roomList && data.roomList.map((roomId) => ({
+        data.roomList && data.roomList.map((roomId:number) => ({
           id: 0,
           RoomId: roomId,
           quantityRoom: 1,
@@ -187,7 +191,7 @@ export const bookingPackage = createAsyncThunk<BookingPackage, FieldValues>(
   async (data) => {
     try {
       const formattedlistPackages =
-        data.basketPackage && data.basketPackage.map((item) => ({
+        data.basketPackage && data.basketPackage.map((item: { id: number; quantityBuy: number; startTime: string; }) => ({
           id: 0,
           packageId: item.id,
           quantity: item.quantityBuy,
@@ -298,15 +302,15 @@ export const bookingSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getBookingByUser.pending, (state) => {
-        state.loading = true;
+        state.loadingBooking = true;
         state.error = null;
       })
       .addCase(getBookingByUser.fulfilled, (state, action) => {
-          state.loading = false;
+          state.loadingBooking = false;
           state.booking = action.payload;
       })
       .addCase(getBookingByUser.rejected, (state, action) => {
-        state.loading = false;
+        state.loadingBooking = false;
         state.error = action.error.message as string;
       })
 
@@ -425,15 +429,15 @@ export const bookingSlice = createSlice({
       })
 
       .addCase(getBookingPackageByUser.pending, (state) => {
-        state.loading = true;
+        state.loadingBookingPackage = true;
         state.error = null;
       })
       .addCase(getBookingPackageByUser.fulfilled, (state, action) => {
-          state.loading = false;
+          state.loadingBookingPackage = false;
           state.bookingPackage = action.payload;
       })
       .addCase(getBookingPackageByUser.rejected, (state, action) => {
-        state.loading = false;
+        state.loadingBookingPackage = false;
         state.error = action.error.message as string;
       })
 

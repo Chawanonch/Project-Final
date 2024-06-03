@@ -17,7 +17,7 @@ import RoomAdmin from './pages/admin/RoomAdmin'
 import BookingAdmin from './pages/admin/BookingAdmin'
 import UserAdmin from './pages/admin/UserAdmin'
 import { getBuildingAndRoom } from './store/features/room&BuildingSlice'
-import { getBookingAdmin, getBookingByUser, getBookingPackageAdmin, getBookingPackageByUser, getPaymentBooking } from './store/features/bookingSlice'
+import { getBookingAdmin, getBookingByUser, getBookingPackageAdmin, getBookingPackageByUser, getPaymentBooking, getPaymentBookingPackages } from './store/features/bookingSlice'
 import Footer from './components/Footer'
 import SettingPage from './pages/SettingPage'
 import "./app.css";
@@ -30,8 +30,12 @@ import PackageAdmin from './pages/admin/PackageAdmin'
 import SoftpowerDetailPage from './pages/SoftpowerDetailPage'
 import { getSoftpower } from './store/features/softpowerSlice'
 import { getPackage } from './store/features/packageSlice'
-import { getComment } from './store/features/commentSlice'
+import { getComment, getCommentPackage } from './store/features/commentSlice'
 import ErrorPage from './pages/ErrorPage'
+import { routes, routesAdmin } from './components/Path'
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import 'yet-another-react-lightbox/styles.css';
 
 function App() {
   const { changePage, token, user } = useAppSelector((state) => state.user)
@@ -42,6 +46,7 @@ function App() {
     await dispatch(getSoftpower());
     await dispatch(getPackage());
     await dispatch(getComment());
+    await dispatch(getCommentPackage());
   }
 
   const fetchToken = async () => {
@@ -49,6 +54,7 @@ function App() {
     await dispatch(getBookingByUser());
     await dispatch(getBookingPackageByUser());
     await dispatch(getPaymentBooking());
+    await dispatch(getPaymentBookingPackages());
   }
 
   const fetchByAdmin = async () => {
@@ -58,19 +64,23 @@ function App() {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (token !== "") {
-        const isTokenValid = await dispatch(checkExpToken(token));
+    AOS.init();
+  }, []);
 
-        if (isTokenValid.payload === false) {
-          fetchToken();
-        } else {
-          await dispatch(logout());
+  useEffect(() => {
+      const fetchData = async () => {
+        if (token !== "") {
+          const isTokenValid = await dispatch(checkExpToken(token));
+
+          if (isTokenValid.payload === false) {
+            fetchToken();
+          } else {
+            await dispatch(logout());
+          }
         }
-      }
-    };
+      };
 
-    fetchData();
+      fetchData();
   }, []);
 
   useEffect(() => {
@@ -95,14 +105,14 @@ function App() {
           <>
             <NavbarTopAndLeftAdmin />
             <Routes>
-              <Route path={"/"} element={<DashboardAdmin />} />
-              <Route path={"/buildingSetting"} element={<BuildingAdmin />} />
-              <Route path={"/roomSetting"} element={<RoomAdmin />} />
-              <Route path={"/softpowerSetting"} element={<SoftpowerAdmin />} />
-              <Route path={"/bookingSetting"} element={<BookingAdmin />} />
-              <Route path={"/commentSetting"} element={<CommentAdmin />} />
-              <Route path={"/packageSetting"} element={<PackageAdmin />} />
-              <Route path={"/userSetting"} element={<UserAdmin />} />
+              <Route path={routesAdmin.home} element={<DashboardAdmin />} />
+              <Route path={routesAdmin.buildingSetting} element={<BuildingAdmin />} />
+              <Route path={routesAdmin.roomSetting} element={<RoomAdmin />} />
+              <Route path={routesAdmin.softpowerSetting} element={<SoftpowerAdmin />} />
+              <Route path={routesAdmin.bookingSetting} element={<BookingAdmin />} />
+              <Route path={routesAdmin.commentSetting} element={<CommentAdmin />} />
+              <Route path={routesAdmin.packageSetting} element={<PackageAdmin />} />
+              <Route path={routesAdmin.userSetting} element={<UserAdmin />} />
             </Routes>
           </>
           :
@@ -110,23 +120,23 @@ function App() {
             <Navbar />
             <Box sx={{ marginTop: 12, flex: 1 }}>
               <Routes>
-                <Route path={"/"} element={<HomePage />} />
-                <Route path={"/building"} element={<BuildingPage />} />
-                <Route path={"/rooms/:id"} element={<RoomPage />} />
-                <Route path={"/softpower"} element={<SoftpowerPage />} />
-                <Route path={"/softpower/:id"} element={<SoftpowerDetailPage />} />
-                <Route path={"/package"} element={<PackagePage />} />
-                <Route path={"/about"} element={<AboutPage />} />
-                <Route path={"/login"} element={<LoginPage />} />
-                <Route path={"/register"} element={<RegisterPage />} />
-                <Route path={"/forgotPassword"} element={<ForgotPasswordPage />} />
-                {user && user.role === "Admin" &&
-                  <Route path={"/settings"} element={<SettingPage />} />
+                <Route path={routes.home} element={<HomePage />} />
+                <Route path={routes.building} element={<BuildingPage />} />
+                <Route path={routes.rooms + "/:id"} element={<RoomPage />} />
+                <Route path={routes.softpower} element={<SoftpowerPage />} />
+                <Route path={routes.softpower + "/:id"} element={<SoftpowerDetailPage />} />
+                <Route path={routes.package} element={<PackagePage />} />
+                <Route path={routes.about} element={<AboutPage />} />
+                <Route path={routes.login} element={<LoginPage />} />
+                <Route path={routes.register} element={<RegisterPage />} />
+                <Route path={routes.forgotPassword} element={<ForgotPasswordPage />} />
+                {user && user.role &&
+                  <Route path={routes.settings} element={<SettingPage />} />
                 }
-                <Route path={"*"} element={<ErrorPage />} />
+                <Route path={routes.error} element={<ErrorPage />} />
               </Routes>
             </Box>
-            <div style={{ marginTop: 200 }}></div>
+            <div style={{ minHeight:100,minWidth:100 }}></div>
             <Footer />
           </div>
         }

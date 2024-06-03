@@ -19,10 +19,10 @@ import { formatNumberWithCommas } from '../../components/Reuse';
 import { dropzoneStyles, dropzonesStyles, previewStyles, previewsStyles } from '../../components/Reuse';
 import { windowSizes } from '../../components/Reuse';
 
-
 export default function RoomAdmin() {
   const dispatch = useAppDispatch();
   const { building, room, roomType } = useAppSelector((state) => state.room);
+  const { bookings } = useAppSelector((state) => state.booking);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRoom, setFilteredRoom] = useState<Room[]>([]);
   const [open, setOpen] = useState<boolean>(false);
@@ -32,12 +32,25 @@ export default function RoomAdmin() {
   const [selectType, setSelectType] = useState<number | null>(0);
   const windowSize = windowSizes();
 
+  const findRoomById = (roomId: number) => {
+    let totalQuantity = 0;
+    
+    for (const booking of bookings) {
+      for (const room of booking.listRooms) {
+        if (room.roomId === roomId) {
+          totalQuantity += room.quantityRoom - room.quantityRoomExcess;
+        }
+      }
+    }
+    
+    return totalQuantity; // ผลรวมของจำนวนห้องทั้งหมดที่มี roomId ตรงกัน
+  };
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'รหัส', width: 80 },
     {
       field: 'buildingId',
       headerName: 'อาคาร',
-      width: 120,
+      width: 100,
       renderCell: (params) => (
         <span>
           {building.find((building) => building.id === params.value)?.name || 'ไม่พบข้อมูล'}
@@ -54,7 +67,18 @@ export default function RoomAdmin() {
         </span>
       ),
     },
-    { field: 'quantityRoom', headerName: 'จำนวนห้อง', width: 100 },
+    { field: 'quantityRoomAll', headerName: 'ห้องทั้งหมด', width: 100 ,
+      renderCell: (params) => {
+        const quantityRoom = findRoomById(params.row.id); // สมมติว่ามี roomId ใน params.row
+        const totalQuantity = params.row.quantityRoom + quantityRoom;
+
+        return (
+          <span>
+            {formatNumberWithCommas(totalQuantity)}
+          </span>
+      )},
+    },
+    { field: 'quantityRoom', headerName: 'จำนวนห้องว่าง', width: 100 },
     { field: 'quantityPeople', headerName: 'จำนวนคน', width: 100 },
     { field: 'detail', headerName: 'รายละเอียด', width: 130 },
     {
@@ -78,14 +102,16 @@ export default function RoomAdmin() {
       ),
     },
     {
-      field: 'roomImages', headerName: 'หลายรูปภาพ', width: 130,
+      field: 'roomImages',
+      headerName: 'หลายรูปภาพ',
+      width: 150,
       renderCell: (params) => (
         <div style={{ display: 'flex' }}>
-          {params.value && params.value.map((value: { image: string; }, index: number) => (
+          {params.value && params.value.map((value: { image: string; }) => (
             <img
-              key={index}
+              key={params.id}
               src={folderImage + value.image}
-              alt={`Image ${index}`}
+              alt={`Image ${params.id}`}
               style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '5px' }}
             />
           ))}
@@ -121,7 +147,7 @@ export default function RoomAdmin() {
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "ลบข้อมูลเสร็จสิน !",
+                title: "ลบข้อมูลเสร็จสิ้น !",
                 showConfirmButton: false,
                 timer: 1000
               });
@@ -153,7 +179,7 @@ export default function RoomAdmin() {
   }, [dispatch]);
 
   const handleChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setSelectType(newValue)
@@ -167,7 +193,7 @@ export default function RoomAdmin() {
 
     setFilteredRoom(filtered);
   }, [searchQuery, room, selectType]);
-  const size0 = windowSize < 1183 ? 4 : 2;
+  const size0 = windowSize < 1183 ? 6 : 1.5;
   return (
     <Box sx={{ marginTop: 9.5, marginLeft: windowSize < 1183 ? 5 : 30, marginRight: windowSize < 1183 ? 5 : 0 }}>
       <h2 style={{ marginTop: 100, marginBottom: -30 }}>ห้องพัก</h2>
@@ -228,7 +254,7 @@ export default function RoomAdmin() {
             </FormControl>
           </Grid>
           <Grid item xs={size0}>
-            <FormControl sx={{ minWidth: 150 }}>
+            <FormControl sx={{ minWidth: 180 }}>
               <h4>
                 สร้างประเภท, แก้ไข, ลบ
               </h4>
@@ -336,7 +362,7 @@ const Model: React.FC<ModelRoomProps> = ({ open, setOpen, id = 0, buildings, roo
       Swal.fire({
         position: "center",
         icon: "success",
-        title: id === 0 ? "สร้างข้อมูลเสร็จสิน !" : "เปลี่ยนแปลงข้อมูลเสร็จสิน !",
+        title: id === 0 ? "สร้างข้อมูลเสร็จสิ้น !" : "เปลี่ยนแปลงข้อมูลเสร็จสิ้น !",
         showConfirmButton: false,
         timer: 1000
       });
@@ -371,13 +397,13 @@ const Model: React.FC<ModelRoomProps> = ({ open, setOpen, id = 0, buildings, roo
     multiple: true,
   });
   const handleBuildingChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setBuildingId(newValue);
   };
   const handleRoomTypeChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setRoomTypeId(newValue);
@@ -556,7 +582,7 @@ const Model1: React.FC<ModelTypeProps> = ({ open, setOpen, id = 0, setId, roomTy
         Swal.fire({
           position: "center",
           icon: "success",
-          title: id === 0 ? "สร้างข้อมูลเสร็จสิน !" : "เปลี่ยนแปลงข้อมูลเสร็จสิน !",
+          title: id === 0 ? "สร้างข้อมูลเสร็จสิ้น !" : "เปลี่ยนแปลงข้อมูลเสร็จสิ้น !",
           showConfirmButton: false,
           timer: 1000
         });
@@ -576,7 +602,7 @@ const Model1: React.FC<ModelTypeProps> = ({ open, setOpen, id = 0, setId, roomTy
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "ลบข้อมูลเสร็จสิน !",
+          title: "ลบข้อมูลเสร็จสิ้น !",
           showConfirmButton: false,
           timer: 1000
         });
@@ -595,7 +621,7 @@ const Model1: React.FC<ModelTypeProps> = ({ open, setOpen, id = 0, setId, roomTy
   };
 
   const handleRoomTypeChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setId(newValue);

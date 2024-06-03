@@ -17,7 +17,8 @@ namespace API.Data
         {
             base.OnConfiguring(optionsBuilder);
             //optionsBuilder.UseSqlServer(_config.GetConnectionString("DatabaseConnect"));
-            optionsBuilder.UseSqlServer("Server=DESKTOP-DTGB06O\\SQLEXPRESS; Database=ProjectEndChawanon; Trusted_Connection=True; TrustServerCertificate=True");
+            //optionsBuilder.UseSqlServer("Server=DESKTOP-DTGB06O\\SQLEXPRESS; Database=ProjectEndChawanon; Trusted_Connection=True; TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Server=10.103.0.16,1433; Database=ProjectEndChawanon; Trusted_connection=false; TrustServerCertificate=true; User Id=student; Password=Cs@2700; Encrypt=false;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

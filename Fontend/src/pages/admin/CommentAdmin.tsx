@@ -1,4 +1,4 @@
-import { Button, DialogTitle, FormControl, FormLabel, IconButton, Input, Modal, ModalDialog, Stack, Select, Option, Textarea } from '@mui/joy'
+import { Button, DialogTitle, FormControl, FormLabel, IconButton, Input, Modal, ModalDialog, Select, Option, Textarea } from '@mui/joy'
 import { Box, Grid } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import SearchIcon from '@mui/icons-material/Search';
@@ -10,7 +10,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useDropzone } from 'react-dropzone';
 import Swal from 'sweetalert2';
-import { createAndUpdateComment, createAndUpdateCommentPackage, getComment, getCommentPackage, removeComment } from '../../store/features/commentSlice';
+import { createAndUpdateComment, createAndUpdateCommentPackage, getComment, getCommentPackage, removeComment, removeCommentPackage } from '../../store/features/commentSlice';
 import { Comment, CommentPackage } from '../../components/models/comment';
 import StarIcon from '@mui/icons-material/Star';
 import { Rating } from "@mui/material";
@@ -53,6 +53,7 @@ export default function CommentAdmin() {
               style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '5px' }}
             />
           ))}
+
         </div>
       ),
     },
@@ -85,7 +86,7 @@ export default function CommentAdmin() {
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "ลบข้อมูลเสร็จสิน !",
+                title: "ลบข้อมูลเสร็จสิ้น !",
                 showConfirmButton: false,
                 timer: 1000
               });
@@ -153,12 +154,12 @@ export default function CommentAdmin() {
         <IconButton
           color="danger"
           onClick={async () => {
-            const item = await dispatch(removeComment(params.row.id))
+            const item = await dispatch(removeCommentPackage(params.row.id))
             if (item.payload !== "" && item.payload !== undefined) {
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "ลบข้อมูลเสร็จสิน !",
+                title: "ลบข้อมูลเสร็จสิ้น !",
                 showConfirmButton: false,
                 timer: 1000
               });
@@ -278,7 +279,7 @@ export default function CommentAdmin() {
                     </Button>
                   }
                   value={searchQueryP}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => setSearchQueryP(e.target.value)}
                   sx={{ borderRadius: 8 }}
                 />
               </FormControl>
@@ -369,7 +370,7 @@ const ModelComment: React.FC<ModelCommentProps> = ({ open, setOpen, id = 0, comm
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "สร้างข้อมูลเสร็จสิน !",
+        title: "สร้างข้อมูลเสร็จสิ้น !",
         showConfirmButton: false,
         timer: 1000
       });
@@ -396,7 +397,7 @@ const ModelComment: React.FC<ModelCommentProps> = ({ open, setOpen, id = 0, comm
     multiple: true,
   });
   const handleCommentChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setBookingId(newValue);
@@ -454,7 +455,7 @@ const ModelComment: React.FC<ModelCommentProps> = ({ open, setOpen, id = 0, comm
                     name="hover-feedback"
                     value={star}
                     precision={0.5}
-                    onChange={(event, newValue) => {
+                    onChange={(_event, newValue) => {
                       setStar(newValue);
                     }}
                     emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
@@ -541,7 +542,7 @@ const ModelCommentPackage: React.FC<ModelCommentPackageProps> = ({ open, setOpen
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "สร้างข้อมูลเสร็จสิน !",
+        title: "สร้างข้อมูลเสร็จสิ้น !",
         showConfirmButton: false,
         timer: 1000
       });
@@ -568,7 +569,7 @@ const ModelCommentPackage: React.FC<ModelCommentPackageProps> = ({ open, setOpen
     multiple: true,
   });
   const handleCommentChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setBookingPackageId(newValue);
@@ -626,7 +627,7 @@ const ModelCommentPackage: React.FC<ModelCommentPackageProps> = ({ open, setOpen
                     name="hover-feedback"
                     value={star}
                     precision={0.5}
-                    onChange={(event, newValue) => {
+                    onChange={(_event, newValue) => {
                       setStar(newValue);
                     }}
                     emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}

@@ -77,8 +77,6 @@ namespace API.Services
 
             var result = _mapper.Map<Booking>(request);
 
-            
-
             if (request.ListRooms.Count() > 0)
             {
                 foreach (var roomDto in request.ListRooms)
@@ -336,6 +334,24 @@ namespace API.Services
             {
                 if (booking.ListRooms.Count() > 0)
                 {
+                    if (booking.Status == StatusBooking.PaymentCompleted)
+                    {
+                        var payment = await _context.BookingPayments.FirstOrDefaultAsync(x => x.BookingId == booking.Id);
+                        if (payment == null) return null;
+
+                        if (payment.PaymentIntentId1 != "" || payment.PaymentIntentId2 != "")
+                        {
+                            long price = (long)booking.TotalPrice;
+                            var intentRefund = payment.PaymentIntentId1 != "" ? payment.PaymentIntentId1 : payment.PaymentIntentId2;
+                            if (intentRefund != "")
+                            {
+                                var refund = await CreateRefund(intentRefund, price);
+
+                                if (refund == null) return null;
+                            }
+                        }
+                    }
+
                     foreach (var RoomDto in booking.ListRooms)
                     {
                         var roomEntity = await _context.Rooms.FindAsync(RoomDto.RoomId);
@@ -350,6 +366,22 @@ namespace API.Services
             await _context.SaveChangesAsync();
             return "Change Status Success";
         }
+        public async Task<Refund> CreateRefund(string paymentIntentId, long originalAmount)
+        {
+            StripeConfiguration.ApiKey = _configuration["StripeSettings:SecretKey"];
+            var refundService = new RefundService();
+
+            var newPrice = originalAmount * 65 / 100;
+
+            var refundOptions = new RefundCreateOptions
+            {
+                PaymentIntent = paymentIntentId,
+                Amount = newPrice * 100,
+            };
+
+            var refund = await refundService.CreateAsync(refundOptions);
+            return refund;
+        }
 
         public async Task<object> RemoveManyBooking(List<int> ids)
         {
@@ -363,7 +395,7 @@ namespace API.Services
 
             foreach (var booking in bookingToRemove)
             {
-                if(booking.Status == StatusBooking.PaymentDepositCompleted || booking.Status == StatusBooking.PaymentCompleted)
+                if (booking.Status == StatusBooking.PaymentDepositCompleted || booking.Status == StatusBooking.PaymentCompleted)
                 {
                     return "Remove error";
                 }

@@ -86,7 +86,7 @@ export const createAndUpdateSoftpowerType  = createAsyncThunk<SoftpowerType, Fie
 );
 export const removeSoftpowerType  = createAsyncThunk(
   "auth/fetchRemoveSoftpowerType",
-  async (id:number) => {
+  async (id:number|null) => {
     try {
       const SoftpowerType = await agent.Softpower.removeSoftpowerType(id);
       return SoftpowerType;

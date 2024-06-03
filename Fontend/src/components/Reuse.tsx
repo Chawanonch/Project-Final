@@ -6,6 +6,14 @@ export const formatNumberWithCommas = (number: number) => {
 };
 //#endregion
 
+//#region validEmail
+export const isValidEmail = (email:string) => {
+  // ใช้ Regex เพื่อตรวจสอบรูปแบบของอีเมล
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+//#endregion
+
 //#region Check Size Web
 export const windowSizes = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -57,5 +65,17 @@ export const previewsStyles : object = {
   maxHeight: '50px',
   objectFit: 'cover',
   marginLeft: '5px',
+};
+//#endregion
+
+//#region convertYear
+export const convertToBuddhistYear = (dateString:string) => {
+  const date = new Date(dateString);
+  return `${date.getFullYear() + 543}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+};
+
+export const convertToGregorianYear = (dateString:any) => {
+  const [year, month, day] = dateString.split('-');
+  return `${year - 543}-${month}-${day}`;
 };
 //#endregion

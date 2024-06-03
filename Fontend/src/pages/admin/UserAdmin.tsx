@@ -1,4 +1,4 @@
-import { Button, DialogTitle, FormControl, FormLabel, IconButton, Input, Modal, ModalDialog, Stack, Select as JoySelect } from '@mui/joy'
+import { Button, DialogTitle, FormControl, FormLabel, IconButton, Input, Modal, ModalDialog, Select as JoySelect } from '@mui/joy'
 import { Box, Grid } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import SearchIcon from '@mui/icons-material/Search';
@@ -22,7 +22,7 @@ export default function UserAdmin() {
   const windowSize = windowSizes();
 
   const handleChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setSelectRole(newValue)
@@ -51,7 +51,6 @@ export default function UserAdmin() {
     },
     { field: 'phone', headerName: 'เบอร์โทร', width: 130 },
     { field: 'email', headerName: 'อีเมล', width: 130 },
-    { field: 'image', headerName: 'รูปภาพ', width: 130 },
     {
       field: 'Remove',
       headerName: '',
@@ -66,7 +65,7 @@ export default function UserAdmin() {
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "ลบข้อมูลเสร็จสิน !",
+                title: "ลบข้อมูลเสร็จสิ้น !",
                 showConfirmButton: false,
                 timer: 1000
               });
@@ -220,7 +219,7 @@ const Model: React.FC<ModelProps> = ({ open, setOpen, users, roles }) => {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "สร้างข้อมูลเสร็จสิน !",
+        title: "สร้างข้อมูลเสร็จสิ้น !",
         showConfirmButton: false,
         timer: 1000
       });
@@ -237,7 +236,7 @@ const Model: React.FC<ModelProps> = ({ open, setOpen, users, roles }) => {
     fetchData()
   };
   const handleRoleChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | null,
   ) => {
     setRoleId(newValue);

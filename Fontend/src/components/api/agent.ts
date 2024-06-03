@@ -2,10 +2,11 @@ import axios, { AxiosResponse } from "axios";
 import { store } from "../../store/store";
 
 export const baseUrl = "http://localhost:5141/";
+export const baseUrlServer = "/cs64/s09/pj-end/";
 
-axios.defaults.baseURL = baseUrl;
+axios.defaults.baseURL = baseUrlServer;
 
-export const folderImage = baseUrl + "/images/";
+export const folderImage = baseUrlServer + "images/";
 
 const responseBody = (response: AxiosResponse) => response.data;
 
@@ -37,7 +38,7 @@ const requests = {
     axios.delete(url, { data }).then(responseBody),
 };
 
-function createFormData(item, images?) {
+function createFormData(item: any, images?: Array<string | File>) {
   const formData = new FormData();
   for (const key in item) {
     formData.append(key, item[key]);
@@ -50,6 +51,7 @@ function createFormData(item, images?) {
 
   return formData;
 }
+
 
 const Building = {
   getBuilding: () => requests.get("api/Building/GetBuildings"),
@@ -67,7 +69,7 @@ const Room = {
   getRoomTypes: () => requests.get("api/Room/GetRoomTypes"),
   creatAndUpdateRoomType: (values: object) =>
     requests.postForm("api/Room/CAURoomType", createFormData(values)),
-  removeRoomType: (id: number) =>
+  removeRoomType: (id: number | null) =>
     requests.delete(`api/Room/RemoveRoomType?id=${id}`),
 };
 
@@ -83,7 +85,7 @@ const Softpower = {
   getSoftpowerTypes: () => requests.get("api/Softpower/GetSoftpowerTypes"),
   creatAndUpdateSoftpowerType: (values: object) =>
     requests.postForm("api/Softpower/CAUSoftpowerType", createFormData(values)),
-  removeSoftpowerType: (id: number) =>
+  removeSoftpowerType: (id: number | null) =>
     requests.delete(`api/Softpower/RemoveSoftpowerType?id=${id}`),
 };
 
@@ -98,7 +100,7 @@ const Booking = {
   changeBookingStatus: (bookingPaymentId: number) =>
     requests.delete(`api/Booking/ChangeStatus?id=${bookingPaymentId}`),
   checkInUser: (id: number) =>
-    requests.delete(`api/Booking/CheckInUser?id=${id}`),
+    requests.get(`api/Booking/CheckInUser?id=${id}`),
   cancelBooking: (id: number) =>
     requests.delete(`api/Booking/CancelBooking?id=${id}`),
   removeManyBookingAdmin: (ids: number[]) =>
@@ -130,7 +132,7 @@ const User = {
   changeUser: (values: object) =>
     requests.post("api/Authen/ChangeUser", createFormData(values)),
   removeUser: (id: number) => requests.delete(`api/Authen/RemoveUser?id=${id}`),
-  checkExpToken: (token: string) => requests.delete(`api/Authen/IsTokenExpired?token=${token}`),
+  checkExpToken: (token: string) => requests.get(`api/Authen/IsTokenExpired?token=${token}`),
 
 };
 

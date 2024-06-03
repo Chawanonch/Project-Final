@@ -8,6 +8,18 @@ interface BasketPackage extends Package {
   startTime: string;
 }
 
+const tokenId = localStorage.getItem('token');
+
+const saveBasketPackageToLocalStorage = (token: string | null, basketPackage: BasketPackage[]) => {
+  localStorage.setItem(`basketPackage_${token}`, JSON.stringify(basketPackage));
+};
+
+const loadBasketPackageFromLocalStorage = (token: string | null): BasketPackage[] => {
+  if (token === "") return [];
+  const basketPackage = localStorage.getItem(`basketPackage_${token}`);
+  return basketPackage ? JSON.parse(basketPackage) : [];
+};
+
 interface PackageState {
   packageAll: Package[];
   basketPackage: BasketPackage[];
@@ -18,7 +30,7 @@ interface PackageState {
 
 const initialState: PackageState = {
   packageAll: [],
-  basketPackage: [],
+  basketPackage: loadBasketPackageFromLocalStorage(tokenId || null),
   countPackage: 1,
   loading: false,
   error: null,
@@ -88,30 +100,40 @@ export const PackageSlice = createSlice({
   name: "package",
   initialState,
   reducers: {
-    createPackageInBasket: (state, action: PayloadAction<BasketPackage>) => {
-      const existingPackageIndex = state.basketPackage.findIndex(
-        (pkg) => pkg.id === action.payload.id
-      );
-      if (existingPackageIndex === -1) {
-        // หากไม่พบแพ็คเกจที่มี id เดียวกันในตะกร้า ให้เพิ่มแพ็คเกจใหม่เข้าไป
-        state.basketPackage.push(action.payload);
+    createPackageInBasket: (state, action: PayloadAction<{ token: string, basketPackage: BasketPackage }>) => {
+      const { token, basketPackage } = action.payload;
+      if (!token) {
+        state.basketPackage = [];
       } else {
-        // หากพบแพ็คเกจที่มี id เดียวกันในตะกร้า ให้เพิ่มจำนวนแพ็คเกจเข้าไป
-        if(state.basketPackage[existingPackageIndex].quantityBuy < state.basketPackage[existingPackageIndex].quantity)
-        {
-          state.basketPackage[existingPackageIndex].quantityBuy += 1;
+        const existingPackageIndex = state.basketPackage.findIndex(
+          (pkg) => pkg.id === basketPackage.id
+        );
+        if (existingPackageIndex === -1) {
+          // หากไม่พบแพ็คเกจที่มี id เดียวกันในตะกร้า ให้เพิ่มแพ็คเกจใหม่เข้าไป
+          state.basketPackage.push(basketPackage);
+        } else {
+          // หากพบแพ็คเกจที่มี id เดียวกันในตะกร้า ให้เพิ่มจำนวนแพ็คเกจเข้าไป
+          if (state.basketPackage[existingPackageIndex].quantityBuy < state.basketPackage[existingPackageIndex].quantity) {
+            state.basketPackage[existingPackageIndex].quantityBuy += 1;
+          }
         }
+        saveBasketPackageToLocalStorage(token, state.basketPackage);
       }
       state.loading = false;
       state.error = null;
     },
-    removePackageFromBasket: (state, action: PayloadAction<number>) => {
-      state.basketPackage = state.basketPackage.filter(pkg => pkg.id !== action.payload);
+    removePackageFromBasket: (state, action: PayloadAction<{ token: string, id: number }>) => {
+      const { token, id } = action.payload;
+      state.basketPackage = state.basketPackage.filter(pkg => pkg.id !== id);
       state.loading = false;
       state.error = null;
+    
+      saveBasketPackageToLocalStorage(token, state.basketPackage);
     },
     clearPackageInBasket: (state) => {
       state.basketPackage = [];
+      const token = tokenId;
+      saveBasketPackageToLocalStorage(token, state.basketPackage);
       state.loading = false;
       state.error = null;
     },

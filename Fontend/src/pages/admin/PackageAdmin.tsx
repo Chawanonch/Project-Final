@@ -1,5 +1,5 @@
-import { Button, Chip, DialogTitle, FormControl, FormLabel, IconButton, Input, Modal, ModalDialog, Stack, Select, Option, Textarea } from '@mui/joy'
-import { Box, Grid } from '@mui/material'
+import { Button, Chip, DialogTitle, FormControl, FormLabel, IconButton, Input, Modal, ModalDialog, Select, Option, Textarea } from '@mui/joy'
+import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch, useAppSelector } from '../../store/store';
@@ -15,45 +15,186 @@ import { Room, RoomType } from '../../components/models/room';
 import { Softpower, SoftpowerType } from '../../components/models/softpower';
 import { Building } from '../../components/models/building';
 import { windowSizes } from '../../components/Reuse';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import { folderImage } from '../../components/api/agent';
 
 export default function PackageAdmin() {
   const dispatch = useAppDispatch();
   const { packageAll } = useAppSelector((state) => state.package);
   const { room, building, roomType } = useAppSelector((state) => state.room);
   const { softpower, softpowerType } = useAppSelector((state) => state.softpower);
+  const { bookingPackages } = useAppSelector((state) => state.booking);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredPackage, setFilteredPackage] = useState<Package[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
   const windowSize = windowSizes();
 
+  const [openRoomPk, setOpenRoomPk] = useState<boolean>(false);
+  const [idRoomPk, setIdRoomPk] = useState<number>(0);
+
+  const [openSoftpowerPk, setOpenSoftpowerPk] = useState<boolean>(false);
+  const [idSoftpowerPk, setIdSoftpowerPk] = useState<number>(0);
+
+  const findRoomById = (pkId: number) => {
+    let totalQuantity = 0;
+    
+    for (const booking of bookingPackages) {
+      for (const pk of booking.listPackages) {
+        if (pk.packageId === pkId) {
+          totalQuantity += pk.packageId;
+        }
+      }
+    }
+    
+    return totalQuantity; // ผลรวมของจำนวนห้องทั้งหมดที่มี roomId ตรงกัน
+  };
+
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'รหัส', width: 80 },
     { field: 'name', headerName: 'ชื่อแพ็กเกจ', width: 130 },
+    { field: 'quantityRoomAll', headerName: 'แพ็กเกจทั้งหมด', width: 100 ,
+      renderCell: (params) => {
+        const quantityRoom = findRoomById(params.row.id); // สมมติว่ามี roomId ใน params.row
+        const totalQuantity = params.row.quantity + quantityRoom;
+
+        return (
+          <span>
+            {formatNumberWithCommas(totalQuantity)}
+          </span>
+      )},
+    },
+    { field: 'quantity', headerName: 'จำนวนแพ็กเกจว่าง', width: 130 },
     {
-      field: 'roomPackages', headerName: 'ห้องพัก', width: 80,
+      field: 'roomPackages', headerName: 'หลายห้องพัก', width: 80,
       renderCell: (params) => (
-        <div style={{ display: 'flex' }}>
-          {params.value && params.value.map((value: { roomId: number; }, index: number) => (
-            <span key={index}>
-              [{value.roomId}]
-            </span>
-          ))}
+        <div>
+          {params.value.length > 0 &&
+            <>
+              <IconButton
+                color="neutral"
+                onClick={() => {
+                  setIdRoomPk(params.row.id)
+                  setOpenRoomPk(true)
+                }}
+              >
+                <ManageSearchIcon />
+              </IconButton>
+              <Modal open={openRoomPk && idRoomPk === params.row.id} onClose={() => setOpenRoomPk(false)}>
+                <ModalDialog>
+                  <h2>ข้อมูลห้องพัก</h2>
+                  <TableContainer style={{ maxHeight: '200px' }} component={Paper}>
+                    <Table sx={{ minWidth: 1200 }} aria-label="caption table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="center"><h3>ประเภทห้องพัก</h3></TableCell>
+                          <TableCell align="center"><h3>นอนได้</h3></TableCell>
+                          <TableCell align="center"><h3>รูปภาพ</h3></TableCell>
+                        </TableRow>
+                      </TableHead>
+                      {params.value && params.value.map((value:any, index: number) => {
+                        const idRoom = room && room.find((room) => room.id === value.roomId)
+                        return (
+                          <TableBody key={index}>
+                            <TableRow>
+                              <TableCell align="center">
+                                <p>
+                                  {roomType.find((s) => s.id === value.roomId)?.name || 'ไม่พบข้อมูล'}
+                                </p>
+                              </TableCell>
+                              <TableCell align="center">
+                                <p>
+                                  {idRoom?.quantityPeople || 'ไม่พบข้อมูล'}
+                                </p>
+                              </TableCell>
+                              <TableCell align="center">
+                                {idRoom && idRoom.roomImages.map((value: { image: string; }, index: number) => (
+                                  <img
+                                    key={index}
+                                    src={folderImage + value.image}
+                                    alt={`Image ${index}`}
+                                    style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '5px' }}
+                                  />
+                                ))}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        )
+                      })}
+                    </Table>
+                  </TableContainer>
+                </ModalDialog>
+              </Modal>
+            </>
+          }
         </div>
       )
     },
-    { field: 'quantityDay', headerName: 'จำนวนวัน', width: 80 },
+    { field: 'quantityDay', headerName: 'วัน', width: 50 },
     {
       field: 'softpowerPackages', headerName: 'ซอฟต์พาวเวอร์', width: 100,
       renderCell: (params) => (
-        <div style={{ display: 'flex' }}>
-          {params.value && params.value.map((value: { softpowerId: number; }, index: number) => (
-            <span key={index}>
-              [{value.softpowerId}]
-            </span>
-          ))}
-        </div>
+        <div>
+          {params.value.length > 0 &&
+            <>
+              <IconButton
+                color="neutral"
+                onClick={() => {
+                  setIdSoftpowerPk(params.row.id)
+                  setOpenSoftpowerPk(true)
+                }}
+              >
+                <ManageSearchIcon />
+              </IconButton>
+              <Modal open={openSoftpowerPk && idSoftpowerPk === params.row.id} onClose={() => setOpenSoftpowerPk(false)}>
+                <ModalDialog>
+                  <h2>ข้อมูลซอฟต์พาวเวอร์</h2>
+                  <TableContainer style={{ maxHeight: '200px' }} component={Paper}>
+                    <Table sx={{ minWidth: 1200 }} aria-label="caption table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="center"><h3>ชื่อ</h3></TableCell>
+                          <TableCell align="center"><h3>ประเภท</h3></TableCell>
+                          <TableCell align="center"><h3>รูปภาพ</h3></TableCell>
+                        </TableRow>
+                      </TableHead>
+                      {params.value && params.value.map((value:any, index: number) => {
+                        const idSoftpower = softpower && softpower.find((room) => room.id === value.softpowerId)
 
+                        return (
+                          <TableBody key={index}>
+                            <TableRow>
+                              <TableCell align="center">
+                                <p>
+                                  {idSoftpower?.name || 'ไม่พบข้อมูล'}
+                                </p>
+                              </TableCell>
+                              <TableCell align="center">
+                                <p>
+                                  {softpowerType.find((s) => s.id === value.softpowerId)?.name || 'ไม่พบข้อมูล'}
+                                </p>
+                              </TableCell>
+                              <TableCell align="center">
+                                {idSoftpower && idSoftpower.softpowerImages.map((value: { image: string; }, index: number) => (
+                                  <img
+                                    key={index}
+                                    src={folderImage + value.image}
+                                    alt={`Image ${index}`}
+                                    style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '5px' }}
+                                  />
+                                ))}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        )
+                      })}
+                    </Table>
+                  </TableContainer>
+                </ModalDialog>
+              </Modal>
+            </>
+          }
+        </div>
       )
     },
     { field: 'quantityPeople', headerName: 'เหมาะกับ', width: 80 },
@@ -66,7 +207,6 @@ export default function PackageAdmin() {
         </span>
       ),
     },
-    { field: 'quantity', headerName: 'จำนวนแพ็กเกจ', width: 130 },
     { field: 'date', headerName: 'วันที่สร้าง', width: 130 },
     {
       field: 'Edit',
@@ -97,7 +237,7 @@ export default function PackageAdmin() {
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "ลบข้อมูลเสร็จสิน !",
+                title: "ลบข้อมูลเสร็จสิ้น !",
                 showConfirmButton: false,
                 timer: 1000
               });
@@ -262,7 +402,7 @@ const ModelPackage: React.FC<ModelPackageProps> = ({ open, setOpen, id = 0, pack
         Swal.fire({
           position: "center",
           icon: "success",
-          title: id === 0 ? "สร้างข้อมูลเสร็จสิน !" : "เปลี่ยนแปลงข้อมูลเสร็จสิน !",
+          title: id === 0 ? "สร้างข้อมูลเสร็จสิ้น !" : "เปลี่ยนแปลงข้อมูลเสร็จสิ้น !",
           showConfirmButton: false,
           timer: 1000
         });
@@ -282,14 +422,14 @@ const ModelPackage: React.FC<ModelPackageProps> = ({ open, setOpen, id = 0, pack
   };
 
   const handleRoomPackagesChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | number[] | null,
   ) => {
     setRoomPackages(newValue as number[]);
   };
 
   const handleSoftpowerPackagesChange = (
-    event: React.SyntheticEvent | null,
+    _event: React.SyntheticEvent | null,
     newValue: number | number[] | null,
   ) => {
     setSoftpowerPackages(newValue as number[]);

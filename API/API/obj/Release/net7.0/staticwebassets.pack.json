@@ -1,0 +1,69 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\THSarabunNew.ttf",
+      "PackagePath": "staticwebassets\\THSarabunNew.ttf"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\ajax-loader-e7b44c86.gif",
+      "PackagePath": "staticwebassets\\assets\\ajax-loader-e7b44c86.gif"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\html2canvas.esm-e0a7d97b.js",
+      "PackagePath": "staticwebassets\\assets\\html2canvas.esm-e0a7d97b.js"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\index-c758f436.css",
+      "PackagePath": "staticwebassets\\assets\\index-c758f436.css"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\index-f1d7a0ae.js",
+      "PackagePath": "staticwebassets\\assets\\index-f1d7a0ae.js"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\index.es-08de9259.js",
+      "PackagePath": "staticwebassets\\assets\\index.es-08de9259.js"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\purify.es-5d2bfac5.js",
+      "PackagePath": "staticwebassets\\assets\\purify.es-5d2bfac5.js"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\assets\\slick-12459f22.svg",
+      "PackagePath": "staticwebassets\\assets\\slick-12459f22.svg"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\home1.png",
+      "PackagePath": "staticwebassets\\home1.png"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\logo2.png",
+      "PackagePath": "staticwebassets\\logo2.png"
+    },
+    {
+      "Id": "D:\\chawanon\\PJ-END\\API\\API\\wwwroot\\qest5mt3oKu9msEegqi-o.jpg",
+      "PackagePath": "staticwebassets\\qest5mt3oKu9msEegqi-o.jpg"
+    },
+    {
+      "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.API.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.build.API.props",
+      "PackagePath": "build\\API.props"
+    },
+    {
+      "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.API.props",
+      "PackagePath": "buildMultiTargeting\\API.props"
+    },
+    {
+      "Id": "obj\\Release\\net7.0\\staticwebassets\\msbuild.buildTransitive.API.props",
+      "PackagePath": "buildTransitive\\API.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
